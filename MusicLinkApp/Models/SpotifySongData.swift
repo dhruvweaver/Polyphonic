@@ -45,12 +45,11 @@ class SpotifySongData {
         let authValue: String = "Bearer \(authKey!)"
         sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
         let urlSession = URLSession(configuration: sessionConfig)
-        print("Auth: \(authKey!)")
         do {
-            let (data, response) = try await urlSession.data(from: url)
-            if let httpResponse = response as? HTTPURLResponse {
-                print(httpResponse.statusCode)
-            }
+            let (data, _) = try await urlSession.data(from: url)
+//            if let httpResponse = response as? HTTPURLResponse {
+//                print(httpResponse.statusCode)
+//            }
             self.spotifySongJSON = try JSONDecoder().decode(SpotifySongDataRoot.self, from: data)
         } catch {
             debugPrint("Error loading \(url): \(String(describing: error))")
@@ -66,4 +65,6 @@ class SpotifySongData {
             song = Song(title: processed.name, ISRC: processed.external_ids.isrc, artists: artists, album: processed.album.name)
         }
     }
+    
+    // TODO: get/make Spotify link from API response and send to translatedURL of Song object
 }

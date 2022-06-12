@@ -12,8 +12,7 @@ class Song {
     private let ISRC: String!
     private let artists: [String]!
     private let album: String!
-    private var spotifyURL: URL?
-    private var appleMusicURL: URL?
+    private var translatedURL: URL?
     
     init(title: String, ISRC: String, artists: [String], album: String) {
         self.title = title
@@ -38,11 +37,15 @@ class Song {
         return album
     }
     
-    func setSpotifyURL(link: URL) {
-        spotifyURL = link
+    func setTranslatedURL(link: String) {
+        translatedURL = URL(string: link)
     }
     
-    func setAppleMusicURL(link: URL) {
-        appleMusicURL = link
+    func getTranslatedURLasString() -> String {
+        if let translatedURL = translatedURL {
+            return translatedURL.absoluteString
+        } else {
+            return "There was no translation available"
+        }
     }
 }

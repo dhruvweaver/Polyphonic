@@ -19,14 +19,7 @@ class SongData {
     }
     private var starterSource: Platform = Platform.unknown
     
-    struct CommonSongData {
-        private let title: String
-        private let ISRC: String
-        private let artist: String
-        private let album: String
-        // could later hold an array of links to different platforms. Or a dictionary to quickly find the desired one
-        private let link: URL
-    }
+    var songData: Song? = nil
     
     private var spotifyAccessJSON: SpotifyAccessData? = nil
     struct SpotifyAccessData: Decodable {
@@ -65,7 +58,6 @@ class SongData {
         
         if let processed = spotifyAccessJSON {
             accessKey = processed.access_token
-            print("Auth: \(accessKey)")
         }
         
         return accessKey
@@ -83,13 +75,19 @@ class SongData {
             let spotifyID = starterLink!.lastPathComponent
             // get authorization key from Spotify
             if let authKey = await getSpotifyAuthKey() {
-                let Spotify = SpotifySongData(songID: spotifyID, authKey: authKey)
-                await Spotify.getSpotifySongData()
-                Spotify.parseToObject()
+                let spotify = SpotifySongData(songID: spotifyID, authKey: authKey)
+                await spotify.getSpotifySongData()
+                spotify.parseToObject()
                 
-                print(Spotify.song?.getTitle())
-                if let songName = Spotify.song?.getTitle() {
-                    output = songName
+                if let spotifySong = spotify.song {
+                    songData = Song(title: spotifySong.getTitle(), ISRC: spotifySong.getISRC(), artists: spotifySong.getArtists(), album: spotifySong.getAlbum())
+                    if let songData = songData {
+                        let appleMusic = AppleMusicSongData(songID: nil, songISRC: songData.getISRC())
+                        await appleMusic.getAppleMusicSongDataByISRC()
+                        if let translatedSongData = appleMusic.song {
+                            output = translatedSongData.getTranslatedURLasString()
+                        }
+                    }
                 }
             }
         }
@@ -98,7 +96,11 @@ class SongData {
     }
     
     func translateData(link: String) async -> String {
-        starterLink = URL(string: link)!
+        if let songLink = URL(string: link) {
+            starterLink = songLink
+        } else {
+            return "Bad link"
+        }
         
         var link: String?
         link = await findTranslatedLink()
@@ -106,7 +108,7 @@ class SongData {
         if link != nil {
             return link!
         } else {
-            return "Output Failed"
+            return "Output failed"
         }
     }
 }
