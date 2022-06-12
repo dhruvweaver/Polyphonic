@@ -13,8 +13,8 @@
 		00918A472854E99B00C0B74E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00918A462854E99B00C0B74E /* Preview Assets.xcassets */; };
 		00918A4F2854F03B00C0B74E /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A4E2854F03B00C0B74E /* Song.swift */; };
 		00918A532854F5A300C0B74E /* SongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A522854F5A300C0B74E /* SongData.swift */; };
-		00918A55285598C300C0B74E /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A54285598C300C0B74E /* Keys.swift */; };
 		00918A5728559D4300C0B74E /* Base64Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5628559D4300C0B74E /* Base64Encode.swift */; };
+		00918A5B2855AB4B00C0B74E /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5A2855AB4B00C0B74E /* Keys.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,8 +25,8 @@
 		00918A462854E99B00C0B74E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		00918A4E2854F03B00C0B74E /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		00918A522854F5A300C0B74E /* SongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongData.swift; sourceTree = "<group>"; };
-		00918A54285598C300C0B74E /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		00918A5628559D4300C0B74E /* Base64Encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base64Encode.swift; sourceTree = "<group>"; };
+		00918A5A2855AB4B00C0B74E /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,8 +81,8 @@
 			children = (
 				00918A4E2854F03B00C0B74E /* Song.swift */,
 				00918A522854F5A300C0B74E /* SongData.swift */,
-				00918A54285598C300C0B74E /* Keys.swift */,
 				00918A5628559D4300C0B74E /* Base64Encode.swift */,
+				00918A5A2855AB4B00C0B74E /* Keys.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -158,11 +158,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				00918A5728559D4300C0B74E /* Base64Encode.swift in Sources */,
+				00918A5B2855AB4B00C0B74E /* Keys.swift in Sources */,
 				00918A4F2854F03B00C0B74E /* Song.swift in Sources */,
 				00918A422854E99900C0B74E /* ContentView.swift in Sources */,
 				00918A532854F5A300C0B74E /* SongData.swift in Sources */,
 				00918A402854E99900C0B74E /* MusicLinkAppApp.swift in Sources */,
-				00918A55285598C300C0B74E /* Keys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

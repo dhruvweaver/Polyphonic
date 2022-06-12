@@ -14,7 +14,7 @@ class SongData {
         self.starterLink = starterLink
     }
     
-    
+    let spotifyAuthKey = (spotifyClientID + ":" + spotifyClientSecret).toBase64()
     
     enum Platform {
         case unknown, spotify, appleMusic
