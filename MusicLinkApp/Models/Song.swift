@@ -10,15 +10,15 @@ import Foundation
 class Song {
     private let title: String!
     private let ISRC: String!
-    private let artist: String!
+    private let artists: [String]!
     private let album: String!
     private var spotifyURL: URL?
     private var appleMusicURL: URL?
     
-    init(title: String, ISRC: String, artist: String, album: String) {
+    init(title: String, ISRC: String, artists: [String], album: String) {
         self.title = title
         self.ISRC = ISRC
-        self.artist = artist
+        self.artists = artists
         self.album = album
     }
     
@@ -30,8 +30,8 @@ class Song {
         return ISRC
     }
     
-    func getArtist() -> String {
-        return artist
+    func getArtists() -> [String] {
+        return artists
     }
     
     func getAlbum() -> String {

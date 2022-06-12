@@ -15,6 +15,7 @@
 		00918A532854F5A300C0B74E /* SongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A522854F5A300C0B74E /* SongData.swift */; };
 		00918A5728559D4300C0B74E /* Base64Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5628559D4300C0B74E /* Base64Encode.swift */; };
 		00918A5B2855AB4B00C0B74E /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5A2855AB4B00C0B74E /* Keys.swift */; };
+		00CD71ED28564D2100159B04 /* SpotifySongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EC28564D2100159B04 /* SpotifySongData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		00918A522854F5A300C0B74E /* SongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongData.swift; sourceTree = "<group>"; };
 		00918A5628559D4300C0B74E /* Base64Encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base64Encode.swift; sourceTree = "<group>"; };
 		00918A5A2855AB4B00C0B74E /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
+		00CD71EC28564D2100159B04 /* SpotifySongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifySongData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				00918A522854F5A300C0B74E /* SongData.swift */,
 				00918A5628559D4300C0B74E /* Base64Encode.swift */,
 				00918A5A2855AB4B00C0B74E /* Keys.swift */,
+				00CD71EC28564D2100159B04 /* SpotifySongData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -163,6 +166,7 @@
 				00918A422854E99900C0B74E /* ContentView.swift in Sources */,
 				00918A532854F5A300C0B74E /* SongData.swift in Sources */,
 				00918A402854E99900C0B74E /* MusicLinkAppApp.swift in Sources */,
+				00CD71ED28564D2100159B04 /* SpotifySongData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
