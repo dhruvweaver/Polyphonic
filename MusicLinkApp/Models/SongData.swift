@@ -81,13 +81,17 @@ class SongData {
                 
                 if let spotifySong = spotify.song {
                     songData = Song(title: spotifySong.getTitle(), ISRC: spotifySong.getISRC(), artists: spotifySong.getArtists(), album: spotifySong.getAlbum())
-                    print(songData?.getISRC())
                     if let songData = songData {
                         let appleMusic = AppleMusicSongData(songID: nil, songISRC: songData.getISRC())
-                        await appleMusic.getAppleMusicSongDataByISRC()
-                        appleMusic.parseToObject()
+                        await appleMusic.getAppleMusicSongDataBySearch(songRef: spotifySong)
+                        appleMusic.parseToObject(songRef: spotifySong)
                         if let translatedSongData = appleMusic.song {
-                            output = translatedSongData.getTranslatedURLasString()
+                            debugPrint("Spotify Artist: \(spotifySong.getArtists()[0])")
+                            debugPrint("Apple   Artist: \(translatedSongData.getArtists()[0])")
+                            
+                            if (spotifySong.getAlbum() == translatedSongData.getAlbum()) || (spotifySong.getTitle() == translatedSongData.getTitle()) || (spotifySong.getArtists()[0] == translatedSongData.getArtists()[0]) {
+                                output = translatedSongData.getTranslatedURLasString()
+                            }
                         }
                     }
                 }
@@ -110,7 +114,7 @@ class SongData {
         if link != nil {
             return link!
         } else {
-            return "Output failed"
+            return "No equivalent song or there was an error"
         }
     }
 }
