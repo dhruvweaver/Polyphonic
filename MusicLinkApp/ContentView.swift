@@ -31,11 +31,14 @@ struct ContentView: View {
             }
             // will later hold text field
             HStack(alignment: .center) {
-                TextField("Song Name", text: $linkOut)
+                TextField("Apple Music Link", text: $linkOut)
                     .frame(width: 350)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .border(Color.gray)
                     .fixedSize(horizontal: true, vertical: false)
+            }
+            Button("Copy") {
+                UIPasteboard.general.string = linkOut
             }
         }
     }

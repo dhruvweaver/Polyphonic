@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MusicKit
 
 class AppleMusicSongData {
     private let songID: String?
@@ -20,7 +21,7 @@ class AppleMusicSongData {
     var appleMusicSongJSON: AppleMusicSongDataRoot? = nil
     
     struct AppleMusicSongDataRoot: Decodable {
-        let data: AppleMusicSongDataData
+        let data: [AppleMusicSongDataData]
     }
     
     struct AppleMusicSongDataData: Decodable {
@@ -37,7 +38,10 @@ class AppleMusicSongData {
     
     func getAppleMusicSongDataByISRC() async {
         let url = URL(string: "https://api.music.apple.com/v1/catalog/us/songs?filter[isrc]=\(songISRC!)")!
-        let urlSession = URLSession.shared
+        let sessionConfig = URLSessionConfiguration.default
+        let authValue: String = "Bearer \(appleMusicAuthKey)"
+        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
+        let urlSession = URLSession(configuration: sessionConfig)
         
         do {
             let (data, response) = try await urlSession.data(from: url)
@@ -45,16 +49,20 @@ class AppleMusicSongData {
                 print(httpResponse.statusCode)
             }
             self.appleMusicSongJSON = try JSONDecoder().decode(AppleMusicSongDataRoot.self, from: data)
+            print("Decoded!")
         } catch {
             debugPrint("Error loading \(url): \(String(describing: error))")
         }
     }
     
     func parseToObject() {
+        print("Parsing...")
         if let processed = appleMusicSongJSON {
-            let attributes = processed.data.attributes
-            song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
-            song?.setTranslatedURL(link: attributes.url)
+            if (processed.data.endIndex >= 1) { // should prevent crashes when there are no results. Needs further testing
+                let attributes = processed.data[processed.data.endIndex - 1].attributes
+                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
+                song?.setTranslatedURL(link: attributes.url)
+            }
         }
     }
 }

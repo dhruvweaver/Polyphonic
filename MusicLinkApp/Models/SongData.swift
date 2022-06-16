@@ -81,9 +81,11 @@ class SongData {
                 
                 if let spotifySong = spotify.song {
                     songData = Song(title: spotifySong.getTitle(), ISRC: spotifySong.getISRC(), artists: spotifySong.getArtists(), album: spotifySong.getAlbum())
+                    print(songData?.getISRC())
                     if let songData = songData {
                         let appleMusic = AppleMusicSongData(songID: nil, songISRC: songData.getISRC())
                         await appleMusic.getAppleMusicSongDataByISRC()
+                        appleMusic.parseToObject()
                         if let translatedSongData = appleMusic.song {
                             output = translatedSongData.getTranslatedURLasString()
                         }
