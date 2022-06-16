@@ -8,21 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var linkStr: String = ""
-    @State var linkOut: String = ""
+    @State private var linkStr: String = ""
+    @State private var linkOut: String = ""
     var body: some View {
         let songData = SongData()
         VStack(alignment: .center) {
+            Text("Translate links between Apple Music and Spotify")
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
+                .padding(.bottom)
             Button("Clear") {
                 linkStr = ""
                 linkOut = ""
             }
             HStack(alignment: .center) {
-                TextField("Spotify Link", text: $linkStr)
-                    .frame(width: 350)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                TextField("Input Link", text: $linkStr)
+                    .textFieldStyle(.roundedBorder)
                     .border(Color.gray)
-                    .fixedSize(horizontal: true, vertical: false)
+                    .padding(.horizontal)
             }
             Button("Translate") {
                 Task {
@@ -31,11 +34,10 @@ struct ContentView: View {
             }
             // will later hold text field
             HStack(alignment: .center) {
-                TextField("Apple Music Link", text: $linkOut)
-                    .frame(width: 350)
+                TextField("Translated Link", text: $linkOut)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .border(Color.gray)
-                    .fixedSize(horizontal: true, vertical: false)
+                    .padding(.horizontal)
             }
             Button("Copy") {
                 UIPasteboard.general.string = linkOut

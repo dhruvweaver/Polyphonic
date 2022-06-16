@@ -9,12 +9,10 @@ import Foundation
 
 class AppleMusicSongData {
     private let songID: String?
-    private let songISRC: String!
     var song: Song? = nil
     
-    init(songID: String?, songISRC: String) {
+    init(songID: String?) {
         self.songID = songID
-        self.songISRC = songISRC
     }
     
     var appleMusicSongJSON: AppleMusicSongDataRoot? = nil
@@ -35,7 +33,7 @@ class AppleMusicSongData {
         let albumName: String
     }
     
-    var appleMusicSearchJSON: AppleMusicSearchRoot? = nil
+    private var appleMusicSearchJSON: AppleMusicSearchRoot? = nil
     
     struct AppleMusicSearchRoot: Decodable {
         let results: AppleMusicSearchResults
@@ -53,10 +51,33 @@ class AppleMusicSongData {
         let attributes: AppleMusicAttributes
     }
     
+    func getAppleMusicSongDataByID() async {
+        let url = URL(string: "https://api.music.apple.com/v1/catalog/us/songs/\(songID!)")!
+        debugPrint("Querying: \(url.absoluteString)")
+        let sessionConfig = URLSessionConfiguration.default
+        let authValue: String = "Bearer \(appleMusicAuthKey)"
+        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
+        let urlSession = URLSession(configuration: sessionConfig)
+        
+        do {
+            let (data, response) = try await urlSession.data(from: url)
+            if let httpResponse = response as? HTTPURLResponse {
+                print(httpResponse.statusCode)
+            }
+            self.appleMusicSongJSON = try JSONDecoder().decode(AppleMusicSongDataRoot.self, from: data)
+            debugPrint("Decoded!")
+        } catch {
+            debugPrint("Error loading \(url): \(String(describing: error))")
+        }
+    }
+    
     // TODO: NEEDS LOTS OF WORK ON NULL SAFETY
     func getAppleMusicSongDataBySearch(songRef: Song) async {
         var songStr = songRef.getTitle().lowercased().replacingOccurrences(of: " ", with: "+")
         if let indDash = songStr.firstIndex(of: "-") {
+            songStr = String(songStr[songStr.startIndex...songStr.index(indDash, offsetBy: -2)])
+        }
+        if let indDash = songStr.firstIndex(of: "(") {
             songStr = String(songStr[songStr.startIndex...songStr.index(indDash, offsetBy: -2)])
         }
         let albumStr = songRef.getAlbum().lowercased().replacingOccurrences(of: " ", with: "+")
@@ -87,7 +108,7 @@ class AppleMusicSongData {
     }
     
     // TODO: Needs to differentiate between songs released as a single vs those released with the album. Right now it tends to only pick the album version
-    func parseToObject(songRef: Song) {
+    func parseToObject(songRef: Song?) {
         print("Parsing...")
         if let processed = appleMusicSongJSON {
             if (processed.data.endIndex >= 1) { // should prevent crashes when there are no results. Needs further testing
@@ -102,8 +123,8 @@ class AppleMusicSongData {
                 let attributes = processed.results.songs.data[i].attributes
                 song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
                 debugPrint(song!.getISRC())
-                debugPrint(songRef.getISRC())
-                matchFound = (song?.getAlbum() == songRef.getAlbum() || song?.getISRC() == songRef.getISRC() || song?.getArtists()[0] == songRef.getArtists()[0])
+                debugPrint(songRef!.getISRC())
+                matchFound = (song?.getAlbum() == songRef!.getAlbum() || song?.getISRC() == songRef!.getISRC() || song?.getArtists()[0] == songRef!.getArtists()[0])
                 song?.setTranslatedURL(link: attributes.url)
                 
                 i += 1
