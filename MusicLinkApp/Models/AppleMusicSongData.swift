@@ -53,6 +53,7 @@ class AppleMusicSongData {
         let attributes: AppleMusicAttributes
     }
     
+    // TODO: NEEDS LOTS OF WORK ON NULL SAFETY
     func getAppleMusicSongDataBySearch(songRef: Song) async {
         var songStr = songRef.getTitle().lowercased().replacingOccurrences(of: " ", with: "+")
         if let indDash = songStr.firstIndex(of: "-") {
@@ -64,8 +65,9 @@ class AppleMusicSongData {
         debugPrint("Album: \(albumStr)")
         debugPrint("Artist: \(artistStr)")
         
-        
-        let url = URL(string: "https://api.music.apple.com/v1/catalog/us/search?types=songs&term=\(songStr)+\(albumStr)+\(artistStr)")!
+        let urlString = "https://api.music.apple.com/v1/catalog/us/search?types=songs&term=\(songStr)+\(albumStr)+\(artistStr)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        debugPrint(urlString)
+        let url = URL(string: urlString)!
         debugPrint("Querying: \(url.absoluteString)")
         let sessionConfig = URLSessionConfiguration.default
         let authValue: String = "Bearer \(appleMusicAuthKey)"
