@@ -88,11 +88,7 @@ class SpotifySongData {
     }
     
     private func generateLink(uri: String) -> String {
-        var linkStr = ""
-        print(uri)
-        linkStr = "https://open.spotify.com/track/\(uri.suffix(from: uri.index(after: uri.lastIndex(of: ":")!)))"
-        print(linkStr)
-        return linkStr
+        return "https://open.spotify.com/track/\(uri.suffix(from: uri.index(after: uri.lastIndex(of: ":")!)))"
     }
     
     func parseToObject(songRef: Song?) {

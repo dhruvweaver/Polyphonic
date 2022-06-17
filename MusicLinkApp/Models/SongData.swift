@@ -99,18 +99,17 @@ class SongData {
                 // if all goes well, continue to translation
                 if let spotifySong = spotify.song {
                     songData = Song(title: spotifySong.getTitle(), ISRC: spotifySong.getISRC(), artists: spotifySong.getArtists(), album: spotifySong.getAlbum())
-                    if let songData = songData {
-                        let appleMusic = AppleMusicSongData(songID: nil)
-                        // this function will talk to the Apple Music API, it requires already known song data
-                        await appleMusic.getAppleMusicSongDataBySearch(songRef: spotifySong)
-                        appleMusic.parseToObject(songRef: spotifySong)
-                        if let translatedSongData = appleMusic.song {
-                            debugPrint("Spotify Artist: \(spotifySong.getArtists()[0])")
-                            debugPrint("Apple   Artist: \(translatedSongData.getArtists()[0])")
-                            // ensure that the translated song matches the original before returning a link
-                            if (spotifySong.getAlbum() == translatedSongData.getAlbum()) || (spotifySong.getTitle() == translatedSongData.getTitle()) || (spotifySong.getArtists()[0] == translatedSongData.getArtists()[0]) {
-                                output = translatedSongData.getTranslatedURLasString()
-                            }
+                    
+                    let appleMusic = AppleMusicSongData(songID: nil)
+                    // this function will talk to the Apple Music API, it requires already known song data
+                    await appleMusic.getAppleMusicSongDataBySearch(songRef: spotifySong)
+                    appleMusic.parseToObject(songRef: spotifySong)
+                    if let translatedSongData = appleMusic.song {
+                        debugPrint("Spotify Artist: \(spotifySong.getArtists()[0])")
+                        debugPrint("Apple   Artist: \(translatedSongData.getArtists()[0])")
+                        // ensure that the translated song matches the original before returning a link
+                        if (spotifySong.getAlbum() == translatedSongData.getAlbum()) || (spotifySong.getTitle() == translatedSongData.getTitle()) || (spotifySong.getArtists()[0] == translatedSongData.getArtists()[0]) {
+                            output = translatedSongData.getTranslatedURLasString()
                         }
                     }
                 }
@@ -126,13 +125,13 @@ class SongData {
                 // get authorization key from Spotify
                 if let authKey = await getSpotifyAuthKey() {
                     let spotify = SpotifySongData(songID: nil, authKey: authKey)
-                    
+                    // this function will talk to the Spotify API, it requires already known song data
                     await spotify.getSpotifySOngDatayBySearch(songRef: appleMusicSong)
                     spotify.parseToObject(songRef: appleMusicSong)
                     if let translatedSongData = spotify.song {
                         debugPrint("Spotify Artist: \(translatedSongData.getArtists()[0])")
                         debugPrint("Apple   Artist: \(appleMusicSong.getArtists()[0])")
-                        
+                        // ensure that the translated song matches the original before returning a link
                         if (appleMusicSong.getAlbum() == translatedSongData.getAlbum()) || (appleMusicSong.getTitle() == translatedSongData.getTitle()) || (appleMusicSong.getArtists()[0] == translatedSongData.getArtists()[0]) {
                             output = translatedSongData.getTranslatedURLasString()
                         }
