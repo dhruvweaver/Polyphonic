@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var linkStr: String = ""
     @State private var linkOut: String = ""
+    @State private var isLoading: Bool = false
     var body: some View {
         let songData = SongData()
         VStack(alignment: .center) {
@@ -17,32 +18,50 @@ struct ContentView: View {
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
                 .padding(.bottom)
-            Button("Clear") {
+            Button("Clear Input Link") {
                 linkStr = ""
-                linkOut = ""
+//                linkOut = ""
             }
             HStack(alignment: .center) {
                 TextField("Input Link", text: $linkStr)
                     .textFieldStyle(.roundedBorder)
-                    .border(Color.gray)
+                    .cornerRadius(10)
+                    .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
                     .padding(.horizontal)
             }
-            Button("Translate") {
-                Task {
-                    linkOut = await songData.translateData(link: linkStr)
+            if (!isLoading) {
+                Button("Translate") {
+                    Task {
+                        isLoading = true
+                        linkOut = await songData.translateData(link: linkStr)
+                        isLoading = false
+                        hideKeyboard()
+                    }
                 }
+                .padding(.vertical, 2.0)
+            } else {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .padding(.vertical, 2.0)
             }
             // will later hold text field
             HStack(alignment: .center) {
                 TextField("Translated Link", text: $linkOut)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .border(Color.gray)
+                    .textFieldStyle(.roundedBorder)
+                    .cornerRadius(10)
+                    .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
                     .padding(.horizontal)
             }
-            Button("Copy") {
+            Button("Copy Translated Link") {
                 UIPasteboard.general.string = linkOut
             }
         }
+    }
+}
+
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 

@@ -109,12 +109,16 @@ class SpotifySongData {
         if let indParen = clean.firstIndex(of: "(") {
             clean = String(clean[clean.startIndex...clean.index(indParen, offsetBy: -2)])
         }
+        if let indColon = clean.firstIndex(of: ":") {
+            clean = String(clean[clean.startIndex...clean.index(indColon, offsetBy: -2)])
+        }
         
         clean = clean.replacingOccurrences(of: "/", with: "")
         clean = clean.replacingOccurrences(of: "\\", with: "")
         clean = clean.replacingOccurrences(of: "'", with: "")
         clean = clean.replacingOccurrences(of: "\"", with: "")
         clean = clean.replacingOccurrences(of: ",", with: "")
+        clean = clean.replacingOccurrences(of: ". ", with: " ")
         clean = clean.replacingOccurrences(of: " & ", with: " ")
         
         if (forSearching) {
@@ -206,7 +210,7 @@ class SpotifySongData {
                 song = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name)
                 debugPrint("Found an exact match")
                 song?.setTranslatedURL(link: generateLink(uri: attributes.uri))
-            } else if (!matchFound && closeMatch != nil) {
+            } else if (closeMatch != nil) {
                 let attributes = processed.tracks.items[closeMatch!]
                 var artists: [String] = []
                 for i in attributes.artists {

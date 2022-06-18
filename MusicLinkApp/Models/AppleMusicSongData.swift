@@ -73,19 +73,22 @@ class AppleMusicSongData {
     
     // TODO: NEEDS LOTS OF WORK ON NULL SAFETY
     func getAppleMusicSongDataBySearch(songRef: Song) async {
-        var songStr = songRef.getTitle().lowercased().replacingOccurrences(of: " ", with: "+")
+        var songStr = songRef.getTitle()
         songStr = songStr.replacingOccurrences(of: "(", with: "")
         songStr = songStr.replacingOccurrences(of: ")", with: "")
-        songStr = cleanSongTitle(title: songStr, forSearching: true)
+        songStr = cleanSongTitle(title: songStr, forSearching: true).replacingOccurrences(of: " ", with: "+")
 //        var albumStr = songRef.getAlbum().lowercased().replacingOccurrences(of: " ", with: "+")
-        let albumStr = cleanSongTitle(title: songRef.getAlbum(), forSearching: true).replacingOccurrences(of: " ", with: "+")
+        var albumStr = cleanSongTitle(title: songRef.getAlbum(), forSearching: true).replacingOccurrences(of: " ", with: "+")
+        albumStr = albumStr.replacingOccurrences(of: songStr, with: "")
 //        let artistStr = songRef.getArtists()[0].lowercased().replacingOccurrences(of: " ", with: "+")
         let artistStr = cleanArtistName(name: songRef.getArtists()[0], forSearching: true).replacingOccurrences(of: " ", with: "+")
         debugPrint("Song: \(songStr)")
         debugPrint("Album: \(albumStr)")
         debugPrint("Artist: \(artistStr)")
         
-        let urlString = "https://api.music.apple.com/v1/catalog/us/search?types=songs&term=\(songStr)+\(albumStr)+\(artistStr)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+//        let urlString = "https://api.music.apple.com/v1/catalog/us/search?types=songs&term=\(songStr)+\(albumStr)+\(artistStr)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        // album name removed from query. May reduce accuracy and/or increase search time, but may also help with getting the right results
+        let urlString = "https://api.music.apple.com/v1/catalog/us/search?types=songs&term=\(songStr)+\(artistStr)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let url = URL(string: urlString)!
         debugPrint("Querying: \(url.absoluteString)")
         let sessionConfig = URLSessionConfiguration.default
@@ -118,12 +121,16 @@ class AppleMusicSongData {
         if let indParen = clean.firstIndex(of: "(") {
             clean = String(clean[clean.startIndex...clean.index(indParen, offsetBy: -2)])
         }
+        if let indColon = clean.firstIndex(of: ":") {
+            clean = String(clean[clean.startIndex...clean.index(indColon, offsetBy: -2)])
+        }
         
         clean = clean.replacingOccurrences(of: "/", with: "")
         clean = clean.replacingOccurrences(of: "\\", with: "")
         clean = clean.replacingOccurrences(of: "'", with: "")
         clean = clean.replacingOccurrences(of: "\"", with: "")
         clean = clean.replacingOccurrences(of: ",", with: "")
+        clean = clean.replacingOccurrences(of: ". ", with: " ")
         clean = clean.replacingOccurrences(of: " & ", with: " ")
         
         if (forSearching) {
