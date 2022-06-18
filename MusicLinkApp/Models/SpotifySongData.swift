@@ -96,12 +96,16 @@ class SpotifySongData {
         return "https://open.spotify.com/track/\(uri.suffix(from: uri.index(after: uri.lastIndex(of: ":")!)))"
     }
     
-    // removes items in parentheses and after dashes
+    // removes items in parentheses and after dashes, adds important search terms like remixes and deluxe editions
     private func cleanSongTitle(title: String, forSearching: Bool) -> String {
         var clean = title
-        if let indDash = clean.firstIndex(of: "-") {
+        clean = clean.replacingOccurrences(of: " - ", with: " * ")
+        clean = clean.replacingOccurrences(of: "+-+", with: " * ")
+        if let indDash = clean.firstIndex(of: "*") {
             clean = String(clean[clean.startIndex...clean.index(indDash, offsetBy: -2)])
         }
+        clean = clean.replacingOccurrences(of: "+", with: " ")
+        clean = clean.replacingOccurrences(of: "-", with: "+")
         if let indParen = clean.firstIndex(of: "(") {
             clean = String(clean[clean.startIndex...clean.index(indParen, offsetBy: -2)])
         }
@@ -110,6 +114,8 @@ class SpotifySongData {
         clean = clean.replacingOccurrences(of: "\\", with: "")
         clean = clean.replacingOccurrences(of: "'", with: "")
         clean = clean.replacingOccurrences(of: "\"", with: "")
+        clean = clean.replacingOccurrences(of: ",", with: "")
+        clean = clean.replacingOccurrences(of: " & ", with: " ")
         
         if (forSearching) {
             if (title.contains("Remix") && !clean.contains("Remix")) {
@@ -124,7 +130,26 @@ class SpotifySongData {
             if (title.contains("Demo") && !clean.contains("Demo")) {
                 clean.append(contentsOf: " demo")
             }
+            if (title.contains("Edit") && !title.contains("Edition") && !clean.contains("Edit")) {
+                clean.append(contentsOf: " edit")
+            }
             debugPrint(clean)
+        }
+        
+        clean = clean.lowercased()
+        
+        return clean
+    }
+    
+    // removes ampersands and dashes in artist names to simplify search and reduce errors
+    private func cleanArtistName(name: String, forSearching: Bool) -> String {
+        var clean = name
+        if (forSearching) {
+            clean = clean.replacingOccurrences(of: "-", with: "+")
+        }
+        clean = clean.replacingOccurrences(of: " & ", with: "*")
+        if let indSep = clean.firstIndex(of: "*") {
+            clean = String(clean[clean.startIndex...clean.index(indSep, offsetBy: -1)])
         }
         
         clean = clean.lowercased()
@@ -153,14 +178,17 @@ class SpotifySongData {
                 song = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name)
                 debugPrint(song!.getISRC())
                 debugPrint(songRef!.getISRC())
-                debugPrint("Input Album: \(songRef!.getAlbum())")
+                debugPrint(song!.getArtists()[0])
+                debugPrint(songRef!.getArtists()[0])
                 debugPrint("Apple Album: \(song!.getAlbum())")
+                debugPrint("Input Album: \(songRef!.getAlbum())")
                 
-                if (song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSongTitle(title: (song?.getAlbum())!, forSearching: false) == cleanSongTitle(title: songRef!.getAlbum(), forSearching: false)))) {
+                // if there is an exact match with the ISRC, then the search can stop
+                if (song?.getISRC() == songRef!.getISRC()) {
                     matchFound = true
-                } else if (lookForCloseMatch && !(song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSongTitle(title: (song?.getAlbum())!, forSearching: false) == cleanSongTitle(title: songRef!.getAlbum(), forSearching: false)) && cleanSongTitle(title: (song?.getTitle())!, forSearching: false) == cleanSongTitle(title: songRef!.getTitle(), forSearching: false) && song?.getArtists()[0] == songRef!.getArtists()[0]))) {
+                } else if (lookForCloseMatch && !(song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSongTitle(title: (song?.getAlbum())!, forSearching: false) == cleanSongTitle(title: songRef!.getAlbum(), forSearching: false)) && cleanSongTitle(title: (song?.getTitle())!, forSearching: false) == cleanSongTitle(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
                     debugPrint("Found close match")
-                    // bookmark and come back to this one if nothing else
+                    // bookmark and come back to this one if nothing else matches
                     closeMatch = i
                     lookForCloseMatch = false
                 }

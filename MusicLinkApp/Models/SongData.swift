@@ -107,10 +107,11 @@ class SongData {
                     if let translatedSongData = appleMusic.song {
                         debugPrint("Spotify Artist: \(spotifySong.getArtists()[0])")
                         debugPrint("Apple   Artist: \(translatedSongData.getArtists()[0])")
-                        // ensure that the translated song matches the original before returning a link
-                        if (spotifySong.getAlbum() == translatedSongData.getAlbum()) || (spotifySong.getTitle() == translatedSongData.getTitle()) || (spotifySong.getArtists()[0] == translatedSongData.getArtists()[0]) {
-                            output = translatedSongData.getTranslatedURLasString()
-                        }
+                        // ensure that the translated song matches the original before returning a link -- NOT DOING THAT ANYMORE. MAY NEED TO BRING IT BACK
+                        //                        if (spotifySong.getAlbum() == translatedSongData.getAlbum()) || (spotifySong.getTitle() == translatedSongData.getTitle()) || (spotifySong.getArtists()[0] == translatedSongData.getArtists()[0]) {
+                        //                            output = translatedSongData.getTranslatedURLasString()
+                        //                        }
+                        output = translatedSongData.getTranslatedURLasString()
                     }
                 }
             }
@@ -131,10 +132,11 @@ class SongData {
                     if let translatedSongData = spotify.song {
                         debugPrint("Spotify Artist: \(translatedSongData.getArtists()[0])")
                         debugPrint("Apple   Artist: \(appleMusicSong.getArtists()[0])")
-                        // ensure that the translated song matches the original before returning a link
-                        if (appleMusicSong.getAlbum() == translatedSongData.getAlbum()) || (appleMusicSong.getTitle() == translatedSongData.getTitle()) || (appleMusicSong.getArtists()[0] == translatedSongData.getArtists()[0]) {
-                            output = translatedSongData.getTranslatedURLasString()
-                        }
+                        // ensure that the translated song matches the original before returning a link -- NOT DOING THAT ANYMORE. MAY NEED TO BRING IT BACK
+                        //                        if (appleMusicSong.getAlbum() == translatedSongData.getAlbum()) || (appleMusicSong.getTitle() == translatedSongData.getTitle()) || (appleMusicSong.getArtists()[0] == translatedSongData.getArtists()[0]) {
+                        //                            output = translatedSongData.getTranslatedURLasString()
+                        //                        }
+                        output = translatedSongData.getTranslatedURLasString()
                     }
                 }
             }

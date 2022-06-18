@@ -313,7 +313,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.5;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.MusicLinkApp;
 				PRODUCT_NAME = "Music Link";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -344,7 +344,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.5;
+				MARKETING_VERSION = 0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.MusicLinkApp;
 				PRODUCT_NAME = "Music Link";
 				SWIFT_EMIT_LOC_STRINGS = YES;
