@@ -76,9 +76,9 @@ class AppleMusicSongData {
         var songStr = songRef.getTitle().lowercased().replacingOccurrences(of: " ", with: "+")
         songStr = songStr.replacingOccurrences(of: "(", with: "")
         songStr = songStr.replacingOccurrences(of: ")", with: "")
-        songStr = cleanSongTitle(title: songStr)
+        songStr = cleanSongTitle(title: songStr, forSearching: true)
         var albumStr = songRef.getAlbum().lowercased().replacingOccurrences(of: " ", with: "+")
-        albumStr = cleanSongTitle(title: albumStr)
+        albumStr = cleanSongTitle(title: albumStr, forSearching: true)
         let artistStr = songRef.getArtists()[0].lowercased().replacingOccurrences(of: " ", with: "+")
         debugPrint("Song: \(songStr)")
         debugPrint("Album: \(albumStr)")
@@ -105,7 +105,7 @@ class AppleMusicSongData {
     }
     
     // removes items in parentheses and after dashes
-    private func cleanSongTitle(title: String) -> String {
+    private func cleanSongTitle(title: String, forSearching: Bool) -> String {
         var clean = title
         if let indDash = clean.firstIndex(of: "-") {
             clean = String(clean[clean.startIndex...clean.index(indDash, offsetBy: -2)])
@@ -114,12 +114,35 @@ class AppleMusicSongData {
             clean = String(clean[clean.startIndex...clean.index(indParen, offsetBy: -2)])
         }
         
+        clean = clean.replacingOccurrences(of: "/", with: "")
+        clean = clean.replacingOccurrences(of: "\\", with: "")
+        clean = clean.replacingOccurrences(of: "'", with: "")
+        clean = clean.replacingOccurrences(of: "\"", with: "")
+        
+        if (forSearching) {
+            if (title.contains("Remix") && !clean.contains("Remix")) {
+                clean.append(contentsOf: "+remix")
+            }
+            if (title.contains("Deluxe") && !clean.contains("Deluxe")) {
+                clean.append(contentsOf: "+deluxe")
+            }
+            if (title.contains("Acoustic") && !clean.contains("Acoustic")) {
+                clean.append(contentsOf: "+acoustic")
+            }
+            if (title.contains("Demo") && !clean.contains("Demo")) {
+                clean.append(contentsOf: "+demo")
+            }
+            debugPrint(clean)
+        }
+        
+        clean = clean.lowercased()
+        
         return clean
     }
     
     // TODO: Needs to differentiate between songs released as a single vs those released with the album. Right now it tends to only pick the album version
     // new processing ideas: identify songs with cleaned titles and albums, compare by date and ISRC, primarily
-    // clean artist results with '&' character,
+    // clean artist results with '&' character, somehow avoid splitting artists like "Simon & Garfunkel"
     func parseToObject(songRef: Song?) {
         print("Parsing...")
         if let processed = appleMusicSongJSON {
@@ -131,16 +154,41 @@ class AppleMusicSongData {
         } else if let processed = appleMusicSearchJSON {
             var i = 0
             var matchFound: Bool = false
+            var closeMatch: Int? = nil
+            var lookForCloseMatch: Bool = true
             while processed.results.songs.data.count > i && !matchFound {
                 let attributes = processed.results.songs.data[i].attributes
                 song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
                 debugPrint(song!.getISRC())
                 debugPrint(songRef!.getISRC())
-                // TODO: if no matching ISRC, look forward, but store index of previous close match, and go back if nothing better is found
-                matchFound = (song?.getISRC() == songRef!.getISRC() || (song?.getAlbum() == songRef!.getAlbum() && cleanSongTitle(title: (song?.getTitle())!) == cleanSongTitle(title: songRef!.getTitle()) && song?.getArtists()[0] == songRef!.getArtists()[0]))
-                song?.setTranslatedURL(link: attributes.url)
+                debugPrint("Input   Album: \(songRef!.getAlbum())")
+                debugPrint("Spotify Album: \(song!.getAlbum())")
+                
+                if (song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSongTitle(title: (song?.getAlbum())!, forSearching: false) == cleanSongTitle(title: songRef!.getAlbum(), forSearching: false)))) {
+                    matchFound = true
+                } else if (lookForCloseMatch && !(song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSongTitle(title: (song?.getAlbum())!, forSearching: false) == cleanSongTitle(title: songRef!.getAlbum(), forSearching: false)) && cleanSongTitle(title: (song?.getTitle())!, forSearching: false) == cleanSongTitle(title: songRef!.getTitle(), forSearching: false) && song?.getArtists()[0] == songRef!.getArtists()[0]))) {
+                    debugPrint("Found close match")
+                    // bookmark and come back to this one if nothing else
+                    closeMatch = i
+                    lookForCloseMatch = false
+                }
                 
                 i += 1
+                debugPrint(i)
+            }
+            
+            if matchFound {
+                let attributes = processed.results.songs.data[i - 1].attributes
+                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
+                debugPrint("Found an exact match")
+                song?.setTranslatedURL(link: attributes.url)
+            } else if (!matchFound && closeMatch != nil) {
+                let attributes = processed.results.songs.data[closeMatch!].attributes
+                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
+                debugPrint("Found a close match")
+                song?.setTranslatedURL(link: attributes.url)
+            } else {
+                debugPrint("No matches")
             }
         }
     }
