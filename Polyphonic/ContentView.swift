@@ -20,7 +20,6 @@ struct ContentView: View {
                 .padding(.bottom)
             Button("Clear Input Link") {
                 linkStr = ""
-//                linkOut = ""
             }
             HStack(alignment: .center) {
                 TextField("Input Link", text: $linkStr)

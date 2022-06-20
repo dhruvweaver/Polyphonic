@@ -1,5 +1,5 @@
 //
-//  AppleMusicSongData.swift
+//  SpotifySongData.swift
 //  MusicLinkApp
 //
 //  Created by Dhruv Weaver on 6/12/22.
@@ -7,105 +7,93 @@
 
 import Foundation
 
-class AppleMusicSongData {
+class SpotifySongData {
     private let songID: String?
+    private let authKey: String!
     var song: Song? = nil
     
-    init(songID: String?) {
+    init(songID: String?, authKey: String) {
         self.songID = songID
+        self.authKey = authKey
     }
     
-    var appleMusicSongJSON: AppleMusicSongDataRoot? = nil
+    var spotifySongJSON: SpotifySongDataRoot? = nil
+    var spotifySearchJSON: SpotifySongSearchRoot? = nil
     
-    struct AppleMusicSongDataRoot: Decodable {
-        let data: [AppleMusicSongDataData]
-    }
-    
-    struct AppleMusicSongDataData: Decodable {
-        let attributes: AppleMusicAttributes
-    }
-    
-    struct AppleMusicAttributes: Decodable {
-        let artistName: String
-        let url: String
+    struct SpotifySongDataRoot: Decodable {
+        let album: Album
+        let artists: [Artist]
+        let external_ids: ExternalIDs
         let name: String
+        let uri: String
+    }
+    
+    struct Album: Decodable {
+        let name: String
+    }
+    
+    struct Artist: Decodable {
+        let name: String
+    }
+    
+    struct ExternalIDs: Decodable {
         let isrc: String
-        let albumName: String
     }
     
-    private var appleMusicSearchJSON: AppleMusicSearchRoot? = nil
-    
-    struct AppleMusicSearchRoot: Decodable {
-        let results: AppleMusicSearchResults
+    struct SpotifySongSearchRoot: Decodable {
+        let tracks: Tracks
     }
     
-    struct AppleMusicSearchResults: Decodable {
-        let songs: AppleMusicSearchSongs
+    struct Tracks: Decodable {
+        let items: [SpotifySongDataRoot]
     }
     
-    struct AppleMusicSearchSongs: Decodable {
-        let data: [AppleMusicSearchData]
-    }
-    
-    struct AppleMusicSearchData: Decodable {
-        let attributes: AppleMusicAttributes
-    }
-    
-    func getAppleMusicSongDataByID() async {
-        let url = URL(string: "https://api.music.apple.com/v1/catalog/us/songs/\(songID!)")!
-        debugPrint("Querying: \(url.absoluteString)")
+    func getSpotifySongDataByID() async {
+        let url = URL(string: "https://api.spotify.com/v1/tracks/\(songID!)")!
         let sessionConfig = URLSessionConfiguration.default
-        let authValue: String = "Bearer \(appleMusicAuthKey)"
+        let authValue: String = "Bearer \(authKey!)"
         sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
         let urlSession = URLSession(configuration: sessionConfig)
-        
         do {
-            let (data, response) = try await urlSession.data(from: url)
-            if let httpResponse = response as? HTTPURLResponse {
-                print(httpResponse.statusCode)
-            }
-            self.appleMusicSongJSON = try JSONDecoder().decode(AppleMusicSongDataRoot.self, from: data)
-            debugPrint("Decoded!")
+            let (data, _) = try await urlSession.data(from: url)
+            //            if let httpResponse = response as? HTTPURLResponse {
+            //                print(httpResponse.statusCode)
+            //            }
+            self.spotifySongJSON = try JSONDecoder().decode(SpotifySongDataRoot.self, from: data)
         } catch {
             debugPrint("Error loading \(url): \(String(describing: error))")
         }
     }
     
-    // TODO: NEEDS LOTS OF WORK ON NULL SAFETY
-    func getAppleMusicSongDataBySearch(songRef: Song) async {
+    func getSpotifySOngDatayBySearch(songRef: Song) async {
         var songStr = songRef.getTitle()
-        songStr = songStr.replacingOccurrences(of: "(", with: "")
-        songStr = songStr.replacingOccurrences(of: ")", with: "")
-        songStr = cleanSongTitle(title: songStr, forSearching: true).replacingOccurrences(of: " ", with: "+")
-//        var albumStr = songRef.getAlbum().lowercased().replacingOccurrences(of: " ", with: "+")
-        var albumStr = cleanSongTitle(title: songRef.getAlbum(), forSearching: true).replacingOccurrences(of: " ", with: "+")
-        albumStr = albumStr.replacingOccurrences(of: songStr, with: "")
-//        let artistStr = songRef.getArtists()[0].lowercased().replacingOccurrences(of: " ", with: "+")
-        let artistStr = cleanArtistName(name: songRef.getArtists()[0], forSearching: true).replacingOccurrences(of: " ", with: "+")
-        debugPrint("Song: \(songStr)")
-        debugPrint("Album: \(albumStr)")
-        debugPrint("Artist: \(artistStr)")
+        //        songStr = songStr.replacingOccurrences(of: "(", with: "")
+        //        songStr = songStr.replacingOccurrences(of: ")", with: "")
+        songStr = cleanSongTitle(title: songStr, forSearching: true)
+        let artistStr = songRef.getArtists()[0]
         
-//        let urlString = "https://api.music.apple.com/v1/catalog/us/search?types=songs&term=\(songStr)+\(albumStr)+\(artistStr)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        // album name removed from query. May reduce accuracy and/or increase search time, but may also help with getting the right results
-        let urlString = "https://api.music.apple.com/v1/catalog/us/search?types=songs&term=\(songStr)+\(artistStr)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        let url = URL(string: urlString)!
+        let searchParams = "track:\(songStr) artist:\(artistStr)&type=track"
+        
+        let url = URL(string: "https://api.spotify.com/v1/search?q=\(searchParams.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)")!
         debugPrint("Querying: \(url.absoluteString)")
         let sessionConfig = URLSessionConfiguration.default
-        let authValue: String = "Bearer \(appleMusicAuthKey)"
+        let authValue: String = "Bearer \(authKey!)"
+        debugPrint(authKey!)
         sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
         let urlSession = URLSession(configuration: sessionConfig)
-        
         do {
             let (data, response) = try await urlSession.data(from: url)
             if let httpResponse = response as? HTTPURLResponse {
                 print(httpResponse.statusCode)
             }
-            self.appleMusicSearchJSON = try JSONDecoder().decode(AppleMusicSearchRoot.self, from: data)
-            debugPrint("Decoded!")
+            self.spotifySearchJSON = try JSONDecoder().decode(SpotifySongSearchRoot.self, from: data)
         } catch {
             debugPrint("Error loading \(url): \(String(describing: error))")
         }
+    }
+    
+    private func generateLink(uri: String) -> String {
+        return "https://open.spotify.com/track/\(uri.suffix(from: uri.index(after: uri.lastIndex(of: ":")!)))"
     }
     
     // removes items in parentheses and after dashes, adds important search terms like remixes and deluxe editions
@@ -135,19 +123,22 @@ class AppleMusicSongData {
         
         if (forSearching) {
             if (title.contains("Remix") && !clean.contains("Remix")) {
-                clean.append(contentsOf: "+remix")
+                clean.append(contentsOf: " remix")
             }
             if (title.contains("Deluxe") && !clean.contains("Deluxe")) {
-                clean.append(contentsOf: "+deluxe")
+                clean.append(contentsOf: " deluxe")
             }
             if (title.contains("Acoustic") && !clean.contains("Acoustic")) {
-                clean.append(contentsOf: "+acoustic")
+                clean.append(contentsOf: " acoustic")
             }
             if (title.contains("Demo") && !clean.contains("Demo")) {
-                clean.append(contentsOf: "+demo")
+                clean.append(contentsOf: " demo")
+            }
+            if (title.contains("Radio") && !clean.contains("Radio")) {
+                clean.append(contentsOf: "+radio")
             }
             if (title.contains("Edit") && !title.contains("Edition") && !clean.contains("Edit")) {
-                clean.append(contentsOf: "+edit")
+                clean.append(contentsOf: " edit")
             }
             debugPrint(clean)
         }
@@ -173,23 +164,25 @@ class AppleMusicSongData {
         return clean
     }
     
-    // TODO: Needs to differentiate between songs released as a single vs those released with the album. Right now it tends to only pick the album version
     func parseToObject(songRef: Song?) {
-        print("Parsing...")
-        if let processed = appleMusicSongJSON {
-            if (processed.data.endIndex >= 1) { // should prevent crashes when there are no results. Needs further testing
-                let attributes = processed.data[processed.data.endIndex - 1].attributes
-                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
-                song?.setTranslatedURL(link: attributes.url)
+        if let processed = spotifySongJSON {
+            var artists: [String] = []
+            for i in processed.artists {
+                artists.append(i.name)
             }
-        } else if let processed = appleMusicSearchJSON {
+            song = Song(title: processed.name, ISRC: processed.external_ids.isrc, artists: artists, album: processed.album.name)
+        } else if let processed = spotifySearchJSON {
             var i = 0
             var matchFound: Bool = false
             var closeMatch: Int? = nil
             var lookForCloseMatch: Bool = true
-            while processed.results.songs.data.count > i && !matchFound {
-                let attributes = processed.results.songs.data[i].attributes
-                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
+            while processed.tracks.items.count > i && !matchFound {
+                let attributes = processed.tracks.items[i]
+                var artists: [String] = []
+                for j in attributes.artists {
+                    artists.append(j.name)
+                }
+                song = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name)
                 debugPrint(song!.getISRC())
                 debugPrint(songRef!.getISRC())
                 debugPrint(song!.getArtists()[0])
@@ -212,20 +205,24 @@ class AppleMusicSongData {
             }
             
             if matchFound {
-                let attributes = processed.results.songs.data[i - 1].attributes
-                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
+                let attributes = processed.tracks.items[i - 1]
+                var artists: [String] = []
+                for i in attributes.artists {
+                    artists.append(i.name)
+                }
+                song = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name)
                 debugPrint("Found an exact match")
-                song?.setTranslatedURL(link: attributes.url)
-                print("URL: \(song!.getTranslatedURLasString())")
-            } else if (!matchFound && closeMatch != nil) {
-                let attributes = processed.results.songs.data[closeMatch!].attributes
-                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
+                song?.setTranslatedURL(link: generateLink(uri: attributes.uri))
+            } else if (closeMatch != nil) {
+                let attributes = processed.tracks.items[closeMatch!]
+                var artists: [String] = []
+                for i in attributes.artists {
+                    artists.append(i.name)
+                }
+                song = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name)
                 debugPrint("Found a close match")
-                song?.setTranslatedURL(link: attributes.url)
-            } else {
-                debugPrint("No matches")
+                song?.setTranslatedURL(link: generateLink(uri: attributes.uri))
             }
         }
     }
 }
-
