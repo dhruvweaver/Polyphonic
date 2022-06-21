@@ -22,11 +22,6 @@ class SongData {
     
     var songData: Song? = nil
     
-    private var spotifyAccessJSON: SpotifyAccessData? = nil
-    struct SpotifyAccessData: Decodable {
-        let access_token: String
-    }
-    
     // identifies link's source platform
     private func findPlatform() {
         let linkString = starterLink!.absoluteString
@@ -37,10 +32,13 @@ class SongData {
         }
     }
     
-    private func getSongID() -> String {
+    private func getSongID(platform: Platform) -> String {
         var id: String = ""
         
-        if (starterSource == Platform.appleMusic) {
+        if (platform == Platform.spotify) {
+            // gets Spotify songID from provided link. This is located at the end of a Spotify link
+            id = starterLink!.lastPathComponent
+        }else if (platform == Platform.appleMusic) {
             let linkStr = starterLink!.absoluteString
             if let index = linkStr.lastIndex(of: "=") {
                 // gets id from end of link string
@@ -50,90 +48,74 @@ class SongData {
         return id
     }
     
-    // TODO: move to SpotifySongData class
-    private func getSpotifyAuthKey() async -> String? {
-        let url = URL(string: "https://accounts.spotify.com/api/token")!
-        let urlSession = URLSession.shared
-        let spotifyClientString = (spotifyClientID + ":" + spotifyClientSecret).toBase64()
-        
-        var request = URLRequest(url: url)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("Basic \(spotifyClientString)", forHTTPHeaderField: "Authorization")
-        request.httpMethod = "POST"
-        let postString = "grant_type=client_credentials"
-        request.httpBody = postString.data(using: String.Encoding.utf8)
-        
-        do {
-            let (data, _) = try await urlSession.data(for: request)
-            spotifyAccessJSON = try JSONDecoder().decode(SpotifyAccessData.self, from: data)
-        } catch {
-            debugPrint("Error loading \(url): \(String(describing: error))")
+    private func translateSpotifyToAppleMusic() async -> String? {
+        var translatedLink: String? = nil
+        print("Link is from Spotify")
+        // Spotify API call can be made with the Spotify ID, get song ID
+        let spotifyID = getSongID(platform: Platform.spotify)
+        // create SpotifySongData object
+        let spotify = SpotifySongData(songID: spotifyID)
+        // create song object from HTTP request
+        await spotify.getSpotifySongDataByID()
+        spotify.parseToObject(songRef: nil)
+        // if all goes well, continue to translation
+        if let spotifySong = spotify.song {
+            songData = Song(title: spotifySong.getTitle(), ISRC: spotifySong.getISRC(), artists: spotifySong.getArtists(), album: spotifySong.getAlbum())
+            // create AppleMusicSongData object
+            let appleMusic = AppleMusicSongData(songID: nil)
+            // this function will talk to the Apple Music API, it requires already known song data
+            await appleMusic.getAppleMusicSongDataBySearch(songRef: spotifySong)
+            appleMusic.parseToObject(songRef: spotifySong)
+            if let translatedSongData = appleMusic.song {
+                debugPrint("Spotify Artist: \(spotifySong.getArtists()[0])")
+                debugPrint("Apple   Artist: \(translatedSongData.getArtists()[0])")
+                // ensure that the translated song matches the original before returning a link -- NOT DOING THAT ANYMORE. MAY NEED TO BRING IT BACK
+                translatedLink = translatedSongData.getTranslatedURLasString()
+            }
         }
         
-        var accessKey: String? = nil
         
-        if let processed = spotifyAccessJSON {
-            accessKey = processed.access_token
-        }
-        
-        return accessKey
+        return translatedLink
     }
     
-    // TODO: refactor parts of this funciton; too convoluted
+    private func translateAppleMusicToSpotify() async -> String? {
+        var translatedLink: String? = nil
+        print("Link is from Apple Music")
+        // Apple Music API call will be made with the Apple Music ID, get song ID
+        let appleMusicID = getSongID(platform: Platform.appleMusic)
+        // create AppleMusicSongData object
+        let appleMusic = AppleMusicSongData(songID: appleMusicID)
+        await appleMusic.getAppleMusicSongDataByID()
+        appleMusic.parseToObject(songRef: nil)
+        // if all goes well, continue to translation
+        if let appleMusicSong = appleMusic.song {
+            // create SpotifySongData object
+            let spotify = SpotifySongData(songID: nil)
+            // this function will talk to the Spotify API, it requires already known song data
+            await spotify.getSpotifySongDatayBySearch(songRef: appleMusicSong)
+            spotify.parseToObject(songRef: appleMusicSong)
+            if let translatedSongData = spotify.song {
+                debugPrint("Spotify Artist: \(translatedSongData.getArtists()[0])")
+                debugPrint("Apple   Artist: \(appleMusicSong.getArtists()[0])")
+                // ensure that the translated song matches the original before returning a link -- NOT DOING THAT ANYMORE. MAY NEED TO BRING IT BACK
+                translatedLink = translatedSongData.getTranslatedURLasString()
+            }
+        }
+        
+        return translatedLink
+    }
+    
     private func findTranslatedLink() async -> String? {
         var output: String? = nil
         // first identify which platform the link starts with
         findPlatform()
         
-        // get Apple Music link from Spotify link
         if (starterSource == Platform.spotify) {
-            print("Link is from Spotify")
-            // Spotify API call can be made with the Spotify ID. This is located at the end of a Spotify link
-            let spotifyID = starterLink!.lastPathComponent
-            // get authorization key from Spotify
-            if let authKey = await getSpotifyAuthKey() {
-                let spotify = SpotifySongData(songID: spotifyID, authKey: authKey)
-                // create song object from HTTP request
-                await spotify.getSpotifySongDataByID()
-                spotify.parseToObject(songRef: nil)
-                // if all goes well, continue to translation
-                if let spotifySong = spotify.song {
-                    songData = Song(title: spotifySong.getTitle(), ISRC: spotifySong.getISRC(), artists: spotifySong.getArtists(), album: spotifySong.getAlbum())
-                    
-                    let appleMusic = AppleMusicSongData(songID: nil)
-                    // this function will talk to the Apple Music API, it requires already known song data
-                    await appleMusic.getAppleMusicSongDataBySearch(songRef: spotifySong)
-                    appleMusic.parseToObject(songRef: spotifySong)
-                    if let translatedSongData = appleMusic.song {
-                        debugPrint("Spotify Artist: \(spotifySong.getArtists()[0])")
-                        debugPrint("Apple   Artist: \(translatedSongData.getArtists()[0])")
-                        // ensure that the translated song matches the original before returning a link -- NOT DOING THAT ANYMORE. MAY NEED TO BRING IT BACK
-                        output = translatedSongData.getTranslatedURLasString()
-                    }
-                }
-            }
-        } else if (starterSource == Platform.appleMusic) { // get Spotify link from Apple Music link
-            // Apple Music API call will be made with the Apple Music ID
-            let appleMusicID = getSongID()
-            let appleMusic = AppleMusicSongData(songID: appleMusicID)
-            await appleMusic.getAppleMusicSongDataByID()
-            appleMusic.parseToObject(songRef: nil)
-            // if all goes well, continue to translation
-            if let appleMusicSong = appleMusic.song {
-                // get authorization key from Spotify
-                if let authKey = await getSpotifyAuthKey() {
-                    let spotify = SpotifySongData(songID: nil, authKey: authKey)
-                    // this function will talk to the Spotify API, it requires already known song data
-                    await spotify.getSpotifySOngDatayBySearch(songRef: appleMusicSong)
-                    spotify.parseToObject(songRef: appleMusicSong)
-                    if let translatedSongData = spotify.song {
-                        debugPrint("Spotify Artist: \(translatedSongData.getArtists()[0])")
-                        debugPrint("Apple   Artist: \(appleMusicSong.getArtists()[0])")
-                        // ensure that the translated song matches the original before returning a link -- NOT DOING THAT ANYMORE. MAY NEED TO BRING IT BACK
-                        output = translatedSongData.getTranslatedURLasString()
-                    }
-                }
-            }
+            // get Apple Music link from Spotify link
+            output = await translateSpotifyToAppleMusic()
+        } else if (starterSource == Platform.appleMusic) {
+            // get Spotify link from Apple Music link
+            output = await translateAppleMusicToSpotify()
         }
         
         return output
