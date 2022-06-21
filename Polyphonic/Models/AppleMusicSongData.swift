@@ -77,8 +77,8 @@ class AppleMusicSongData {
         var songStr = songRef.getTitle()
         songStr = songStr.replacingOccurrences(of: "(", with: "")
         songStr = songStr.replacingOccurrences(of: ")", with: "")
-        songStr = cleanSongTitle(title: songStr, forSearching: true).replacingOccurrences(of: " ", with: "+")
-        var albumStr = cleanSongTitle(title: songRef.getAlbum(), forSearching: true).replacingOccurrences(of: " ", with: "+")
+        songStr = cleanAppleMusicText(title: songStr, forSearching: true).replacingOccurrences(of: " ", with: "+")
+        var albumStr = cleanAppleMusicText(title: songRef.getAlbum(), forSearching: true).replacingOccurrences(of: " ", with: "+")
         albumStr = albumStr.replacingOccurrences(of: songStr, with: "")
         let artistStr = cleanArtistName(name: songRef.getArtists()[0], forSearching: true).replacingOccurrences(of: " ", with: "+")
         debugPrint("Song: \(songStr)")
@@ -106,75 +106,6 @@ class AppleMusicSongData {
         }
     }
     
-    // removes items in parentheses and after dashes, adds important search terms like remixes and deluxe editions
-    private func cleanSongTitle(title: String, forSearching: Bool) -> String {
-        var clean = title
-        clean = clean.replacingOccurrences(of: " - ", with: " * ")
-        clean = clean.replacingOccurrences(of: "+-+", with: " * ")
-        if let indDash = clean.firstIndex(of: "*") {
-            clean = String(clean[clean.startIndex...clean.index(indDash, offsetBy: -2)])
-        }
-        clean = clean.replacingOccurrences(of: "+", with: " ")
-        clean = clean.replacingOccurrences(of: "-", with: "+")
-        if let indParen = clean.firstIndex(of: "(") {
-            clean = String(clean[clean.startIndex...clean.index(indParen, offsetBy: -2)])
-        }
-        if let indColon = clean.firstIndex(of: ":") {
-            clean = String(clean[clean.startIndex...clean.index(indColon, offsetBy: -2)])
-        }
-        
-        // TODO: replace with REGEX
-        clean = clean.replacingOccurrences(of: "/", with: "")
-        clean = clean.replacingOccurrences(of: "\\", with: "")
-        clean = clean.replacingOccurrences(of: "'", with: "")
-        clean = clean.replacingOccurrences(of: "\"", with: "")
-        clean = clean.replacingOccurrences(of: ",", with: "")
-        clean = clean.replacingOccurrences(of: ". ", with: " ")
-        clean = clean.replacingOccurrences(of: " & ", with: " ")
-        
-        if (forSearching) {
-            if (title.contains("Remix") && !clean.contains("Remix")) {
-                clean.append(contentsOf: "+remix")
-            }
-            if (title.contains("Deluxe") && !clean.contains("Deluxe")) {
-                clean.append(contentsOf: "+deluxe")
-            }
-            if (title.contains("Acoustic") && !clean.contains("Acoustic")) {
-                clean.append(contentsOf: "+acoustic")
-            }
-            if (title.contains("Demo") && !clean.contains("Demo")) {
-                clean.append(contentsOf: "+demo")
-            }
-            if (title.contains("Radio") && !clean.contains("Radio")) {
-                clean.append(contentsOf: "+radio")
-            }
-            if (title.contains("Edit") && !title.contains("Edition") && !clean.contains("Edit")) {
-                clean.append(contentsOf: "+edit")
-            }
-            debugPrint(clean)
-        }
-        
-        clean = clean.lowercased()
-        
-        return clean
-    }
-    
-    // removes ampersands and dashes in artist names to simplify search and reduce errors
-    private func cleanArtistName(name: String, forSearching: Bool) -> String {
-        var clean = name
-        if (forSearching) {
-            clean = clean.replacingOccurrences(of: "-", with: "+")
-        }
-        clean = clean.replacingOccurrences(of: " & ", with: "*")
-        if let indSep = clean.firstIndex(of: "*") {
-            clean = String(clean[clean.startIndex...clean.index(indSep, offsetBy: -1)])
-        }
-        
-        clean = clean.lowercased()
-        
-        return clean
-    }
-    
     // TODO: Needs to differentiate between songs released as a single vs those released with the album. Right now it tends to only pick the album version
     func parseToObject(songRef: Song?) {
         print("Parsing...")
@@ -186,7 +117,7 @@ class AppleMusicSongData {
             }
         } else if let processed = appleMusicSearchJSON {
             var i = 0
-            var matchFound: Bool = false
+            var matchFound: Bool! = false
             var closeMatch: Int? = nil
             var lookForCloseMatch: Bool = true
             while processed.results.songs.data.count > i && !matchFound {
@@ -203,7 +134,7 @@ class AppleMusicSongData {
                 if (song?.getISRC() == songRef!.getISRC()) {
                     matchFound = true
                     // if there is not an exact match, look for the next best match. If there are still alternatives, keep looking for an exact match
-                } else if (lookForCloseMatch && (((song?.getAlbum() == songRef!.getAlbum() || cleanSongTitle(title: (song?.getAlbum())!, forSearching: false) == cleanSongTitle(title: songRef!.getAlbum(), forSearching: false)) && cleanSongTitle(title: (song?.getTitle())!, forSearching: false) == cleanSongTitle(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
+                } else if (lookForCloseMatch && (((song?.getAlbum() == songRef!.getAlbum() || cleanAppleMusicText(title: (song?.getAlbum())!, forSearching: false) == cleanAppleMusicText(title: songRef!.getAlbum(), forSearching: false)) && cleanAppleMusicText(title: (song?.getTitle())!, forSearching: false) == cleanAppleMusicText(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
                     debugPrint("Marked as close match")
                     // bookmark and come back to this one if nothing else matches
                     closeMatch = i

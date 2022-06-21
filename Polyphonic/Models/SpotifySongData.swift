@@ -88,10 +88,10 @@ class SpotifySongData {
             sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
             let urlSession = URLSession(configuration: sessionConfig)
             do {
-                let (data, _) = try await urlSession.data(from: url)
-                //            if let httpResponse = response as? HTTPURLResponse {
-                //                print(httpResponse.statusCode)
-                //            }
+                let (data, response) = try await urlSession.data(from: url)
+                if let httpResponse = response as? HTTPURLResponse {
+                    print(httpResponse.statusCode)
+                }
                 self.spotifySongJSON = try JSONDecoder().decode(SpotifySongDataRoot.self, from: data)
             } catch {
                 debugPrint("Error loading \(url): \(String(describing: error))")
@@ -101,7 +101,7 @@ class SpotifySongData {
     
     func getSpotifySongDatayBySearch(songRef: Song) async {
         var songStr = songRef.getTitle()
-        songStr = cleanSongTitle(title: songStr, forSearching: true)
+        songStr = cleanSpotifyText(title: songStr, forSearching: true)
         let artistStr = songRef.getArtists()[0]
         
         let searchParams = "track:\(songStr) artist:\(artistStr)&type=track"
@@ -126,78 +126,6 @@ class SpotifySongData {
         }
     }
     
-    private func generateLink(uri: String) -> String {
-        return "https://open.spotify.com/track/\(uri.suffix(from: uri.index(after: uri.lastIndex(of: ":")!)))"
-    }
-    
-    // removes items in parentheses and after dashes, adds important search terms like remixes and deluxe editions
-    private func cleanSongTitle(title: String, forSearching: Bool) -> String {
-        var clean = title
-        clean = clean.replacingOccurrences(of: " - ", with: " * ")
-        clean = clean.replacingOccurrences(of: "+-+", with: " * ")
-        if let indDash = clean.firstIndex(of: "*") {
-            clean = String(clean[clean.startIndex...clean.index(indDash, offsetBy: -2)])
-        }
-        clean = clean.replacingOccurrences(of: "+", with: " ")
-        clean = clean.replacingOccurrences(of: "-", with: "+")
-        if let indParen = clean.firstIndex(of: "(") {
-            clean = String(clean[clean.startIndex...clean.index(indParen, offsetBy: -2)])
-        }
-        if let indColon = clean.firstIndex(of: ":") {
-            clean = String(clean[clean.startIndex...clean.index(indColon, offsetBy: -2)])
-        }
-        
-        clean = clean.replacingOccurrences(of: "/", with: "")
-        clean = clean.replacingOccurrences(of: "\\", with: "")
-        clean = clean.replacingOccurrences(of: "'", with: "")
-        clean = clean.replacingOccurrences(of: "\"", with: "")
-        clean = clean.replacingOccurrences(of: ",", with: "")
-        clean = clean.replacingOccurrences(of: ". ", with: " ")
-        clean = clean.replacingOccurrences(of: " & ", with: " ")
-        
-        if (forSearching) {
-            if (title.contains("Remix") && !clean.contains("Remix")) {
-                clean.append(contentsOf: " remix")
-            }
-            if (title.contains("Deluxe") && !clean.contains("Deluxe")) {
-                clean.append(contentsOf: " deluxe")
-            }
-            if (title.contains("Acoustic") && !clean.contains("Acoustic")) {
-                clean.append(contentsOf: " acoustic")
-            }
-            if (title.contains("Demo") && !clean.contains("Demo")) {
-                clean.append(contentsOf: " demo")
-            }
-            if (title.contains("Radio") && !clean.contains("Radio")) {
-                clean.append(contentsOf: "+radio")
-            }
-            if (title.contains("Edit") && !title.contains("Edition") && !clean.contains("Edit")) {
-                clean.append(contentsOf: " edit")
-            }
-            debugPrint(clean)
-        }
-        
-        clean = clean.lowercased()
-        
-        return clean
-    }
-    
-    // removes ampersands and dashes in artist names to simplify search and reduce errors
-    private func cleanArtistName(name: String, forSearching: Bool) -> String {
-        var clean = name
-        if (forSearching) {
-            clean = clean.replacingOccurrences(of: "-", with: "+")
-        }
-        clean = clean.replacingOccurrences(of: " & ", with: "*")
-        if let indSep = clean.firstIndex(of: "*") {
-            clean = String(clean[clean.startIndex...clean.index(indSep, offsetBy: -1)])
-        }
-        
-        clean = clean.lowercased()
-        
-        return clean
-    }
-    
     func parseToObject(songRef: Song?) {
         if let processed = spotifySongJSON {
             var artists: [String] = []
@@ -207,7 +135,7 @@ class SpotifySongData {
             song = Song(title: processed.name, ISRC: processed.external_ids.isrc, artists: artists, album: processed.album.name)
         } else if let processed = spotifySearchJSON {
             var i = 0
-            var matchFound: Bool = false
+            var matchFound: Bool! = false
             var closeMatch: Int? = nil
             var lookForCloseMatch: Bool = true
             while processed.tracks.items.count > i && !matchFound {
@@ -227,7 +155,7 @@ class SpotifySongData {
                 // if there is an exact match with the ISRC, then the search can stop
                 if (song?.getISRC() == songRef!.getISRC()) {
                     matchFound = true
-                } else if (lookForCloseMatch && !(song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSongTitle(title: (song?.getAlbum())!, forSearching: false) == cleanSongTitle(title: songRef!.getAlbum(), forSearching: false)) && cleanSongTitle(title: (song?.getTitle())!, forSearching: false) == cleanSongTitle(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
+                } else if (lookForCloseMatch && !(song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) && cleanSpotifyText(title: (song?.getTitle())!, forSearching: false) == cleanSpotifyText(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
                     debugPrint("Found close match")
                     // bookmark and come back to this one if nothing else matches
                     closeMatch = i
@@ -259,4 +187,8 @@ class SpotifySongData {
             }
         }
     }
+}
+
+private func generateLink(uri: String) -> String {
+    return "https://open.spotify.com/track/\(uri.suffix(from: uri.index(after: uri.lastIndex(of: ":")!)))"
 }
