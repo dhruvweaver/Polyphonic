@@ -38,7 +38,7 @@ class SongData {
         if (platform == Platform.spotify) {
             // gets Spotify songID from provided link. This is located at the end of a Spotify link
             id = starterLink!.lastPathComponent
-        }else if (platform == Platform.appleMusic) {
+        } else if (platform == Platform.appleMusic) {
             let linkStr = starterLink!.absoluteString
             if let index = linkStr.lastIndex(of: "=") {
                 // gets id from end of link string
