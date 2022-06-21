@@ -70,7 +70,7 @@ class SpotifySongData {
             debugPrint("Error loading \(url): \(String(describing: error))")
         }
         
-        private var accessKey: String? = nil
+        var accessKey: String? = nil
         
         if let processed = spotifyAccessJSON {
             accessKey = processed.access_token
