@@ -1,6 +1,6 @@
 //
 //  SpotifySongData.swift
-//  MusicLinkApp
+//  Polyphonic
 //
 //  Created by Dhruv Weaver on 6/12/22.
 //

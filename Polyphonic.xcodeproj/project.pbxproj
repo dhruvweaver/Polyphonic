@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00918A402854E99900C0B74E /* MusicLinkAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A3F2854E99900C0B74E /* MusicLinkAppApp.swift */; };
+		00918A402854E99900C0B74E /* PolyphonicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A3F2854E99900C0B74E /* PolyphonicApp.swift */; };
 		00918A422854E99900C0B74E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A412854E99900C0B74E /* ContentView.swift */; };
 		00918A442854E99B00C0B74E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00918A432854E99B00C0B74E /* Assets.xcassets */; };
 		00918A472854E99B00C0B74E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00918A462854E99B00C0B74E /* Preview Assets.xcassets */; };
@@ -21,7 +21,7 @@
 
 /* Begin PBXFileReference section */
 		00918A3C2854E99900C0B74E /* Polyphonic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Polyphonic.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		00918A3F2854E99900C0B74E /* MusicLinkAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MusicLinkAppApp.swift; path = Polyphonic/MusicLinkAppApp.swift; sourceTree = "<group>"; };
+		00918A3F2854E99900C0B74E /* PolyphonicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PolyphonicApp.swift; path = Polyphonic/PolyphonicApp.swift; sourceTree = "<group>"; };
 		00918A412854E99900C0B74E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = Polyphonic/ContentView.swift; sourceTree = "<group>"; };
 		00918A432854E99B00C0B74E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Polyphonic/Assets.xcassets; sourceTree = "<group>"; };
 		00918A462854E99B00C0B74E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Preview Assets.xcassets"; path = "Polyphonic/Preview Content/Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				00918A4D2854EFF600C0B74E /* Models */,
-				00918A3F2854E99900C0B74E /* MusicLinkAppApp.swift */,
+				00918A3F2854E99900C0B74E /* PolyphonicApp.swift */,
 				00918A412854E99900C0B74E /* ContentView.swift */,
 				00918A432854E99B00C0B74E /* Assets.xcassets */,
 				00918A452854E99B00C0B74E /* Preview Content */,
@@ -169,7 +169,7 @@
 				00918A4F2854F03B00C0B74E /* Song.swift in Sources */,
 				00918A422854E99900C0B74E /* ContentView.swift in Sources */,
 				00918A532854F5A300C0B74E /* SongData.swift in Sources */,
-				00918A402854E99900C0B74E /* MusicLinkAppApp.swift in Sources */,
+				00918A402854E99900C0B74E /* PolyphonicApp.swift in Sources */,
 				00CD71ED28564D2100159B04 /* SpotifySongData.swift in Sources */,
 				00CD71EF2856718200159B04 /* AppleMusicSongData.swift in Sources */,
 			);
