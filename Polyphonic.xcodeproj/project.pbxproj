@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		005D1E7C2863746900D9756C /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D1E7B2863746900D9756C /* ShareViewController.swift */; };
+		005D1E832863746900D9756C /* LinkShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 005D1E792863746900D9756C /* LinkShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		005D1E882863748E00D9756C /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AD80E328624E2F000CFA92 /* Utilities.swift */; };
+		005D1E892863748E00D9756C /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A4E2854F03B00C0B74E /* Song.swift */; };
+		005D1E8A2863748E00D9756C /* SongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A522854F5A300C0B74E /* SongData.swift */; };
+		005D1E8B2863748E00D9756C /* Base64Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5628559D4300C0B74E /* Base64Encode.swift */; };
+		005D1E8C2863748E00D9756C /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5A2855AB4B00C0B74E /* Keys.swift */; };
+		005D1E8D2863748E00D9756C /* AppleMusicSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EE2856718200159B04 /* AppleMusicSongData.swift */; };
+		005D1E8E2863748E00D9756C /* SpotifySongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EC28564D2100159B04 /* SpotifySongData.swift */; };
+		005D1E90286374C800D9756C /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D1E8F286374C800D9756C /* ShareView.swift */; };
 		00918A402854E99900C0B74E /* PolyphonicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A3F2854E99900C0B74E /* PolyphonicApp.swift */; };
 		00918A422854E99900C0B74E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A412854E99900C0B74E /* ContentView.swift */; };
 		00918A442854E99B00C0B74E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00918A432854E99B00C0B74E /* Assets.xcassets */; };
@@ -20,7 +30,35 @@
 		00CD71EF2856718200159B04 /* AppleMusicSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EE2856718200159B04 /* AppleMusicSongData.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		005D1E812863746900D9756C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00918A342854E99900C0B74E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 005D1E782863746900D9756C;
+			remoteInfo = LinkShare;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		005D1E842863746900D9756C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				005D1E832863746900D9756C /* LinkShare.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		005D1E792863746900D9756C /* LinkShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LinkShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		005D1E7B2863746900D9756C /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		005D1E802863746900D9756C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		005D1E8F286374C800D9756C /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		00918A3C2854E99900C0B74E /* Polyphonic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Polyphonic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00918A3F2854E99900C0B74E /* PolyphonicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PolyphonicApp.swift; path = Polyphonic/PolyphonicApp.swift; sourceTree = "<group>"; };
 		00918A412854E99900C0B74E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = Polyphonic/ContentView.swift; sourceTree = "<group>"; };
@@ -36,6 +74,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		005D1E762863746900D9756C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00918A392854E99900C0B74E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -46,10 +91,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		005D1E7A2863746900D9756C /* LinkShare */ = {
+			isa = PBXGroup;
+			children = (
+				005D1E7B2863746900D9756C /* ShareViewController.swift */,
+				005D1E802863746900D9756C /* Info.plist */,
+				005D1E8F286374C800D9756C /* ShareView.swift */,
+			);
+			path = LinkShare;
+			sourceTree = "<group>";
+		};
 		00918A332854E99900C0B74E = {
 			isa = PBXGroup;
 			children = (
 				00918A3E2854E99900C0B74E /* Polyphonic */,
+				005D1E7A2863746900D9756C /* LinkShare */,
 				00918A3D2854E99900C0B74E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				00918A3C2854E99900C0B74E /* Polyphonic.app */,
+				005D1E792863746900D9756C /* LinkShare.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,6 +157,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		005D1E782863746900D9756C /* LinkShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 005D1E872863746900D9756C /* Build configuration list for PBXNativeTarget "LinkShare" */;
+			buildPhases = (
+				005D1E752863746900D9756C /* Sources */,
+				005D1E762863746900D9756C /* Frameworks */,
+				005D1E772863746900D9756C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LinkShare;
+			productName = LinkShare;
+			productReference = 005D1E792863746900D9756C /* LinkShare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		00918A3B2854E99900C0B74E /* Polyphonic */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00918A4A2854E99B00C0B74E /* Build configuration list for PBXNativeTarget "Polyphonic" */;
@@ -107,10 +181,12 @@
 				00918A382854E99900C0B74E /* Sources */,
 				00918A392854E99900C0B74E /* Frameworks */,
 				00918A3A2854E99900C0B74E /* Resources */,
+				005D1E842863746900D9756C /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				005D1E822863746900D9756C /* PBXTargetDependency */,
 			);
 			name = Polyphonic;
 			productName = MusicLinkApp;
@@ -127,6 +203,9 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					005D1E782863746900D9756C = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
 					00918A3B2854E99900C0B74E = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
@@ -146,11 +225,19 @@
 			projectRoot = "";
 			targets = (
 				00918A3B2854E99900C0B74E /* Polyphonic */,
+				005D1E782863746900D9756C /* LinkShare */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		005D1E772863746900D9756C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00918A3A2854E99900C0B74E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -163,6 +250,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		005D1E752863746900D9756C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				005D1E8D2863748E00D9756C /* AppleMusicSongData.swift in Sources */,
+				005D1E892863748E00D9756C /* Song.swift in Sources */,
+				005D1E8C2863748E00D9756C /* Keys.swift in Sources */,
+				005D1E8B2863748E00D9756C /* Base64Encode.swift in Sources */,
+				005D1E882863748E00D9756C /* Utilities.swift in Sources */,
+				005D1E8A2863748E00D9756C /* SongData.swift in Sources */,
+				005D1E7C2863746900D9756C /* ShareViewController.swift in Sources */,
+				005D1E90286374C800D9756C /* ShareView.swift in Sources */,
+				005D1E8E2863748E00D9756C /* SpotifySongData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00918A382854E99900C0B74E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -181,7 +284,65 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		005D1E822863746900D9756C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 005D1E782863746900D9756C /* LinkShare */;
+			targetProxy = 005D1E812863746900D9756C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		005D1E852863746900D9756C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LinkShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LinkShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic.LinkShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		005D1E862863746900D9756C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LinkShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LinkShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic.LinkShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		00918A482854E99B00C0B74E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -299,9 +460,11 @@
 		00918A4B2854E99B00C0B74E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Polyphonic/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
 				ENABLE_PREVIEWS = YES;
@@ -329,9 +492,11 @@
 		00918A4C2854E99B00C0B74E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Polyphonic/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
 				ENABLE_PREVIEWS = YES;
@@ -359,6 +524,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		005D1E872863746900D9756C /* Build configuration list for PBXNativeTarget "LinkShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				005D1E852863746900D9756C /* Debug */,
+				005D1E862863746900D9756C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		00918A372854E99900C0B74E /* Build configuration list for PBXProject "Polyphonic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
