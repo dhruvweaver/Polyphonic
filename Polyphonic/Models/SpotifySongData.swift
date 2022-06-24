@@ -99,12 +99,17 @@ class SpotifySongData {
         }
     }
     
-    func getSpotifySongDatayBySearch(songRef: Song) async {
+    func getSpotifySongDataBySearch(songRef: Song, narrowSearch: Bool) async {
         var songStr = songRef.getTitle()
         songStr = cleanSpotifyText(title: songStr, forSearching: true)
         let artistStr = songRef.getArtists()[0]
         
-        let searchParams = "track:\(songStr) artist:\(artistStr)&type=track"
+        var searchParams: String
+        if (narrowSearch) {
+            searchParams = "track:\(songStr) artist:\(artistStr)&type=track"
+        } else {
+            searchParams = "track:\(songStr)&type=track"
+        }
         
         let url = URL(string: "https://api.spotify.com/v1/search?q=\(searchParams.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)")!
         debugPrint("Querying: \(url.absoluteString)")
@@ -126,7 +131,7 @@ class SpotifySongData {
         }
     }
     
-    func parseToObject(songRef: Song?) {
+    func parseToObject(songRef: Song?) -> Bool {
         if let processed = spotifySongJSON {
             var artists: [String] = []
             for i in processed.artists {
@@ -134,11 +139,20 @@ class SpotifySongData {
             }
             song = Song(title: processed.name, ISRC: processed.external_ids.isrc, artists: artists, album: processed.album.name)
         } else if let processed = spotifySearchJSON {
+            let resultsCount = processed.tracks.items.count
+            debugPrint("Number of results: \(resultsCount)")
+            // handle case where search is too narrow
+            if (resultsCount == 0) {
+                debugPrint("Spotify search too narrow")
+                // broaden search, remove artist parameter
+                return false
+            }
+            
             var i = 0
             var matchFound: Bool! = false
             var closeMatch: Int? = nil
             var lookForCloseMatch: Bool = true
-            while processed.tracks.items.count > i && !matchFound {
+            while resultsCount > i && !matchFound {
                 let attributes = processed.tracks.items[i]
                 var artists: [String] = []
                 for j in attributes.artists {
@@ -186,6 +200,8 @@ class SpotifySongData {
                 song?.setTranslatedURL(link: generateLink(uri: attributes.uri))
             }
         }
+        
+        return true
     }
 }
 

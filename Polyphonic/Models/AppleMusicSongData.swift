@@ -115,7 +115,11 @@ class AppleMusicSongData {
                 song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
                 song?.setTranslatedURL(link: attributes.url)
             }
-        } else if let processed = appleMusicSearchJSON {
+        } else if let processed = appleMusicSearchJSON {// handle case where search is too narrow
+            if (processed.results.songs.data.count == 0) {
+                debugPrint("Apple Music search too narrow")
+            }
+            
             var i = 0
             var matchFound: Bool! = false
             var closeMatch: Int? = nil
