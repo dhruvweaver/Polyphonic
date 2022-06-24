@@ -8,25 +8,19 @@
 import SwiftUI
 
 struct ShareView: View {
-    @State private var linkStr: String = ""
+    @ObservedObject var model: ShareModel
     @State private var linkOut: String = ""
     @State private var isLoading: Bool = false
     var body: some View {
+        let linkStr: String = model.link
         let songData = SongData()
         VStack(alignment: .center) {
             Text("Translate links between Apple Music and Spotify")
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
                 .padding(.bottom)
-            Button("Clear Input Link") {
-                linkStr = ""
-            }
             HStack(alignment: .center) {
-                TextField("Input Link", text: $linkStr)
-                    .textFieldStyle(.roundedBorder)
-                    .cornerRadius(10)
-                    .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
-                    .padding(.horizontal)
+                Text(linkStr)
             }
             if (!isLoading) {
                 Button("Translate") {
@@ -57,8 +51,10 @@ struct ShareView: View {
     }
 }
 
-struct ShareView_Previews: PreviewProvider {
-    static var previews: some View {
-        ShareView()
-    }
+class ShareModel: ObservableObject {
+    @Published var link: String
+
+        init(link: String) {
+            self.link = link
+        }
 }

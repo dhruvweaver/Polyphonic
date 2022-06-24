@@ -10,21 +10,21 @@ import Social
 import SwiftUI
 
 class CustomShareViewController: UIViewController {
-    @IBOutlet var container: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // 1: Set the background and call the function to create the navigation bar
-        self.view.backgroundColor = .systemGray6
+        self.view.backgroundColor = .systemBackground
         setupNavBar()
         
         super.viewDidLoad()
-        let childView = UIHostingController(rootView: ShareView())
-        addChild(childView)
-        childView.view.frame = container.bounds
-        container.addSubview(childView.view)
-        childView.didMove(toParent: self)
         
+        let shareView = ShareView(model: ShareModel(link: "https://open.spotify.com/track/1XT5kxg6Tk0ukCO2vBQN4v?si=96a82a114817481c"))
+//        let child = UIHostingController(rootView: TestView())
+        let child = UILabel()
+        child.text = "CustomShareViewController"
+        
+        self.view.addSubview(child)
     }
     
     //     2: Set the title and the navigation items
@@ -37,6 +37,23 @@ class CustomShareViewController: UIViewController {
     @objc private func cancelAction () {
         let error = NSError(domain: "some.bundle.identifier", code: 0, userInfo: [NSLocalizedDescriptionKey: "An error description"])
         extensionContext?.cancelRequest(withError: error)
+    }
+    
+    func isContentValid() -> Bool {
+        // Do validation of contentText and/or NSExtensionContext attachments here
+        return true
+    }
+    
+    func didSelectPost() {
+        // This is called after the user selects Post. Do the upload of contentText and/or NSExtensionContext attachments.
+        
+        // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
+        self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
+    }
+    
+    func configurationItems() -> [Any]! {
+        // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
+        return []
     }
 }
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000ACB6F2865FD1900AFD765 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000ACB6E2865FD1900AFD765 /* TestView.swift */; };
 		005D1E7C2863746900D9756C /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D1E7B2863746900D9756C /* ShareViewController.swift */; };
 		005D1E832863746900D9756C /* LinkShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 005D1E792863746900D9756C /* LinkShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		005D1E882863748E00D9756C /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AD80E328624E2F000CFA92 /* Utilities.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		000ACB6E2865FD1900AFD765 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		005D1E792863746900D9756C /* LinkShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LinkShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		005D1E7B2863746900D9756C /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		005D1E802863746900D9756C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				005D1E7B2863746900D9756C /* ShareViewController.swift */,
 				005D1E802863746900D9756C /* Info.plist */,
 				005D1E8F286374C800D9756C /* ShareView.swift */,
+				000ACB6E2865FD1900AFD765 /* TestView.swift */,
 			);
 			path = LinkShare;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 				005D1E8B2863748E00D9756C /* Base64Encode.swift in Sources */,
 				005D1E882863748E00D9756C /* Utilities.swift in Sources */,
 				005D1E8A2863748E00D9756C /* SongData.swift in Sources */,
+				000ACB6F2865FD1900AFD765 /* TestView.swift in Sources */,
 				005D1E7C2863746900D9756C /* ShareViewController.swift in Sources */,
 				005D1E90286374C800D9756C /* ShareView.swift in Sources */,
 				005D1E8E2863748E00D9756C /* SpotifySongData.swift in Sources */,
@@ -308,7 +312,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic.LinkShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -333,7 +337,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic.LinkShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -480,7 +484,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic;
 				PRODUCT_NAME = Polyphonic;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -512,7 +516,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.2;
+				MARKETING_VERSION = 0.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic;
 				PRODUCT_NAME = Polyphonic;
 				SWIFT_EMIT_LOC_STRINGS = YES;
