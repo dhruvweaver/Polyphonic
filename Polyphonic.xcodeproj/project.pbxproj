@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		000ACB6F2865FD1900AFD765 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000ACB6E2865FD1900AFD765 /* TestView.swift */; };
-		005D1E7C2863746900D9756C /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D1E7B2863746900D9756C /* ShareViewController.swift */; };
-		005D1E832863746900D9756C /* LinkShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 005D1E792863746900D9756C /* LinkShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		005D1E882863748E00D9756C /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AD80E328624E2F000CFA92 /* Utilities.swift */; };
-		005D1E892863748E00D9756C /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A4E2854F03B00C0B74E /* Song.swift */; };
-		005D1E8A2863748E00D9756C /* SongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A522854F5A300C0B74E /* SongData.swift */; };
-		005D1E8B2863748E00D9756C /* Base64Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5628559D4300C0B74E /* Base64Encode.swift */; };
-		005D1E8C2863748E00D9756C /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5A2855AB4B00C0B74E /* Keys.swift */; };
-		005D1E8D2863748E00D9756C /* AppleMusicSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EE2856718200159B04 /* AppleMusicSongData.swift */; };
-		005D1E8E2863748E00D9756C /* SpotifySongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EC28564D2100159B04 /* SpotifySongData.swift */; };
-		005D1E90286374C800D9756C /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D1E8F286374C800D9756C /* ShareView.swift */; };
 		00918A402854E99900C0B74E /* PolyphonicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A3F2854E99900C0B74E /* PolyphonicApp.swift */; };
 		00918A422854E99900C0B74E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A412854E99900C0B74E /* ContentView.swift */; };
 		00918A442854E99B00C0B74E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00918A432854E99B00C0B74E /* Assets.xcassets */; };
@@ -27,17 +16,28 @@
 		00918A5728559D4300C0B74E /* Base64Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5628559D4300C0B74E /* Base64Encode.swift */; };
 		00918A5B2855AB4B00C0B74E /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5A2855AB4B00C0B74E /* Keys.swift */; };
 		00AD80E428624E2F000CFA92 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AD80E328624E2F000CFA92 /* Utilities.swift */; };
+		00C35F5D28663CB40064C8C9 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C35F5C28663CB40064C8C9 /* ShareViewController.swift */; };
+		00C35F6028663CB40064C8C9 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00C35F5E28663CB40064C8C9 /* MainInterface.storyboard */; };
+		00C35F6428663CB40064C8C9 /* MusicShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 00C35F5A28663CB40064C8C9 /* MusicShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		00C35F6828663CEF0064C8C9 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D1E8F286374C800D9756C /* ShareView.swift */; };
+		00C35F6928663D360064C8C9 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A4E2854F03B00C0B74E /* Song.swift */; };
+		00C35F6A28663D390064C8C9 /* SongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A522854F5A300C0B74E /* SongData.swift */; };
+		00C35F6B28663D3E0064C8C9 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5A2855AB4B00C0B74E /* Keys.swift */; };
+		00C35F6C28663D410064C8C9 /* SpotifySongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EC28564D2100159B04 /* SpotifySongData.swift */; };
+		00C35F6D28663D440064C8C9 /* AppleMusicSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EE2856718200159B04 /* AppleMusicSongData.swift */; };
+		00C35F6E28663D470064C8C9 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AD80E328624E2F000CFA92 /* Utilities.swift */; };
+		00C35F6F28663D4A0064C8C9 /* Base64Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5628559D4300C0B74E /* Base64Encode.swift */; };
 		00CD71ED28564D2100159B04 /* SpotifySongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EC28564D2100159B04 /* SpotifySongData.swift */; };
 		00CD71EF2856718200159B04 /* AppleMusicSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EE2856718200159B04 /* AppleMusicSongData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		005D1E812863746900D9756C /* PBXContainerItemProxy */ = {
+		00C35F6228663CB40064C8C9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 00918A342854E99900C0B74E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 005D1E782863746900D9756C;
-			remoteInfo = LinkShare;
+			remoteGlobalIDString = 00C35F5928663CB40064C8C9;
+			remoteInfo = MusicShare;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -48,7 +48,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				005D1E832863746900D9756C /* LinkShare.appex in Embed App Extensions */,
+				00C35F6428663CB40064C8C9 /* MusicShare.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -56,10 +56,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		000ACB6E2865FD1900AFD765 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
-		005D1E792863746900D9756C /* LinkShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LinkShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		005D1E7B2863746900D9756C /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		005D1E802863746900D9756C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		005D1E8F286374C800D9756C /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		00918A3C2854E99900C0B74E /* Polyphonic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Polyphonic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00918A3F2854E99900C0B74E /* PolyphonicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PolyphonicApp.swift; path = Polyphonic/PolyphonicApp.swift; sourceTree = "<group>"; };
@@ -71,19 +67,23 @@
 		00918A5628559D4300C0B74E /* Base64Encode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base64Encode.swift; sourceTree = "<group>"; };
 		00918A5A2855AB4B00C0B74E /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		00AD80E328624E2F000CFA92 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		00C35F5A28663CB40064C8C9 /* MusicShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MusicShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		00C35F5C28663CB40064C8C9 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		00C35F5F28663CB40064C8C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		00C35F6128663CB40064C8C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00CD71EC28564D2100159B04 /* SpotifySongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifySongData.swift; sourceTree = "<group>"; };
 		00CD71EE2856718200159B04 /* AppleMusicSongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicSongData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		005D1E762863746900D9756C /* Frameworks */ = {
+		00918A392854E99900C0B74E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		00918A392854E99900C0B74E /* Frameworks */ = {
+		00C35F5728663CB40064C8C9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -93,22 +93,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		005D1E7A2863746900D9756C /* LinkShare */ = {
-			isa = PBXGroup;
-			children = (
-				005D1E7B2863746900D9756C /* ShareViewController.swift */,
-				005D1E802863746900D9756C /* Info.plist */,
-				005D1E8F286374C800D9756C /* ShareView.swift */,
-				000ACB6E2865FD1900AFD765 /* TestView.swift */,
-			);
-			path = LinkShare;
-			sourceTree = "<group>";
-		};
 		00918A332854E99900C0B74E = {
 			isa = PBXGroup;
 			children = (
 				00918A3E2854E99900C0B74E /* Polyphonic */,
-				005D1E7A2863746900D9756C /* LinkShare */,
+				00C35F5B28663CB40064C8C9 /* MusicShare */,
 				00918A3D2854E99900C0B74E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -117,7 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				00918A3C2854E99900C0B74E /* Polyphonic.app */,
-				005D1E792863746900D9756C /* LinkShare.appex */,
+				00C35F5A28663CB40064C8C9 /* MusicShare.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -157,26 +146,20 @@
 			path = Polyphonic/Models;
 			sourceTree = "<group>";
 		};
+		00C35F5B28663CB40064C8C9 /* MusicShare */ = {
+			isa = PBXGroup;
+			children = (
+				00C35F5C28663CB40064C8C9 /* ShareViewController.swift */,
+				005D1E8F286374C800D9756C /* ShareView.swift */,
+				00C35F5E28663CB40064C8C9 /* MainInterface.storyboard */,
+				00C35F6128663CB40064C8C9 /* Info.plist */,
+			);
+			path = MusicShare;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		005D1E782863746900D9756C /* LinkShare */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 005D1E872863746900D9756C /* Build configuration list for PBXNativeTarget "LinkShare" */;
-			buildPhases = (
-				005D1E752863746900D9756C /* Sources */,
-				005D1E762863746900D9756C /* Frameworks */,
-				005D1E772863746900D9756C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = LinkShare;
-			productName = LinkShare;
-			productReference = 005D1E792863746900D9756C /* LinkShare.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		00918A3B2854E99900C0B74E /* Polyphonic */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00918A4A2854E99B00C0B74E /* Build configuration list for PBXNativeTarget "Polyphonic" */;
@@ -189,12 +172,29 @@
 			buildRules = (
 			);
 			dependencies = (
-				005D1E822863746900D9756C /* PBXTargetDependency */,
+				00C35F6328663CB40064C8C9 /* PBXTargetDependency */,
 			);
 			name = Polyphonic;
 			productName = MusicLinkApp;
 			productReference = 00918A3C2854E99900C0B74E /* Polyphonic.app */;
 			productType = "com.apple.product-type.application";
+		};
+		00C35F5928663CB40064C8C9 /* MusicShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00C35F6728663CB40064C8C9 /* Build configuration list for PBXNativeTarget "MusicShare" */;
+			buildPhases = (
+				00C35F5628663CB40064C8C9 /* Sources */,
+				00C35F5728663CB40064C8C9 /* Frameworks */,
+				00C35F5828663CB40064C8C9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MusicShare;
+			productName = MusicShare;
+			productReference = 00C35F5A28663CB40064C8C9 /* MusicShare.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -206,10 +206,10 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
-					005D1E782863746900D9756C = {
+					00918A3B2854E99900C0B74E = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
-					00918A3B2854E99900C0B74E = {
+					00C35F5928663CB40064C8C9 = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
 				};
@@ -228,19 +228,12 @@
 			projectRoot = "";
 			targets = (
 				00918A3B2854E99900C0B74E /* Polyphonic */,
-				005D1E782863746900D9756C /* LinkShare */,
+				00C35F5928663CB40064C8C9 /* MusicShare */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		005D1E772863746900D9756C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		00918A3A2854E99900C0B74E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -250,26 +243,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		005D1E752863746900D9756C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
+		00C35F5828663CB40064C8C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				005D1E8D2863748E00D9756C /* AppleMusicSongData.swift in Sources */,
-				005D1E892863748E00D9756C /* Song.swift in Sources */,
-				005D1E8C2863748E00D9756C /* Keys.swift in Sources */,
-				005D1E8B2863748E00D9756C /* Base64Encode.swift in Sources */,
-				005D1E882863748E00D9756C /* Utilities.swift in Sources */,
-				005D1E8A2863748E00D9756C /* SongData.swift in Sources */,
-				000ACB6F2865FD1900AFD765 /* TestView.swift in Sources */,
-				005D1E7C2863746900D9756C /* ShareViewController.swift in Sources */,
-				005D1E90286374C800D9756C /* ShareView.swift in Sources */,
-				005D1E8E2863748E00D9756C /* SpotifySongData.swift in Sources */,
+				00C35F6028663CB40064C8C9 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
 		00918A382854E99900C0B74E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -286,67 +270,44 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		00C35F5628663CB40064C8C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00C35F6D28663D440064C8C9 /* AppleMusicSongData.swift in Sources */,
+				00C35F6928663D360064C8C9 /* Song.swift in Sources */,
+				00C35F6828663CEF0064C8C9 /* ShareView.swift in Sources */,
+				00C35F6A28663D390064C8C9 /* SongData.swift in Sources */,
+				00C35F6C28663D410064C8C9 /* SpotifySongData.swift in Sources */,
+				00C35F5D28663CB40064C8C9 /* ShareViewController.swift in Sources */,
+				00C35F6F28663D4A0064C8C9 /* Base64Encode.swift in Sources */,
+				00C35F6E28663D470064C8C9 /* Utilities.swift in Sources */,
+				00C35F6B28663D3E0064C8C9 /* Keys.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		005D1E822863746900D9756C /* PBXTargetDependency */ = {
+		00C35F6328663CB40064C8C9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 005D1E782863746900D9756C /* LinkShare */;
-			targetProxy = 005D1E812863746900D9756C /* PBXContainerItemProxy */;
+			target = 00C35F5928663CB40064C8C9 /* MusicShare */;
+			targetProxy = 00C35F6228663CB40064C8C9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		00C35F5E28663CB40064C8C9 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00C35F5F28663CB40064C8C9 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
-		005D1E852863746900D9756C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LinkShare/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = LinkShare;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 0.3.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic.LinkShare;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		005D1E862863746900D9756C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LinkShare/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = LinkShare;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 0.3.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic.LinkShare;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		00918A482854E99B00C0B74E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -525,18 +486,59 @@
 			};
 			name = Release;
 		};
+		00C35F6528663CB40064C8C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MusicShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MusicShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic.MusicShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		00C35F6628663CB40064C8C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MusicShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MusicShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic.MusicShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		005D1E872863746900D9756C /* Build configuration list for PBXNativeTarget "LinkShare" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				005D1E852863746900D9756C /* Debug */,
-				005D1E862863746900D9756C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		00918A372854E99900C0B74E /* Build configuration list for PBXProject "Polyphonic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -551,6 +553,15 @@
 			buildConfigurations = (
 				00918A4B2854E99B00C0B74E /* Debug */,
 				00918A4C2854E99B00C0B74E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00C35F6728663CB40064C8C9 /* Build configuration list for PBXNativeTarget "MusicShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00C35F6528663CB40064C8C9 /* Debug */,
+				00C35F6628663CB40064C8C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

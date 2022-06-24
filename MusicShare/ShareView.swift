@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct ShareView: View {
-    @ObservedObject var model: ShareModel
+    @State private var linkStr: String = "No link"
     @State private var linkOut: String = ""
     @State private var isLoading: Bool = false
     var body: some View {
-        let linkStr: String = model.link
         let songData = SongData()
         VStack(alignment: .center) {
             Text("Translate links between Apple Music and Spotify")
@@ -49,12 +48,4 @@ struct ShareView: View {
             }
         }
     }
-}
-
-class ShareModel: ObservableObject {
-    @Published var link: String
-
-        init(link: String) {
-            self.link = link
-        }
 }
