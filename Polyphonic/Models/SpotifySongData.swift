@@ -152,7 +152,7 @@ class SpotifySongData {
             var matchFound: Bool! = false
             var closeMatch: Int? = nil
             var lookForCloseMatch: Bool = true
-            while resultsCount > i && !matchFound {
+            while (resultsCount > i && !matchFound) {
                 let attributes = processed.tracks.items[i]
                 var artists: [String] = []
                 for j in attributes.artists {
