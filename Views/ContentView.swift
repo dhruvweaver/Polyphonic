@@ -18,8 +18,15 @@ struct ContentView: View {
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
                 .padding(.bottom)
-            Button("Clear Input Link") {
-                linkStr = ""
+            HStack(alignment: .center, spacing: 25.0) {
+                Button("Paste Link") {
+                    if let pasteStr = UIPasteboard.general.string {
+                        linkStr = pasteStr
+                    }
+                }
+                Button("Clear Link") {
+                    linkStr = ""
+                }
             }
             HStack(alignment: .center) {
                 TextField("Input Link", text: $linkStr)

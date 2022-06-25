@@ -60,7 +60,7 @@
 		005D1E8F286374C800D9756C /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		00918A3C2854E99900C0B74E /* Polyphonic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Polyphonic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00918A3F2854E99900C0B74E /* PolyphonicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PolyphonicApp.swift; path = Polyphonic/PolyphonicApp.swift; sourceTree = "<group>"; };
-		00918A412854E99900C0B74E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = Polyphonic/ContentView.swift; sourceTree = "<group>"; };
+		00918A412854E99900C0B74E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		00918A432854E99B00C0B74E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Polyphonic/Assets.xcassets; sourceTree = "<group>"; };
 		00918A462854E99B00C0B74E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "Preview Assets.xcassets"; path = "Polyphonic/Preview Content/Preview Assets.xcassets"; sourceTree = "<group>"; };
 		00918A4E2854F03B00C0B74E /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
@@ -115,10 +115,9 @@
 		00918A3E2854E99900C0B74E /* Polyphonic */ = {
 			isa = PBXGroup;
 			children = (
+				00C73DA22867ADE600B8596E /* Views */,
 				00918A4D2854EFF600C0B74E /* Models */,
 				00918A3F2854E99900C0B74E /* PolyphonicApp.swift */,
-				00918A412854E99900C0B74E /* ContentView.swift */,
-				005D1E8F286374C800D9756C /* ShareView.swift */,
 				00918A432854E99B00C0B74E /* Assets.xcassets */,
 				00918A452854E99B00C0B74E /* Preview Content */,
 			);
@@ -156,6 +155,15 @@
 				00C35F6128663CB40064C8C9 /* Info.plist */,
 			);
 			path = MusicShare;
+			sourceTree = "<group>";
+		};
+		00C73DA22867ADE600B8596E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				00918A412854E99900C0B74E /* ContentView.swift */,
+				005D1E8F286374C800D9756C /* ShareView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -491,6 +499,7 @@
 		00C35F6528663CB40064C8C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
@@ -516,6 +525,7 @@
 		00C35F6628663CB40064C8C9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
