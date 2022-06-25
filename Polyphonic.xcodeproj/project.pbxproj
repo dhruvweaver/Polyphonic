@@ -72,6 +72,7 @@
 		00C35F5C28663CB40064C8C9 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		00C35F5F28663CB40064C8C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		00C35F6128663CB40064C8C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00C73DA32867B9F000B8596E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = Polyphonic/Info.plist; sourceTree = "<group>"; };
 		00CD71EC28564D2100159B04 /* SpotifySongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifySongData.swift; sourceTree = "<group>"; };
 		00CD71EE2856718200159B04 /* AppleMusicSongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicSongData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,6 +116,7 @@
 		00918A3E2854E99900C0B74E /* Polyphonic */ = {
 			isa = PBXGroup;
 			children = (
+				00C73DA32867B9F000B8596E /* Info.plist */,
 				00C73DA22867ADE600B8596E /* Views */,
 				00918A4D2854EFF600C0B74E /* Models */,
 				00918A3F2854E99900C0B74E /* PolyphonicApp.swift */,
@@ -444,6 +446,7 @@
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Polyphonic/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -476,6 +479,7 @@
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Polyphonic/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

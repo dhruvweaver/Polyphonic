@@ -41,17 +41,17 @@ struct ShareView: View {
                     .progressViewStyle(CircularProgressViewStyle())
                     .padding(.vertical, 2.0)
             } else {
-//                Button("Share Link") {
-//                    let urlShare = linkOut
-//                    
-//                    let AV = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
-//                    
-//                    let scenes = UIApplication.shared.connectedScenes
-//                    let windowScene = scenes.first as? UIWindowScene
-//                    
-//                    windowScene?.keyWindow?.rootViewController?.present(AV, animated: true, completion: nil)
-//                }
-//                .padding(.top)
+                //                Button("Share Link") {
+                //                    let urlShare = linkOut
+                //
+                //                    let AV = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
+                //
+                //                    let scenes = UIApplication.shared.connectedScenes
+                //                    let windowScene = scenes.first as? UIWindowScene
+                //
+                //                    windowScene?.keyWindow?.rootViewController?.present(AV, animated: true, completion: nil)
+                //                }
+                //                .padding(.top)
             }
         }
     }

@@ -20,7 +20,18 @@ class ShareViewController: UIViewController {
                 print(urlStr)
             }
             
-            buildSwiftUI(url: urlStr)
+            let openString = "polyphonic://com.dhruvweaver.Polyphonic/params?musicURL=\(urlStr)"
+//            let openString = "polyphonic://com.dhruvweaver.Polyphonic"
+            
+            if let scheme = URL(string: openString) {
+                self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
+                _ = openURL(scheme)
+            } else {
+                self.extensionContext!.cancelRequest(withError:NSError())
+            }
+            
+            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
+            //            buildSwiftUI(url: urlStr)
         }
     }
     
@@ -45,7 +56,16 @@ class ShareViewController: UIViewController {
         return urlStr
     }
     
-    
+    @objc func openURL(_ url: URL) -> Bool {
+        var responder: UIResponder? = self
+        while responder != nil {
+            if let application = responder as? UIApplication {
+                return application.perform(#selector(openURL(_:)), with: url) != nil
+            }
+            responder = responder?.next
+        }
+        return false
+    }
     
     func buildSwiftUI(url: String) {
         print("URL to UI:")
