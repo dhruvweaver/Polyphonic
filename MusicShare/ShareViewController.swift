@@ -13,16 +13,51 @@ class ShareViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let item = extensionContext?.inputItems.first as? NSExtensionItem {
-            let hostingController = UIHostingController(rootView: ShareView.init(item: item))
-            self.addChild(hostingController)
-            self.view.addSubview(hostingController.view)
+        var urlStr = "Link could not be processed"
+        Task {
+            if let str = await getURL() {
+                urlStr = str
+                print(urlStr)
+            }
             
-            hostingController.view.translatesAutoresizingMaskIntoConstraints=false
-            hostingController.view.topAnchor.constraint(equalTo:view.topAnchor).isActive=true
-            hostingController.view.bottomAnchor.constraint(equalTo:view.bottomAnchor).isActive=true
-            hostingController.view.leftAnchor.constraint(equalTo:view.leftAnchor).isActive=true
-            hostingController.view.rightAnchor.constraint(equalTo:view.rightAnchor).isActive=true
+            buildSwiftUI(url: urlStr)
         }
+    }
+    
+    func getURL() async -> String? {
+        var urlStr: String? = nil
+        if let item = extensionContext?.inputItems.first as? NSExtensionItem {
+            if let itemProvider = item.attachments?.first {
+                if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
+                    do {
+                        let url = try await itemProvider.loadItem(forTypeIdentifier: "public.url", options: nil)
+                        do {
+                            if let url = url as? URL{
+                                urlStr = url.absoluteString
+                            }
+                        }
+                    } catch {
+                        debugPrint("Error getting url: \(String(describing: error))")
+                    }
+                }
+            }
+        }
+        return urlStr
+    }
+    
+    
+    
+    func buildSwiftUI(url: String) {
+        print("URL to UI:")
+        print(url)
+        let hostingController = UIHostingController(rootView: ShareView(linkStr: url))
+        self.addChild(hostingController)
+        self.view.addSubview(hostingController.view)
+        
+        hostingController.view.translatesAutoresizingMaskIntoConstraints=false
+        hostingController.view.topAnchor.constraint(equalTo:view.topAnchor).isActive=true
+        hostingController.view.bottomAnchor.constraint(equalTo:view.bottomAnchor).isActive=true
+        hostingController.view.leftAnchor.constraint(equalTo:view.leftAnchor).isActive=true
+        hostingController.view.rightAnchor.constraint(equalTo:view.rightAnchor).isActive=true
     }
 }
