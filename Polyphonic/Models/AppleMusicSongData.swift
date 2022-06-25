@@ -72,7 +72,7 @@ class AppleMusicSongData {
     }
     
     // TODO: NEEDS LOTS OF WORK ON NULL SAFETY
-    func getAppleMusicSongDataBySearch(songRef: Song) async {
+    func getAppleMusicSongDataBySearch(songRef: Song, narrowSearch: Bool) async {
         // clean metadata and convert it to a form that will work with the API
         var songStr = songRef.getTitle()
         songStr = songStr.replacingOccurrences(of: "(", with: "")
@@ -85,8 +85,14 @@ class AppleMusicSongData {
         debugPrint("Album: \(albumStr)")
         debugPrint("Artist: \(artistStr)")
         
-        // album name removed from query. May reduce accuracy and/or increase search time, but may also help with getting the right results
-        let urlString = "https://api.music.apple.com/v1/catalog/us/search?types=songs&term=\(songStr)+\(artistStr)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        var searchParams: String
+        if (narrowSearch) {
+            // album name removed from query. May reduce accuracy and/or increase search time, but may also help with getting the right results
+            searchParams = "\(songStr)+\(artistStr)"
+        } else {
+            searchParams = songStr
+        }
+        let urlString = "https://api.music.apple.com/v1/catalog/us/search?types=songs&term=\(searchParams)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let url = URL(string: urlString)!
         debugPrint("Querying: \(url.absoluteString)")
         let sessionConfig = URLSessionConfiguration.default
@@ -107,7 +113,7 @@ class AppleMusicSongData {
     }
     
     // TODO: Needs to differentiate between songs released as a single vs those released with the album. Right now it tends to only pick the album version
-    func parseToObject(songRef: Song?) {
+    func parseToObject(songRef: Song?) -> Bool {
         print("Parsing...")
         if let processed = appleMusicSongJSON {
             if (processed.data.endIndex >= 1) { // should prevent crashes when there are no results. Needs further testing
@@ -116,11 +122,20 @@ class AppleMusicSongData {
                 song?.setTranslatedURL(link: attributes.url)
             }
         } else if let processed = appleMusicSearchJSON {
+            let resultsCount = processed.results.songs.data.count
+            debugPrint("Number of results: \(resultsCount)")
+            // handle case where search is too narrow
+            if (resultsCount == 0) {
+                debugPrint("Apple Music search too narrow")
+                // broaden search, remove artist parameter
+                return false
+            }
+            
             var i = 0
             var matchFound: Bool! = false
             var closeMatch: Int? = nil
             var lookForCloseMatch: Bool = true
-            while processed.results.songs.data.count > i && !matchFound {
+            while (resultsCount > i && !matchFound) {
                 let attributes = processed.results.songs.data[i].attributes
                 song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
                 debugPrint(song!.getISRC())
@@ -161,6 +176,8 @@ class AppleMusicSongData {
                 debugPrint("No matches")
             }
         }
+        
+        return true
     }
 }
 
