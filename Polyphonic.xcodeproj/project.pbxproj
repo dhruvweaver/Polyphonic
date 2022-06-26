@@ -163,7 +163,8 @@
 				00918A412854E99900C0B74E /* ContentView.swift */,
 				005D1E8F286374C800D9756C /* ShareView.swift */,
 			);
-			path = Views;
+			name = Views;
+			path = Polyphonic/Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
