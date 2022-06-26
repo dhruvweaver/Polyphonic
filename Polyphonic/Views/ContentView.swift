@@ -8,13 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    @Binding private var linkStr: String
+    @State private var linkStr: String = ""
     @State private var linkOut: String = ""
     @State private var isLoading: Bool = false
-    
-    init(shareLink: Binding<String>) {
-        self._linkStr = shareLink
-    }
     
     var body: some View {
         let songData = SongData()
@@ -34,6 +30,7 @@ struct ContentView: View {
                     linkStr = ""
                 }
             }
+            
             HStack(alignment: .center) {
                 TextField("Input Link", text: $linkStr)
                     .textFieldStyle(.roundedBorder)
@@ -41,6 +38,7 @@ struct ContentView: View {
                     .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
                     .padding(.horizontal)
             }
+            
             if (!isLoading) {
                 Button("Translate") {
                     Task {
@@ -56,7 +54,7 @@ struct ContentView: View {
                     .progressViewStyle(CircularProgressViewStyle())
                     .padding(.vertical, 2.0)
             }
-            // will later hold text field
+            
             HStack(alignment: .center) {
                 TextField("Translated Link", text: $linkOut)
                     .textFieldStyle(.roundedBorder)
@@ -64,18 +62,18 @@ struct ContentView: View {
                     .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
                     .padding(.horizontal)
             }
+            
             Button("Copy Translated Link") {
                 UIPasteboard.general.string = linkOut
             }
             Button("Share Link") {
                 if let urlShare = URL(string: linkOut) {
-                    
-                    let AV = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
+                    let shareActivity = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
                     
                     let scenes = UIApplication.shared.connectedScenes
                     let windowScene = scenes.first as? UIWindowScene
                     
-                    windowScene?.keyWindow?.rootViewController?.present(AV, animated: true, completion: nil)
+                    windowScene?.keyWindow?.rootViewController?.present(shareActivity, animated: true, completion: nil)
                 }
             }
             .padding(.top)
@@ -90,8 +88,7 @@ extension View {
 }
 
 struct ContentView_Previews: PreviewProvider {
-    @State static var blank = ""
     static var previews: some View {
-        ContentView(shareLink: $blank)
+        ContentView()
     }
 }

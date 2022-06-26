@@ -20,18 +20,7 @@ class ShareViewController: UIViewController {
                 print(urlStr)
             }
             
-            let openString = "polyphonic://com.dhruvweaver.Polyphonic/params?musicURL=\(urlStr)"
-//            let openString = "polyphonic://com.dhruvweaver.Polyphonic"
-            
-            if let scheme = URL(string: openString) {
-                self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
-                _ = openURL(scheme)
-            } else {
-                self.extensionContext!.cancelRequest(withError:NSError())
-            }
-            
-            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
-            //            buildSwiftUI(url: urlStr)
+            buildSwiftUI(url: urlStr)
         }
     }
     
