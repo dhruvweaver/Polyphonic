@@ -58,7 +58,7 @@ struct ShareView: View {
                 isShare = true
             }
             .padding()
-            .background(SharingViewController2(isPresenting: $isShare) {
+            .background(SharingViewController(isPresenting: $isShare) {
                 let urlShare = URL(string: linkOut)
                 let av = UIActivityViewController(activityItems: [urlShare!], applicationActivities: nil)
                 
@@ -71,7 +71,7 @@ struct ShareView: View {
     }
 }
 
-struct SharingViewController2: UIViewControllerRepresentable {
+struct SharingViewController: UIViewControllerRepresentable {
     @Binding var isPresenting: Bool
     var content: () -> UIViewController
     
