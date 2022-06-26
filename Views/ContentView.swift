@@ -8,9 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var linkStr: String = ""
+    @Binding private var linkStr: String
     @State private var linkOut: String = ""
     @State private var isLoading: Bool = false
+    
+    init(shareLink: Binding<String>) {
+        self._linkStr = shareLink
+    }
+    
     var body: some View {
         let songData = SongData()
         VStack(alignment: .center) {
@@ -18,8 +23,16 @@ struct ContentView: View {
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
                 .padding(.bottom)
-            Button("Clear Input Link") {
-                linkStr = ""
+            HStack(alignment: .center, spacing: 25.0) {
+                Button("Paste Link") {
+                    if let pasteStr = UIPasteboard.general.string {
+                        linkStr = pasteStr
+                        hideKeyboard()
+                    }
+                }
+                Button("Clear Link") {
+                    linkStr = ""
+                }
             }
             HStack(alignment: .center) {
                 TextField("Input Link", text: $linkStr)
@@ -54,6 +67,18 @@ struct ContentView: View {
             Button("Copy Translated Link") {
                 UIPasteboard.general.string = linkOut
             }
+            Button("Share Link") {
+                if let urlShare = URL(string: linkOut) {
+                    
+                    let AV = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
+                    
+                    let scenes = UIApplication.shared.connectedScenes
+                    let windowScene = scenes.first as? UIWindowScene
+                    
+                    windowScene?.keyWindow?.rootViewController?.present(AV, animated: true, completion: nil)
+                }
+            }
+            .padding(.top)
         }
     }
 }
@@ -65,7 +90,8 @@ extension View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+    @State static var blank = ""
     static var previews: some View {
-        ContentView()
+        ContentView(shareLink: $blank)
     }
 }
