@@ -30,7 +30,6 @@
 		00C35F7128666A280064C8C9 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D1E8F286374C800D9756C /* ShareView.swift */; };
 		00CD71ED28564D2100159B04 /* SpotifySongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EC28564D2100159B04 /* SpotifySongData.swift */; };
 		00CD71EF2856718200159B04 /* AppleMusicSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EE2856718200159B04 /* AppleMusicSongData.swift */; };
-		00FAC83E28690E8400B5404F /* ShareLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FAC83D28690E8400B5404F /* ShareLinkView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,7 +74,6 @@
 		00C35F6128663CB40064C8C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00CD71EC28564D2100159B04 /* SpotifySongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifySongData.swift; sourceTree = "<group>"; };
 		00CD71EE2856718200159B04 /* AppleMusicSongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicSongData.swift; sourceTree = "<group>"; };
-		00FAC83D28690E8400B5404F /* ShareLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareLinkView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,7 +162,6 @@
 			children = (
 				00918A412854E99900C0B74E /* ContentView.swift */,
 				005D1E8F286374C800D9756C /* ShareView.swift */,
-				00FAC83D28690E8400B5404F /* ShareLinkView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -279,7 +276,6 @@
 				00918A402854E99900C0B74E /* PolyphonicApp.swift in Sources */,
 				00AD80E428624E2F000CFA92 /* Utilities.swift in Sources */,
 				00CD71ED28564D2100159B04 /* SpotifySongData.swift in Sources */,
-				00FAC83E28690E8400B5404F /* ShareLinkView.swift in Sources */,
 				00CD71EF2856718200159B04 /* AppleMusicSongData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -460,7 +456,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.0;
+				MARKETING_VERSION = 0.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic;
 				PRODUCT_NAME = Polyphonic;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -493,7 +489,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.0;
+				MARKETING_VERSION = 0.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic;
 				PRODUCT_NAME = Polyphonic;
 				SWIFT_EMIT_LOC_STRINGS = YES;

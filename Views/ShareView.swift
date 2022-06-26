@@ -10,45 +10,78 @@ import SwiftUI
 struct ShareView: View {
     @State var linkStr: String = ""
     @State private var linkOut: String = ""
-    @State private var isLoading: Bool = false
+    @State private var isLoading: Bool = true
     @State private var songData = SongData()
+    @State private var isShare = false
+    
+    private func translate() {
+        Task {
+            linkOut = await songData.translateData(link: linkStr)
+            isLoading = false
+        }
+    }
+    
     var body: some View {
         VStack(alignment: .center) {
-            if (isLoading) {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .padding(.vertical, 2.0)
-            }
+            Text("Translate links between Apple Music and Spotify")
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
+                .padding(.bottom)
+            
             HStack(alignment: .center) {
                 TextField("Input Link", text: $linkStr)
                     .textFieldStyle(.roundedBorder)
                     .cornerRadius(10)
                     .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
                     .padding(.horizontal)
-            }.onAppear(perform: translate)
-            HStack(alignment: .center) {
-                TextField("Translated Link", text: $linkOut)
-                    .textFieldStyle(.roundedBorder)
-                    .cornerRadius(10)
-                    .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
-                    .padding(.horizontal)
             }
-            Button("Copy Translated Link") {
-                UIPasteboard.general.string = linkOut
+            .onAppear(perform: translate)
+            
+            VStack(alignment: .center) {
+                if (!isLoading) {
+                    HStack(alignment: .center) {
+                        TextField("Translated Link", text: $linkOut)
+                            .textFieldStyle(.roundedBorder)
+                            .cornerRadius(10)
+                            .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
+                            .padding(.horizontal)
+                    }
+                } else {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                }
             }
-            if (isLoading) {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .padding(.vertical, 2.0)
+            .frame(height: 40)
+            .padding(.top, 10.0)
+            
+            Button("Share Link") {
+                isShare = true
             }
+            .padding()
+            .background(SharingViewController2(isPresenting: $isShare) {
+                let urlShare = URL(string: linkOut)
+                let av = UIActivityViewController(activityItems: [urlShare!], applicationActivities: nil)
+                
+                av.completionWithItemsHandler = { _, _, _, _ in
+                    isShare = false // required for re-open !!!
+                }
+                return av
+            })
         }
     }
+}
+
+struct SharingViewController2: UIViewControllerRepresentable {
+    @Binding var isPresenting: Bool
+    var content: () -> UIViewController
     
-    private func translate() {
-        Task {
-            isLoading = true
-            linkOut = await songData.translateData(link: linkStr)
-            isLoading = false
+    func makeUIViewController(context: Context) -> UIViewController {
+        UIViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        if isPresenting {
+            uiViewController.present(content(), animated: true, completion: nil)
         }
     }
 }
