@@ -57,6 +57,7 @@ struct ShareView: View {
             Button("Share Link") {
                 isShare = true
             }
+            .disabled(isLoading || !isValidURL())
             .padding()
             .background(SharingViewController(isPresenting: $isShare) {
                 let urlShare = URL(string: linkOut)
@@ -67,6 +68,14 @@ struct ShareView: View {
                 }
                 return av
             })
+        }
+    }
+    
+    private func isValidURL() -> Bool {
+        if let _ = URL(string: linkOut) {
+            return true
+        } else {
+            return false
         }
     }
 }
