@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00511459286A173D00B69CBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00511458286A173D00B69CBC /* Assets.xcassets */; };
+		0051145F286A173D00B69CBC /* MessageShare MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0051145E286A173D00B69CBC /* MessageShare MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		00511464286A173D00B69CBC /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00511463286A173D00B69CBC /* Messages.framework */; };
+		00511467286A173D00B69CBC /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00511466286A173D00B69CBC /* MessagesViewController.swift */; };
+		0051146A286A173D00B69CBC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00511468286A173D00B69CBC /* MainInterface.storyboard */; };
+		0051146C286A173F00B69CBC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0051146B286A173F00B69CBC /* Assets.xcassets */; };
 		00918A402854E99900C0B74E /* PolyphonicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A3F2854E99900C0B74E /* PolyphonicApp.swift */; };
 		00918A422854E99900C0B74E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A412854E99900C0B74E /* ContentView.swift */; };
 		00918A442854E99B00C0B74E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00918A432854E99B00C0B74E /* Assets.xcassets */; };
@@ -33,6 +39,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		00511460286A173D00B69CBC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00918A342854E99900C0B74E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0051145D286A173D00B69CBC;
+			remoteInfo = "MessageShare MessagesExtension";
+		};
 		00C35F6228663CB40064C8C9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 00918A342854E99900C0B74E /* Project object */;
@@ -43,6 +56,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		00511470286A173F00B69CBC /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				0051145F286A173D00B69CBC /* MessageShare MessagesExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		005D1E842863746900D9756C /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -57,6 +81,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00511456286A173B00B69CBC /* MessageShare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessageShare.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		00511458286A173D00B69CBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0051145E286A173D00B69CBC /* MessageShare MessagesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "MessageShare MessagesExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		00511463286A173D00B69CBC /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = System/Library/Frameworks/Messages.framework; sourceTree = SDKROOT; };
+		00511466286A173D00B69CBC /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		00511469286A173D00B69CBC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		0051146B286A173F00B69CBC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0051146D286A173F00B69CBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		005D1E8F286374C800D9756C /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		00918A3C2854E99900C0B74E /* Polyphonic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Polyphonic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00918A3F2854E99900C0B74E /* PolyphonicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PolyphonicApp.swift; path = Polyphonic/PolyphonicApp.swift; sourceTree = "<group>"; };
@@ -77,6 +109,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0051145B286A173D00B69CBC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00511464286A173D00B69CBC /* Messages.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00918A392854E99900C0B74E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -94,11 +134,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		00511457286A173B00B69CBC /* MessageShare */ = {
+			isa = PBXGroup;
+			children = (
+				00511458286A173D00B69CBC /* Assets.xcassets */,
+			);
+			path = MessageShare;
+			sourceTree = "<group>";
+		};
+		00511462286A173D00B69CBC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				00511463286A173D00B69CBC /* Messages.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		00511465286A173D00B69CBC /* MessageShare MessagesExtension */ = {
+			isa = PBXGroup;
+			children = (
+				00511466286A173D00B69CBC /* MessagesViewController.swift */,
+				00511468286A173D00B69CBC /* MainInterface.storyboard */,
+				0051146B286A173F00B69CBC /* Assets.xcassets */,
+				0051146D286A173F00B69CBC /* Info.plist */,
+			);
+			path = "MessageShare MessagesExtension";
+			sourceTree = "<group>";
+		};
 		00918A332854E99900C0B74E = {
 			isa = PBXGroup;
 			children = (
 				00918A3E2854E99900C0B74E /* Polyphonic */,
 				00C35F5B28663CB40064C8C9 /* MusicShare */,
+				00511457286A173B00B69CBC /* MessageShare */,
+				00511465286A173D00B69CBC /* MessageShare MessagesExtension */,
+				00511462286A173D00B69CBC /* Frameworks */,
 				00918A3D2854E99900C0B74E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -108,6 +178,8 @@
 			children = (
 				00918A3C2854E99900C0B74E /* Polyphonic.app */,
 				00C35F5A28663CB40064C8C9 /* MusicShare.appex */,
+				00511456286A173B00B69CBC /* MessageShare.app */,
+				0051145E286A173D00B69CBC /* MessageShare MessagesExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -170,6 +242,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		00511455286A173B00B69CBC /* MessageShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00511474286A173F00B69CBC /* Build configuration list for PBXNativeTarget "MessageShare" */;
+			buildPhases = (
+				00511454286A173B00B69CBC /* Resources */,
+				00511470286A173F00B69CBC /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00511461286A173D00B69CBC /* PBXTargetDependency */,
+			);
+			name = MessageShare;
+			productName = MessageShare;
+			productReference = 00511456286A173B00B69CBC /* MessageShare.app */;
+			productType = "com.apple.product-type.application.messages";
+		};
+		0051145D286A173D00B69CBC /* MessageShare MessagesExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00511473286A173F00B69CBC /* Build configuration list for PBXNativeTarget "MessageShare MessagesExtension" */;
+			buildPhases = (
+				0051145A286A173D00B69CBC /* Sources */,
+				0051145B286A173D00B69CBC /* Frameworks */,
+				0051145C286A173D00B69CBC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MessageShare MessagesExtension";
+			productName = "MessageShare MessagesExtension";
+			productReference = 0051145E286A173D00B69CBC /* MessageShare MessagesExtension.appex */;
+			productType = "com.apple.product-type.app-extension.messages";
+		};
 		00918A3B2854E99900C0B74E /* Polyphonic */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00918A4A2854E99B00C0B74E /* Build configuration list for PBXNativeTarget "Polyphonic" */;
@@ -216,6 +322,12 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					00511455286A173B00B69CBC = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					0051145D286A173D00B69CBC = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
 					00918A3B2854E99900C0B74E = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
@@ -239,11 +351,30 @@
 			targets = (
 				00918A3B2854E99900C0B74E /* Polyphonic */,
 				00C35F5928663CB40064C8C9 /* MusicShare */,
+				00511455286A173B00B69CBC /* MessageShare */,
+				0051145D286A173D00B69CBC /* MessageShare MessagesExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		00511454286A173B00B69CBC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00511459286A173D00B69CBC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0051145C286A173D00B69CBC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0051146C286A173F00B69CBC /* Assets.xcassets in Resources */,
+				0051146A286A173D00B69CBC /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00918A3A2854E99900C0B74E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -264,6 +395,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0051145A286A173D00B69CBC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00511467286A173D00B69CBC /* MessagesViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00918A382854E99900C0B74E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -300,6 +439,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		00511461286A173D00B69CBC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0051145D286A173D00B69CBC /* MessageShare MessagesExtension */;
+			targetProxy = 00511460286A173D00B69CBC /* PBXContainerItemProxy */;
+		};
 		00C35F6328663CB40064C8C9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 00C35F5928663CB40064C8C9 /* MusicShare */;
@@ -308,6 +452,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		00511468286A173D00B69CBC /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00511469286A173D00B69CBC /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		00C35F5E28663CB40064C8C9 /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -319,6 +471,100 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0051146E286A173F00B69CBC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.MessageShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0051146F286A173F00B69CBC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.MessageShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		00511471286A173F00B69CBC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MessageShare MessagesExtension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = MessageShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.MessageShare.MessagesExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		00511472286A173F00B69CBC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MessageShare MessagesExtension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = MessageShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.MessageShare.MessagesExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		00918A482854E99B00C0B74E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -554,6 +800,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00511473286A173F00B69CBC /* Build configuration list for PBXNativeTarget "MessageShare MessagesExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00511471286A173F00B69CBC /* Debug */,
+				00511472286A173F00B69CBC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00511474286A173F00B69CBC /* Build configuration list for PBXNativeTarget "MessageShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0051146E286A173F00B69CBC /* Debug */,
+				0051146F286A173F00B69CBC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		00918A372854E99900C0B74E /* Build configuration list for PBXProject "Polyphonic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
