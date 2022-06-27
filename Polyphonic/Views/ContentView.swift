@@ -13,7 +13,7 @@ struct ContentView: View {
     @State private var isLoading: Bool = false
     
     var body: some View {
-        let songData = SongData()
+        let songData = MusicData()
         VStack(alignment: .center) {
             Text("Translate links between Apple Music and Spotify")
                 .fontWeight(.bold)

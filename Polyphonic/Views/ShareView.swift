@@ -11,7 +11,7 @@ struct ShareView: View {
     @State var linkStr: String = ""
     @State private var linkOut: String = ""
     @State private var isLoading: Bool = true
-    @State private var songData = SongData()
+    @State private var songData = MusicData()
     @State private var isShare = false
     
     private func translate() {

@@ -15,17 +15,17 @@ class AppleMusicSongData {
         self.songID = songID
     }
     
-    var appleMusicSongJSON: AppleMusicSongDataRoot? = nil
+    private var appleMusicSongJSON: AppleMusicSongDataRoot? = nil
     
-    struct AppleMusicSongDataRoot: Decodable {
+    private struct AppleMusicSongDataRoot: Decodable {
         let data: [AppleMusicSongDataData]
     }
     
-    struct AppleMusicSongDataData: Decodable {
+    private struct AppleMusicSongDataData: Decodable {
         let attributes: AppleMusicAttributes
     }
     
-    struct AppleMusicAttributes: Decodable {
+    private struct AppleMusicAttributes: Decodable {
         let artistName: String
         let url: String
         let name: String
@@ -35,19 +35,19 @@ class AppleMusicSongData {
     
     private var appleMusicSearchJSON: AppleMusicSearchRoot? = nil
     
-    struct AppleMusicSearchRoot: Decodable {
+    private struct AppleMusicSearchRoot: Decodable {
         let results: AppleMusicSearchResults
     }
     
-    struct AppleMusicSearchResults: Decodable {
+    private struct AppleMusicSearchResults: Decodable {
         let songs: AppleMusicSearchSongs
     }
     
-    struct AppleMusicSearchSongs: Decodable {
+    private struct AppleMusicSearchSongs: Decodable {
         let data: [AppleMusicSearchData]
     }
     
-    struct AppleMusicSearchData: Decodable {
+    private struct AppleMusicSearchData: Decodable {
         let attributes: AppleMusicAttributes
     }
     

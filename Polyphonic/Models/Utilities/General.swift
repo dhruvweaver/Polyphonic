@@ -115,6 +115,27 @@ func cleanAppleMusicText(title: String, forSearching: Bool) -> String {
     return clean
 }
 
+func cleanText(title: String) -> String {
+    var clean = title
+    clean = clean.replacingOccurrences(of: " - ", with: " * ")
+    clean = clean.replacingOccurrences(of: "+-+", with: " * ")
+    if let indDash = clean.firstIndex(of: "*") {
+        clean = String(clean[clean.startIndex...clean.index(indDash, offsetBy: -2)])
+    }
+    clean = clean.replacingOccurrences(of: "+", with: " ")
+    clean = clean.replacingOccurrences(of: "-", with: "+")
+    if let indParen = clean.firstIndex(of: "(") {
+        clean = String(clean[clean.startIndex...clean.index(indParen, offsetBy: -2)])
+    }
+    if let indColon = clean.firstIndex(of: ":") {
+        clean = String(clean[clean.startIndex...clean.index(indColon, offsetBy: -2)])
+    }
+    
+    clean = clean.lowercased()
+    
+    return clean
+}
+
 // removes ampersands and dashes in artist names to simplify search and reduce errors
 func cleanArtistName(name: String, forSearching: Bool) -> String {
     var clean = name
