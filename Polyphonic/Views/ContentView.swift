@@ -66,7 +66,7 @@ struct ContentView: View {
             Button("Copy Translated Link") {
                 UIPasteboard.general.string = linkOut
             }
-            .disabled(isLoading || !isValidURL())
+            .disabled(isLoading || !validURL())
             Button("Share Link") {
                 if let urlShare = URL(string: linkOut) {
                     let shareActivity = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
@@ -77,12 +77,12 @@ struct ContentView: View {
                     windowScene?.keyWindow?.rootViewController?.present(shareActivity, animated: true, completion: nil)
                 }
             }
-            .disabled(isLoading || !isValidURL())
+            .disabled(isLoading || !validURL())
             .padding(.top)
         }
     }
     
-    private func isValidURL() -> Bool {
+    private func validURL() -> Bool {
         if let _ = URL(string: linkOut) {
             return true
         } else {
