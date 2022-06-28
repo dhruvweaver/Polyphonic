@@ -53,6 +53,12 @@ func cleanSpotifyText(title: String, forSearching: Bool) -> String {
         if (title.contains("Edit") && !title.contains("Edition") && !clean.contains("Edit")) {
             clean.append(contentsOf: " edit")
         }
+        if (title.contains("Edition") && !clean.contains("Edition")) {
+            clean.append(contentsOf: " edition")
+        }
+        if (title.contains("EP") && !clean.contains("EP")) {
+            clean.append(contentsOf: " ep")
+        }
         debugPrint(clean)
     }
     
@@ -109,6 +115,9 @@ func cleanAppleMusicText(title: String, forSearching: Bool) -> String {
         }
         if (title.contains("Edition") && !clean.contains("Edition")) {
             clean.append(contentsOf: "+edition")
+        }
+        if (title.contains("EP") && !clean.contains("EP")) {
+            clean.append(contentsOf: "+ep")
         }
         debugPrint(clean)
     }

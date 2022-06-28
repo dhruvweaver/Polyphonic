@@ -78,6 +78,8 @@ class SpotifyAlbumData {
         return accessKey
     }
     
+    var spotifyURL: String = ""
+    
     func getSpotifyAlbumDataByID() async {
         let url = URL(string: "https://api.spotify.com/v1/albums/\(albumID!)")!
         let sessionConfig = URLSessionConfiguration.default
@@ -92,6 +94,9 @@ class SpotifyAlbumData {
                     print(httpResponse.statusCode)
                 }
                 self.spotifyAlbumJSON = try JSONDecoder().decode(SpotifyAlbumDataRoot.self, from: data)
+                if let parsedData = spotifyAlbumJSON {
+                    spotifyURL = "https://open.spotify.com/album/\(parsedData.id)"
+                }
             } catch {
                 debugPrint("Error loading \(url): \(String(describing: error))")
             }

@@ -27,6 +27,10 @@ class AppleMusicSongData {
     }
     
     private struct AppleMusicRelationships: Decodable {
+        let albums: AppleMusicAlbumsData
+    }
+    
+    private struct AppleMusicAlbumsData: Decodable {
         let data: [RelationshipsData]
     }
     
@@ -132,7 +136,7 @@ class AppleMusicSongData {
                 if (attributes.contentRating == "explicit") {
                     explicit = true
                 }
-                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: processed.data[processed.data.endIndex - 1].relationships.data[0].id, explicit: explicit)
+                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: processed.data[processed.data.endIndex - 1].relationships.albums.data[0].id, explicit: explicit)
                 song?.setTranslatedURL(link: attributes.url)
             }
         } else if let processed = appleMusicSearchJSON {
