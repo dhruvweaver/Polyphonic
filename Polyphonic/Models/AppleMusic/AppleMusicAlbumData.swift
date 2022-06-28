@@ -36,6 +36,8 @@ class AppleMusicAlbumData {
         let upc: String
     }
     
+    var appleURL: String = ""
+    
     func getAppleAlbumDataByID() async {
         let url = URL(string: "https://api.music.apple.com/v1/catalog/us/albums/\(albumID!)")!
         debugPrint("Querying: \(url.absoluteString)")
@@ -50,27 +52,9 @@ class AppleMusicAlbumData {
                 print(httpResponse.statusCode)
             }
             self.appleMusicAlbumJSON = try JSONDecoder().decode(AppleMusicAlbumDataRoot.self, from: data)
-            debugPrint("Decoded!")
-        } catch {
-            debugPrint("Error loading \(url): \(String(describing: error))")
-        }
-    }
-    
-    // TODO: test to see if proper searching will be necessary or if UPC is enough information for reliable results
-    func getAppleMusicSongDataByUPC(upc: String) async {
-        let url = URL(string: "https://api.music.apple.com/v1/catalog/us/albums?filter[upc]=\(upc)")!
-        debugPrint("Querying: \(url.absoluteString)")
-        let sessionConfig = URLSessionConfiguration.default
-        let authValue: String = "Bearer \(appleMusicAuthKey)"
-        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
-        let urlSession = URLSession(configuration: sessionConfig)
-        
-        do {
-            let (data, response) = try await urlSession.data(from: url)
-            if let httpResponse = response as? HTTPURLResponse {
-                print(httpResponse.statusCode)
+            if let parsedData = appleMusicAlbumJSON {
+                appleURL = parsedData.data[0].attributes.url
             }
-            self.appleMusicAlbumSearchJSON = try JSONDecoder().decode(AppleMusicAlbumDataRoot.self, from: data)
             debugPrint("Decoded!")
         } catch {
             debugPrint("Error loading \(url): \(String(describing: error))")

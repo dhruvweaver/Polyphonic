@@ -107,6 +107,9 @@ func cleanAppleMusicText(title: String, forSearching: Bool) -> String {
         if (title.contains("Edit") && !title.contains("Edition") && !clean.contains("Edit")) {
             clean.append(contentsOf: "+edit")
         }
+        if (title.contains("Edition") && !clean.contains("Edition")) {
+            clean.append(contentsOf: "+edition")
+        }
         debugPrint(clean)
     }
     

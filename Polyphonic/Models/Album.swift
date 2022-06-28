@@ -13,6 +13,7 @@ class Album {
     private let artists: [String]!
     private let songCount: Int!
     private let label: String!
+    private var keySongID: String?
     private var translatedURL: URL?
     
     init(title: String, UPC: String, artists: [String], songCount: Int, label: String) {
@@ -41,6 +42,18 @@ class Album {
     
     func getLabel() -> String {
         return label
+    }
+    
+    func setKeySongID(id: String) {
+        keySongID = id
+    }
+    
+    func getKeySongID() -> String {
+        if let link = keySongID {
+            return link
+        } else {
+            return ""
+        }
     }
     
     func setTranslatedURL(link: String) {

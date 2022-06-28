@@ -24,6 +24,7 @@ class SpotifyAlbumData {
         let name: String
         let label: String
         let id: String
+        let tracks: MusicItems
         let total_tracks: Int
     }
     
@@ -33,6 +34,15 @@ class SpotifyAlbumData {
     
     struct ExternalIDs: Decodable {
         let upc: String
+    }
+    
+    struct MusicItems: Decodable {
+        let items: [Item]
+    }
+    
+    struct Item: Decodable {
+        let explicit: Bool
+        let id: String
     }
     
     private var spotifyAccessJSON: SpotifyAccessData? = nil
@@ -94,7 +104,17 @@ class SpotifyAlbumData {
             for i in processed.artists {
                 artists.append(i.name)
             }
+            
+            // see if the album contains any explicit tracks; this will help to get the right version of the right album later
+            var keySongID = processed.tracks.items[0].id
+            for i in processed.tracks.items {
+                if (i.explicit) {
+                    keySongID = i.id
+                }
+            }
+            
             album = Album(title: processed.name, UPC: processed.external_ids.upc, artists: artists, songCount: processed.total_tracks, label: processed.label)
+            album?.setKeySongID(id: keySongID)
         }
         
         return true
