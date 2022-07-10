@@ -169,15 +169,14 @@ class SpotifySongData {
                 debugPrint("Input   Album: \(songRef!.getAlbum())")
                 
                 // if there is an exact match with the ISRC, then the search can stop
-                if (cleanSpotifyText(title: song!.getAlbum(), forSearching: true) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: true)) {
-                    // may need to get rid of explicit check
-                    if (song?.getISRC() == songRef!.getISRC() && song?.getExplicit() == songRef?.getExplicit()) {
+                if (song?.getISRC() == songRef!.getISRC()) {
+                    if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
                         matchFound = true
                     } else {
                         closeMatch = i
                     }
-                } else if (lookForCloseMatch && song?.getExplicit() == songRef?.getExplicit() && !(song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) && cleanSpotifyText(title: (song?.getTitle())!, forSearching: false) == cleanSpotifyText(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
-                    debugPrint("Found close match")
+                } else if (lookForCloseMatch && !(song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) && cleanSpotifyText(title: (song?.getTitle())!, forSearching: false) == cleanSpotifyText(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
+                    debugPrint("Marked as close match")
                     // bookmark and come back to this one if nothing else matches
                     closeMatch = i
                     lookForCloseMatch = false

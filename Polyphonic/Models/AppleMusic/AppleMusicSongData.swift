@@ -168,15 +168,13 @@ class AppleMusicSongData {
                 debugPrint("Apple Album: \(song!.getAlbum())")
                 debugPrint("Input Album: \(songRef!.getAlbum())")
                 
-                // if there is an exact match with the ISRC, then the search can stop
-                if (cleanAppleMusicText(title: song!.getAlbum(), forSearching: true) == cleanAppleMusicText(title: songRef!.getAlbum(), forSearching: true)) {
-                    if (song?.getISRC() == songRef!.getISRC() && song?.getExplicit() == songRef?.getExplicit()) {
+                if (song?.getISRC() == songRef!.getISRC()) {
+                    if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
                         matchFound = true
                     } else {
                         closeMatch = i
                     }
-                    // if there is not an exact match, look for the next best match. If there are still alternatives, keep looking for an exact match
-                } else if (lookForCloseMatch && song?.getExplicit() == songRef?.getExplicit() && (((song?.getAlbum() == songRef!.getAlbum() || cleanAppleMusicText(title: (song?.getAlbum())!, forSearching: false) == cleanAppleMusicText(title: songRef!.getAlbum(), forSearching: false)) && cleanAppleMusicText(title: (song?.getTitle())!, forSearching: false) == cleanAppleMusicText(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
+                } else if (lookForCloseMatch && !(song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) && cleanSpotifyText(title: (song?.getTitle())!, forSearching: false) == cleanSpotifyText(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
                     debugPrint("Marked as close match")
                     // bookmark and come back to this one if nothing else matches
                     closeMatch = i

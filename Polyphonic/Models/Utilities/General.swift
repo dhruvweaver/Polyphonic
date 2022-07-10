@@ -143,6 +143,8 @@ func cleanText(title: String) -> String {
         clean = String(clean[clean.startIndex...clean.index(indColon, offsetBy: -2)])
     }
     
+    clean = removeSpecialCharsFromString(text: clean)
+    
     clean = clean.lowercased()
     
     return clean
@@ -162,4 +164,9 @@ func cleanArtistName(name: String, forSearching: Bool) -> String {
     clean = clean.lowercased()
     
     return clean
+}
+
+func removeSpecialCharsFromString(text: String) -> String {
+    let okayChars = Set("abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890")
+    return text.filter {okayChars.contains($0) }
 }
