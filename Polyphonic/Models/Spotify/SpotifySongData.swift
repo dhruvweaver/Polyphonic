@@ -172,8 +172,10 @@ class SpotifySongData {
                 if (song?.getISRC() == songRef!.getISRC()) {
                     if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
                         matchFound = true
+                        debugPrint("Marked as exact match")
                     } else {
                         closeMatch = i
+                        debugPrint("Marked as close match")
                     }
                 } else if (lookForCloseMatch && !(song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) && cleanSpotifyText(title: (song?.getTitle())!, forSearching: false) == cleanSpotifyText(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
                     debugPrint("Marked as close match")

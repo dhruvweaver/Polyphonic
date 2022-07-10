@@ -165,14 +165,16 @@ class AppleMusicSongData {
                 debugPrint(songRef!.getISRC())
                 debugPrint(song!.getArtists()[0])
                 debugPrint(songRef!.getArtists()[0])
-                debugPrint("Apple Album: \(song!.getAlbum())")
-                debugPrint("Input Album: \(songRef!.getAlbum())")
+                debugPrint("Apple Album: \(cleanText(title: song!.getAlbum()))")
+                debugPrint("Input Album: \(cleanText(title: songRef!.getAlbum()))")
                 
                 if (song?.getISRC() == songRef!.getISRC()) {
                     if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
                         matchFound = true
+                        debugPrint("Marked as exact match")
                     } else {
                         closeMatch = i
+                        debugPrint("Marked as close match")
                     }
                 } else if (lookForCloseMatch && !(song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) && cleanSpotifyText(title: (song?.getTitle())!, forSearching: false) == cleanSpotifyText(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
                     debugPrint("Marked as close match")

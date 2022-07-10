@@ -129,20 +129,6 @@ func cleanAppleMusicText(title: String, forSearching: Bool) -> String {
 
 func cleanText(title: String) -> String {
     var clean = title
-    clean = clean.replacingOccurrences(of: " - ", with: " * ")
-    clean = clean.replacingOccurrences(of: "+-+", with: " * ")
-    if let indDash = clean.firstIndex(of: "*") {
-        clean = String(clean[clean.startIndex...clean.index(indDash, offsetBy: -2)])
-    }
-    clean = clean.replacingOccurrences(of: "+", with: " ")
-    clean = clean.replacingOccurrences(of: "-", with: "+")
-    if let indParen = clean.firstIndex(of: "(") {
-        clean = String(clean[clean.startIndex...clean.index(indParen, offsetBy: -2)])
-    }
-    if let indColon = clean.firstIndex(of: ":") {
-        clean = String(clean[clean.startIndex...clean.index(indColon, offsetBy: -2)])
-    }
-    
     clean = removeSpecialCharsFromString(text: clean)
     
     clean = clean.lowercased()
