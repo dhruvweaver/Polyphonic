@@ -21,7 +21,7 @@ func cleanSpotifyText(title: String, forSearching: Bool) -> String {
         clean = String(clean[clean.startIndex...clean.index(indParen, offsetBy: -2)])
     }
     if let indColon = clean.firstIndex(of: ":") {
-        clean = String(clean[clean.startIndex...clean.index(indColon, offsetBy: -2)])
+        clean = String(clean[clean.startIndex...clean.index(indColon, offsetBy: -1)])
     }
     
     // remove special characters
@@ -59,7 +59,6 @@ func cleanSpotifyText(title: String, forSearching: Bool) -> String {
         if (title.contains("EP") && !clean.contains("EP")) {
             clean.append(contentsOf: " ep")
         }
-        debugPrint(clean)
     }
     
     // normalize everything to lowercased lettering
@@ -82,7 +81,7 @@ func cleanAppleMusicText(title: String, forSearching: Bool) -> String {
         clean = String(clean[clean.startIndex...clean.index(indParen, offsetBy: -2)])
     }
     if let indColon = clean.firstIndex(of: ":") {
-        clean = String(clean[clean.startIndex...clean.index(indColon, offsetBy: -2)])
+        clean = String(clean[clean.startIndex...clean.index(indColon, offsetBy: -1)])
     }
     
     // TODO: replace with REGEX
@@ -119,7 +118,6 @@ func cleanAppleMusicText(title: String, forSearching: Bool) -> String {
         if (title.contains("EP") && !clean.contains("EP")) {
             clean.append(contentsOf: "+ep")
         }
-        debugPrint(clean)
     }
     
     clean = clean.lowercased()

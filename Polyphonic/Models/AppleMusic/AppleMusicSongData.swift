@@ -108,9 +108,9 @@ class AppleMusicSongData {
         var searchParams: String
         if (narrowSearch) {
             // album name removed from query. May reduce accuracy and/or increase search time, but may also help with getting the right results
-            searchParams = "\(songStr)+\(artistStr)"
+            searchParams = "\(songStr)+\(artistStr)+\(albumStr)"
         } else {
-            searchParams = songStr
+            searchParams = "\(songStr)+\(artistStr)"
         }
         let urlString = "https://api.music.apple.com/v1/catalog/us/search?types=songs&term=\(searchParams)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         let url = URL(string: urlString)!
@@ -159,6 +159,7 @@ class AppleMusicSongData {
             var matchFound: Bool! = false
             var closeMatch: Int? = nil
             var lookForCloseMatch: Bool = true
+            var veryCloseMatchFound: Bool = false
             while (resultsCount > i && !matchFound) {
                 let attributes = processed.results.songs.data[i].attributes
                 var explicit: Bool = false
@@ -171,8 +172,8 @@ class AppleMusicSongData {
                 debugPrint(songRef!.getISRC())
                 debugPrint(song!.getArtists()[0])
                 debugPrint(songRef!.getArtists()[0])
-                debugPrint("Apple Album: \(cleanText(title: song!.getAlbum()))")
-                debugPrint("Input Album: \(cleanText(title: songRef!.getAlbum()))")
+                debugPrint("Apple Album: \(cleanSpotifyText(title: (song?.getAlbum())!, forSearching: true))")
+                debugPrint("Input Album: \(cleanSpotifyText(title: songRef!.getAlbum(), forSearching: true))")
                 
                 if (song?.getISRC() == songRef!.getISRC()) {
                     if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
@@ -194,9 +195,10 @@ class AppleMusicSongData {
                         debugPrint("Marked as close match")
                         if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
                             lookForCloseMatch = false
+                            veryCloseMatchFound = true
                             debugPrint("Marked as very close match")
                         }
-                    } else if (cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) {
+                    } else if (cleanSpotifyText(title: (song?.getAlbum())!, forSearching: true) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: true)) {
                         closeMatch = i
                         debugPrint("Marked as close match")
                         if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
@@ -237,7 +239,7 @@ class AppleMusicSongData {
                 debugPrint("Image: \(attributes.artwork.url)")
                 
                 // broaden search?
-                return false
+                return veryCloseMatchFound
             } else {
                 debugPrint("No matches")
             }

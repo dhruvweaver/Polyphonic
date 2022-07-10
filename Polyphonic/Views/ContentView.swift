@@ -33,7 +33,7 @@ struct ContentView: View {
                     Button(action: {
                         linkStr = ""
                     }) {
-                        Image(systemName: "clear")
+                        Image(systemName: "xmark")
                             .padding(.leading, 10)
                             .padding([.trailing, .top, .bottom])
                     }

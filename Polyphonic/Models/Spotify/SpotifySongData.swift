@@ -161,6 +161,7 @@ class SpotifySongData {
             var matchFound: Bool! = false
             var closeMatch: Int? = nil
             var lookForCloseMatch: Bool = true
+            var veryCloseMatchFound: Bool = true
             while (resultsCount > i && !matchFound) {
                 let attributes = processed.tracks.items[i]
                 var artists: [String] = []
@@ -196,9 +197,10 @@ class SpotifySongData {
                         debugPrint("Marked as close match")
                         if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
                             lookForCloseMatch = false
+                            veryCloseMatchFound = true
                             debugPrint("Marked as very close match")
                         }
-                    } else if (cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) {
+                    } else if (cleanSpotifyText(title: (song?.getAlbum())!, forSearching: true) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: true)) {
                         closeMatch = i
                         debugPrint("Marked as close match")
                         if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
@@ -233,7 +235,7 @@ class SpotifySongData {
                 song?.setTranslatedImgURL(link: attributes.album.images[1].url)
                 
                 // broaden search?
-                return false
+                return veryCloseMatchFound
             } else {
                 debugPrint("No matches")
             }

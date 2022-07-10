@@ -18,8 +18,8 @@ struct ShareView: View {
     
     private func translate() {
         Task {
+            try await Task.sleep(nanoseconds: 10000)
             let results = await songData.translateData(link: linkStr)
-            try await Task.sleep(nanoseconds: 1000)
             linkOut = results.0
             if let song = results.1 {
                 keySong = song
