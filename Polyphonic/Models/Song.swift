@@ -12,13 +12,17 @@ class Song {
     private let ISRC: String!
     private let artists: [String]!
     private let album: String!
+    private let albumID: String!
+    private let explicit: Bool!
     private var translatedURL: URL?
     
-    init(title: String, ISRC: String, artists: [String], album: String) {
+    init(title: String, ISRC: String, artists: [String], album: String, albumID: String, explicit: Bool) {
         self.title = title
         self.ISRC = ISRC
         self.artists = artists
         self.album = album
+        self.albumID = albumID
+        self.explicit = explicit
     }
     
     func getTitle() -> String {
@@ -35,6 +39,14 @@ class Song {
     
     func getAlbum() -> String {
         return album
+    }
+    
+    func getAlbumID() -> String {
+        return albumID
+    }
+    
+    func getExplicit() -> Bool {
+        return explicit
     }
     
     func setTranslatedURL(link: String) {

@@ -53,6 +53,12 @@ func cleanSpotifyText(title: String, forSearching: Bool) -> String {
         if (title.contains("Edit") && !title.contains("Edition") && !clean.contains("Edit")) {
             clean.append(contentsOf: " edit")
         }
+        if (title.contains("Edition") && !clean.contains("Edition")) {
+            clean.append(contentsOf: " edition")
+        }
+        if (title.contains("EP") && !clean.contains("EP")) {
+            clean.append(contentsOf: " ep")
+        }
         debugPrint(clean)
     }
     
@@ -107,8 +113,23 @@ func cleanAppleMusicText(title: String, forSearching: Bool) -> String {
         if (title.contains("Edit") && !title.contains("Edition") && !clean.contains("Edit")) {
             clean.append(contentsOf: "+edit")
         }
+        if (title.contains("Edition") && !clean.contains("Edition")) {
+            clean.append(contentsOf: "+edition")
+        }
+        if (title.contains("EP") && !clean.contains("EP")) {
+            clean.append(contentsOf: "+ep")
+        }
         debugPrint(clean)
     }
+    
+    clean = clean.lowercased()
+    
+    return clean
+}
+
+func cleanText(title: String) -> String {
+    var clean = title
+    clean = removeSpecialCharsFromString(text: clean)
     
     clean = clean.lowercased()
     
@@ -129,4 +150,9 @@ func cleanArtistName(name: String, forSearching: Bool) -> String {
     clean = clean.lowercased()
     
     return clean
+}
+
+func removeSpecialCharsFromString(text: String) -> String {
+    let okayChars = Set("abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890")
+    return text.filter {okayChars.contains($0) }
 }

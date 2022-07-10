@@ -15,39 +15,53 @@ class AppleMusicSongData {
         self.songID = songID
     }
     
-    var appleMusicSongJSON: AppleMusicSongDataRoot? = nil
+    private var appleMusicSongJSON: AppleMusicSongDataRoot? = nil
     
-    struct AppleMusicSongDataRoot: Decodable {
+    private struct AppleMusicSongDataRoot: Decodable {
         let data: [AppleMusicSongDataData]
     }
     
-    struct AppleMusicSongDataData: Decodable {
+    private struct AppleMusicSongDataData: Decodable {
         let attributes: AppleMusicAttributes
+        let relationships: AppleMusicRelationships
     }
     
-    struct AppleMusicAttributes: Decodable {
+    private struct AppleMusicRelationships: Decodable {
+        let albums: AppleMusicAlbumsData
+    }
+    
+    private struct AppleMusicAlbumsData: Decodable {
+        let data: [RelationshipsData]
+    }
+    
+    private struct RelationshipsData: Decodable {
+        let id: String
+    }
+    
+    private struct AppleMusicAttributes: Decodable {
         let artistName: String
         let url: String
         let name: String
         let isrc: String
         let albumName: String
+        let contentRating: String?
     }
     
     private var appleMusicSearchJSON: AppleMusicSearchRoot? = nil
     
-    struct AppleMusicSearchRoot: Decodable {
+    private struct AppleMusicSearchRoot: Decodable {
         let results: AppleMusicSearchResults
     }
     
-    struct AppleMusicSearchResults: Decodable {
+    private struct AppleMusicSearchResults: Decodable {
         let songs: AppleMusicSearchSongs
     }
     
-    struct AppleMusicSearchSongs: Decodable {
+    private struct AppleMusicSearchSongs: Decodable {
         let data: [AppleMusicSearchData]
     }
     
-    struct AppleMusicSearchData: Decodable {
+    private struct AppleMusicSearchData: Decodable {
         let attributes: AppleMusicAttributes
     }
     
@@ -118,7 +132,11 @@ class AppleMusicSongData {
         if let processed = appleMusicSongJSON {
             if (processed.data.endIndex >= 1) { // should prevent crashes when there are no results. Needs further testing
                 let attributes = processed.data[processed.data.endIndex - 1].attributes
-                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
+                var explicit: Bool = false
+                if (attributes.contentRating == "explicit") {
+                    explicit = true
+                }
+                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: processed.data[processed.data.endIndex - 1].relationships.albums.data[0].id, explicit: explicit)
                 song?.setTranslatedURL(link: attributes.url)
             }
         } else if let processed = appleMusicSearchJSON {
@@ -137,19 +155,28 @@ class AppleMusicSongData {
             var lookForCloseMatch: Bool = true
             while (resultsCount > i && !matchFound) {
                 let attributes = processed.results.songs.data[i].attributes
-                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
+                var explicit: Bool = false
+                if (attributes.contentRating == "explicit") {
+                    explicit = true
+                }
+                let albumID = URL(string: attributes.url)!.lastPathComponent
+                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit)
                 debugPrint(song!.getISRC())
                 debugPrint(songRef!.getISRC())
                 debugPrint(song!.getArtists()[0])
                 debugPrint(songRef!.getArtists()[0])
-                debugPrint("Apple Album: \(song!.getAlbum())")
-                debugPrint("Input Album: \(songRef!.getAlbum())")
+                debugPrint("Apple Album: \(cleanText(title: song!.getAlbum()))")
+                debugPrint("Input Album: \(cleanText(title: songRef!.getAlbum()))")
                 
-                // if there is an exact match with the ISRC, then the search can stop
                 if (song?.getISRC() == songRef!.getISRC()) {
-                    matchFound = true
-                    // if there is not an exact match, look for the next best match. If there are still alternatives, keep looking for an exact match
-                } else if (lookForCloseMatch && (((song?.getAlbum() == songRef!.getAlbum() || cleanAppleMusicText(title: (song?.getAlbum())!, forSearching: false) == cleanAppleMusicText(title: songRef!.getAlbum(), forSearching: false)) && cleanAppleMusicText(title: (song?.getTitle())!, forSearching: false) == cleanAppleMusicText(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
+                    if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
+                        matchFound = true
+                        debugPrint("Marked as exact match")
+                    } else {
+                        closeMatch = i
+                        debugPrint("Marked as close match")
+                    }
+                } else if (lookForCloseMatch && !(song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) && cleanSpotifyText(title: (song?.getTitle())!, forSearching: false) == cleanSpotifyText(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
                     debugPrint("Marked as close match")
                     // bookmark and come back to this one if nothing else matches
                     closeMatch = i
@@ -163,13 +190,23 @@ class AppleMusicSongData {
             // get and assign the link for the best match possible, if any
             if matchFound {
                 let attributes = processed.results.songs.data[i - 1].attributes // needs to backtrack one step since while loop is post increment
-                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
+                var explicit: Bool = false
+                if (attributes.contentRating == "explicit") {
+                    explicit = true
+                }
+                let albumID = URL(string: attributes.url)!.lastPathComponent
+                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit)
                 debugPrint("Found an exact match")
                 song?.setTranslatedURL(link: attributes.url)
                 print("URL: \(song!.getTranslatedURLasString())")
             } else if (closeMatch != nil) {
                 let attributes = processed.results.songs.data[closeMatch!].attributes
-                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName)
+                var explicit: Bool = false
+                if (attributes.contentRating == "explicit") {
+                    explicit = true
+                }
+                let albumID = URL(string: attributes.url)!.lastPathComponent
+                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit)
                 debugPrint("Found a close match")
                 song?.setTranslatedURL(link: attributes.url)
             } else {

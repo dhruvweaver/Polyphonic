@@ -21,12 +21,14 @@ class SpotifySongData {
     struct SpotifySongDataRoot: Decodable {
         let album: Album
         let artists: [Artist]
+        let explicit: Bool
         let external_ids: ExternalIDs
         let name: String
         let uri: String
     }
     
     struct Album: Decodable {
+        let id: String
         let name: String
     }
     
@@ -137,7 +139,7 @@ class SpotifySongData {
             for i in processed.artists {
                 artists.append(i.name)
             }
-            song = Song(title: processed.name, ISRC: processed.external_ids.isrc, artists: artists, album: processed.album.name)
+            song = Song(title: processed.name, ISRC: processed.external_ids.isrc, artists: artists, album: processed.album.name, albumID: processed.album.id, explicit: processed.explicit)
         } else if let processed = spotifySearchJSON {
             let resultsCount = processed.tracks.items.count
             debugPrint("Number of results: \(resultsCount)")
@@ -158,7 +160,7 @@ class SpotifySongData {
                 for j in attributes.artists {
                     artists.append(j.name)
                 }
-                song = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name)
+                song = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name, albumID: attributes.album.id, explicit: attributes.explicit)
                 debugPrint(song!.getISRC())
                 debugPrint(songRef!.getISRC())
                 debugPrint(song!.getArtists()[0])
@@ -168,9 +170,15 @@ class SpotifySongData {
                 
                 // if there is an exact match with the ISRC, then the search can stop
                 if (song?.getISRC() == songRef!.getISRC()) {
-                    matchFound = true
+                    if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
+                        matchFound = true
+                        debugPrint("Marked as exact match")
+                    } else {
+                        closeMatch = i
+                        debugPrint("Marked as close match")
+                    }
                 } else if (lookForCloseMatch && !(song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) && cleanSpotifyText(title: (song?.getTitle())!, forSearching: false) == cleanSpotifyText(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
-                    debugPrint("Found close match")
+                    debugPrint("Marked as close match")
                     // bookmark and come back to this one if nothing else matches
                     closeMatch = i
                     lookForCloseMatch = false
@@ -186,7 +194,7 @@ class SpotifySongData {
                 for i in attributes.artists {
                     artists.append(i.name)
                 }
-                song = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name)
+                song = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name, albumID: attributes.album.id, explicit: attributes.explicit)
                 debugPrint("Found an exact match")
                 song?.setTranslatedURL(link: generateLink(uri: attributes.uri))
             } else if (closeMatch != nil) {
@@ -195,7 +203,7 @@ class SpotifySongData {
                 for i in attributes.artists {
                     artists.append(i.name)
                 }
-                song = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name)
+                song = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name, albumID: attributes.album.id, explicit: attributes.explicit)
                 debugPrint("Found a close match")
                 song?.setTranslatedURL(link: generateLink(uri: attributes.uri))
             }
