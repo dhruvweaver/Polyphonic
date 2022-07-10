@@ -11,9 +11,12 @@ struct ContentView: View {
     @State private var linkStr: String = ""
     @State private var linkOut: String = ""
     @State private var isLoading: Bool = false
+    @State private var keySong: Song? = nil
+    @State private var type: MusicType = .song
+//    @State private var musicData = MusicData()
     
     var body: some View {
-        let songData = MusicData()
+        let musicData = MusicData()
         NavigationView {
             VStack(alignment: .center) {
                 Text("Paste a link from Apple Music or Spotify to get started")
@@ -55,7 +58,13 @@ struct ContentView: View {
                     Button("Translate") {
                         Task {
                             isLoading = true
-                            linkOut = await songData.translateData(link: linkStr)
+                            let results = await musicData.translateData(link: linkStr)
+                            linkOut = results.0
+                            if let song = results.1 {
+                                keySong = song
+                                type = results.2
+                                debugPrint(type)
+                            }
                             isLoading = false
                             hideKeyboard()
                         }
@@ -104,9 +113,21 @@ struct ContentView: View {
                     .padding(.bottom, 16)
                     .help("Share link")
                 }
+                
+                Text("Output Preview")
+                    .font(.title2)
+                    .fontWeight(.heavy)
+                
+                if (validURL()) {
+                    OutputPreviewView(song: keySong!, type: type)
+                } else {
+                    OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song)
+                        .redacted(reason: .placeholder)
+                }
             }
             .navigationTitle("Polyphonic")
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     private func validURL() -> Bool {

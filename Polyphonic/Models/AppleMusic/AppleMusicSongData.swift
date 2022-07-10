@@ -40,12 +40,17 @@ class AppleMusicSongData {
     
     private struct AppleMusicAttributes: Decodable {
         let artistName: String
+        let artwork: Artwork
         let url: String
         let name: String
         let isrc: String
         let trackNumber: Int
         let albumName: String
         let contentRating: String?
+    }
+    
+    private struct Artwork: Decodable {
+        let url: String
     }
     
     private var appleMusicSearchJSON: AppleMusicSearchRoot? = nil
@@ -215,6 +220,8 @@ class AppleMusicSongData {
                 song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit, trackNum: attributes.trackNumber)
                 debugPrint("Found an exact match")
                 song?.setTranslatedURL(link: attributes.url)
+                song?.setTranslatedImgURL(link: getImageURLDimensions(link: attributes.artwork.url))
+                
                 print("URL: \(song!.getTranslatedURLasString())")
             } else if (closeMatch != nil) {
                 let attributes = processed.results.songs.data[closeMatch!].attributes
@@ -226,6 +233,8 @@ class AppleMusicSongData {
                 song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit, trackNum: attributes.trackNumber)
                 debugPrint("Found a close match")
                 song?.setTranslatedURL(link: attributes.url)
+                song?.setTranslatedImgURL(link: getImageURLDimensions(link: attributes.artwork.url))
+                debugPrint("Image: \(attributes.artwork.url)")
                 
                 // broaden search?
                 return false
@@ -235,6 +244,15 @@ class AppleMusicSongData {
         }
         
         return true
+    }
+    
+    private func getImageURLDimensions(link: String) -> String {
+        var newLink = ""
+        
+        newLink = link.replacingOccurrences(of: "{w}", with: "300")
+        newLink = newLink.replacingOccurrences(of: "{h}", with: "300")
+        
+        return newLink
     }
 }
 

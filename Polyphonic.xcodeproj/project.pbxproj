@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00469435287B43F700C12732 /* OutputPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00469434287B43F700C12732 /* OutputPreviewView.swift */; };
+		00469436287B50DD00C12732 /* OutputPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00469434287B43F700C12732 /* OutputPreviewView.swift */; };
 		00511478286A232C00B69CBC /* SpotifyAlbumData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00511477286A232C00B69CBC /* SpotifyAlbumData.swift */; };
 		00511479286A232C00B69CBC /* SpotifyAlbumData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00511477286A232C00B69CBC /* SpotifyAlbumData.swift */; };
 		0051147B286A318100B69CBC /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0051147A286A318100B69CBC /* Album.swift */; };
@@ -63,6 +65,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00469434287B43F700C12732 /* OutputPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputPreviewView.swift; sourceTree = "<group>"; };
 		00511477286A232C00B69CBC /* SpotifyAlbumData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyAlbumData.swift; sourceTree = "<group>"; };
 		0051147A286A318100B69CBC /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		0051147E286A385700B69CBC /* AppleMusicAlbumData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicAlbumData.swift; sourceTree = "<group>"; };
@@ -198,6 +201,7 @@
 			children = (
 				00918A412854E99900C0B74E /* ContentView.swift */,
 				005D1E8F286374C800D9756C /* ShareView.swift */,
+				00469434287B43F700C12732 /* OutputPreviewView.swift */,
 			);
 			name = Views;
 			path = Polyphonic/Views;
@@ -310,6 +314,7 @@
 				00918A5728559D4300C0B74E /* Base64Encode.swift in Sources */,
 				00918A5B2855AB4B00C0B74E /* Keys.swift in Sources */,
 				00918A4F2854F03B00C0B74E /* Song.swift in Sources */,
+				00469435287B43F700C12732 /* OutputPreviewView.swift in Sources */,
 				00918A422854E99900C0B74E /* ContentView.swift in Sources */,
 				00918A532854F5A300C0B74E /* MusicData.swift in Sources */,
 				00918A402854E99900C0B74E /* PolyphonicApp.swift in Sources */,
@@ -331,6 +336,7 @@
 				00C35F6C28663D410064C8C9 /* SpotifySongData.swift in Sources */,
 				00C35F5D28663CB40064C8C9 /* ShareViewController.swift in Sources */,
 				00C35F6F28663D4A0064C8C9 /* Base64Encode.swift in Sources */,
+				00469436287B50DD00C12732 /* OutputPreviewView.swift in Sources */,
 				00C35F7128666A280064C8C9 /* ShareView.swift in Sources */,
 				0051147C286A318100B69CBC /* Album.swift in Sources */,
 				00C35F6E28663D470064C8C9 /* General.swift in Sources */,

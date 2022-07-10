@@ -16,6 +16,7 @@ class Song {
     private let explicit: Bool!
     private var translatedURL: URL?
     private let trackNum: Int!
+    private var translatedImgURL: URL?
     
     init(title: String, ISRC: String, artists: [String], album: String, albumID: String, explicit: Bool, trackNum: Int) {
         self.title = title
@@ -65,5 +66,16 @@ class Song {
         } else {
             return "There was no translation available"
         }
+    }
+    
+    func setTranslatedImgURL(link: String) {
+        translatedImgURL = URL(string: link)
+    }
+    
+    func getTranslatedImgURL() -> URL {
+        if let translatedImgURL = translatedImgURL {
+            return translatedImgURL
+        }
+        return URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/800px-Question_mark_%28black%29.svg.png")!
     }
 }

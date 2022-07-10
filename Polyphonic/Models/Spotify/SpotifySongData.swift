@@ -31,6 +31,11 @@ class SpotifySongData {
     struct Album: Decodable {
         let id: String
         let name: String
+        let images: [ArtImage]
+    }
+    
+    struct ArtImage: Decodable {
+        let url: String
     }
     
     struct Artist: Decodable {
@@ -215,6 +220,7 @@ class SpotifySongData {
                 song = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name, albumID: attributes.album.id, explicit: attributes.explicit, trackNum: attributes.track_number)
                 debugPrint("Found an exact match")
                 song?.setTranslatedURL(link: generateLink(uri: attributes.uri))
+                song?.setTranslatedImgURL(link: attributes.album.images[1].url)
             } else if (closeMatch != nil) {
                 let attributes = processed.tracks.items[closeMatch!]
                 var artists: [String] = []
@@ -224,6 +230,7 @@ class SpotifySongData {
                 song = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name, albumID: attributes.album.id, explicit: attributes.explicit, trackNum: attributes.track_number)
                 debugPrint("Found a close match")
                 song?.setTranslatedURL(link: generateLink(uri: attributes.uri))
+                song?.setTranslatedImgURL(link: attributes.album.images[1].url)
                 
                 // broaden search?
                 return false
