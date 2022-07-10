@@ -11,75 +11,123 @@ struct ContentView: View {
     @State private var linkStr: String = ""
     @State private var linkOut: String = ""
     @State private var isLoading: Bool = false
+    @State private var keySong: Song? = nil
+    @State private var type: MusicType = .song
+//    @State private var musicData = MusicData()
     
     var body: some View {
-        let songData = MusicData()
-        VStack(alignment: .center) {
-            Text("Translate links between Apple Music and Spotify")
-                .fontWeight(.bold)
-                .multilineTextAlignment(.center)
-                .padding(.bottom)
-            HStack(alignment: .center, spacing: 25.0) {
-                Button("Paste Link") {
-                    if let pasteStr = UIPasteboard.general.string {
-                        linkStr = pasteStr
-                        hideKeyboard()
-                    }
-                }
-                Button("Clear Link") {
-                    linkStr = ""
-                }
-            }
-            
-            HStack(alignment: .center) {
-                TextField("Input Link", text: $linkStr)
-                    .textFieldStyle(.roundedBorder)
-                    .cornerRadius(10)
-                    .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
-                    .padding(.horizontal)
-            }
-            
-            if (!isLoading) {
-                Button("Translate") {
-                    Task {
-                        isLoading = true
-                        linkOut = await songData.translateData(link: linkStr)
-                        isLoading = false
-                        hideKeyboard()
-                    }
-                }
-                .padding(.vertical, 2.0)
-            } else {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .padding(.vertical, 2.0)
-            }
-            
-            HStack(alignment: .center) {
-                TextField("Translated Link", text: $linkOut)
-                    .textFieldStyle(.roundedBorder)
-                    .cornerRadius(10)
-                    .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
-                    .padding(.horizontal)
-            }
-            
-            Button("Copy Translated Link") {
-                UIPasteboard.general.string = linkOut
-            }
-            .disabled(isLoading || !validURL())
-            Button("Share Link") {
-                if let urlShare = URL(string: linkOut) {
-                    let shareActivity = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
+        let musicData = MusicData()
+        NavigationView {
+            VStack(alignment: .center) {
+                Text("Paste a link from Apple Music or Spotify to get started")
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
+                
+                HStack(alignment: .center) {
+                    TextField("Input Link", text: $linkStr)
+                        .textFieldStyle(.roundedBorder)
+                        .cornerRadius(10)
+                        .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
+                        .padding([.leading, .top])
                     
-                    let scenes = UIApplication.shared.connectedScenes
-                    let windowScene = scenes.first as? UIWindowScene
+                    Button(action: {
+                        linkStr = ""
+                    }) {
+                        Image(systemName: "clear")
+                            .padding(.leading, 10)
+                            .padding([.trailing, .top, .bottom])
+                    }
+                    .disabled(linkStr == "")
+                    .padding(.top, 16)
+                    .help("Clear")
                     
-                    windowScene?.keyWindow?.rootViewController?.present(shareActivity, animated: true, completion: nil)
+                    Button(action: {
+                        if let pasteStr = UIPasteboard.general.string {
+                            linkStr = pasteStr
+                            hideKeyboard()
+                        }
+                    }) {
+                        Image(systemName: "doc.on.clipboard")
+                            .padding([.trailing, .top, .bottom])
+                    }
+                    .padding(.top, 16)
+                    .help("Paste link from clipboard")
+                }
+                
+                if (!isLoading) {
+                    Button("Translate") {
+                        Task {
+                            isLoading = true
+                            let results = await musicData.translateData(link: linkStr)
+                            linkOut = results.0
+                            if let song = results.1 {
+                                keySong = song
+                                type = results.2
+                                debugPrint(type)
+                            }
+                            isLoading = false
+                            hideKeyboard()
+                        }
+                    }
+                    .disabled(linkStr == "")
+                    .padding(6)
+                    .cornerRadius(8)
+                } else {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .padding(.vertical, 6)
+                }
+                
+                HStack(alignment: .center) {
+                    TextField("Translated Link", text: $linkOut)
+                        .textFieldStyle(.roundedBorder)
+                        .cornerRadius(10)
+                        .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
+                        .padding([.leading, .bottom])
+                    
+                    Button(action: {
+                        UIPasteboard.general.string = linkOut
+                    }) {
+                        Image(systemName: "doc.on.doc")
+                            .padding(.leading, 10)
+                            .padding([.trailing, .top, .bottom])
+                    }
+                    .disabled(isLoading || !validURL())
+                    .padding(.bottom, 16)
+                    .help("Copy link to clipboard")
+                    
+                    Button(action: {
+                        if let urlShare = URL(string: linkOut) {
+                            let shareActivity = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
+                            
+                            let scenes = UIApplication.shared.connectedScenes
+                            let windowScene = scenes.first as? UIWindowScene
+                            
+                            windowScene?.keyWindow?.rootViewController?.present(shareActivity, animated: true, completion: nil)
+                        }
+                    }) {
+                        Image(systemName: "square.and.arrow.up")
+                            .padding([.trailing, .top, .bottom])
+                    }
+                    .disabled(isLoading || !validURL())
+                    .padding(.bottom, 16)
+                    .help("Share link")
+                }
+                
+                Text("Output Preview")
+                    .font(.title2)
+                    .fontWeight(.heavy)
+                
+                if (validURL()) {
+                    OutputPreviewView(song: keySong!, type: type)
+                } else {
+                    OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song)
+                        .redacted(reason: .placeholder)
                 }
             }
-            .disabled(isLoading || !validURL())
-            .padding(.top)
+            .navigationTitle("Polyphonic")
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     private func validURL() -> Bool {

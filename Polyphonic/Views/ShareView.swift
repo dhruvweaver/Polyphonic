@@ -12,11 +12,19 @@ struct ShareView: View {
     @State private var linkOut: String = ""
     @State private var isLoading: Bool = true
     @State private var songData = MusicData()
+    @State private var keySong: Song? = nil
     @State private var isShare = false
+    @State private var type: MusicType = .song
     
     private func translate() {
         Task {
-            linkOut = await songData.translateData(link: linkStr)
+            let results = await songData.translateData(link: linkStr)
+            try await Task.sleep(nanoseconds: 1000)
+            linkOut = results.0
+            if let song = results.1 {
+                keySong = song
+                type = results.2
+            }
             isLoading = false
         }
     }
@@ -53,6 +61,17 @@ struct ShareView: View {
             }
             .frame(height: 40)
             .padding(.top, 10.0)
+            
+            Text("Output Preview")
+                .font(.title2)
+                .fontWeight(.heavy)
+            
+            if (validURL()) {
+                OutputPreviewView(song: keySong!, type: type)
+            } else {
+                OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song)
+                    .redacted(reason: .placeholder)
+            }
             
             Button("Share Link") {
                 isShare = true
