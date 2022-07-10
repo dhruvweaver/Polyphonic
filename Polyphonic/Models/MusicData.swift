@@ -77,7 +77,7 @@ class MusicData {
         _ = spotify.parseToObject(songRef: nil)
         // if all goes well, continue to translation
         if let spotifySong = spotify.song {
-            songData = Song(title: spotifySong.getTitle(), ISRC: spotifySong.getISRC(), artists: spotifySong.getArtists(), album: spotifySong.getAlbum(), albumID: spotifySong.getAlbumID(), explicit: spotifySong.getExplicit())
+            songData = Song(title: spotifySong.getTitle(), ISRC: spotifySong.getISRC(), artists: spotifySong.getArtists(), album: spotifySong.getAlbum(), albumID: spotifySong.getAlbumID(), explicit: spotifySong.getExplicit(), trackNum: spotifySong.getTrackNum())
             // create AppleMusicSongData object
             let appleMusic = AppleMusicSongData(songID: nil)
             // this function will talk to the Apple Music API, it requires already known song data
