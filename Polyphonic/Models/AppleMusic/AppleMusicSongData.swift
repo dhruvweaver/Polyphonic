@@ -43,6 +43,7 @@ class AppleMusicSongData {
         let url: String
         let name: String
         let isrc: String
+        let trackNumber: Int
         let albumName: String
         let contentRating: String?
     }
@@ -136,7 +137,7 @@ class AppleMusicSongData {
                 if (attributes.contentRating == "explicit") {
                     explicit = true
                 }
-                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: processed.data[processed.data.endIndex - 1].relationships.albums.data[0].id, explicit: explicit)
+                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: processed.data[processed.data.endIndex - 1].relationships.albums.data[0].id, explicit: explicit, trackNum: attributes.trackNumber)
                 song?.setTranslatedURL(link: attributes.url)
             }
         } else if let processed = appleMusicSearchJSON {
@@ -160,7 +161,7 @@ class AppleMusicSongData {
                     explicit = true
                 }
                 let albumID = URL(string: attributes.url)!.lastPathComponent
-                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit)
+                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit, trackNum: attributes.trackNumber)
                 debugPrint(song!.getISRC())
                 debugPrint(songRef!.getISRC())
                 debugPrint(song!.getArtists()[0])
@@ -171,16 +172,32 @@ class AppleMusicSongData {
                 if (song?.getISRC() == songRef!.getISRC()) {
                     if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
                         matchFound = true
+                        lookForCloseMatch = false
                         debugPrint("Marked as exact match")
-                    } else {
+                    } else if (lookForCloseMatch) {
                         closeMatch = i
                         debugPrint("Marked as close match")
+                        if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
+                            lookForCloseMatch = false
+                            debugPrint("Marked as very close match")
+                        }
                     }
-                } else if (lookForCloseMatch && !(song?.getISRC() == songRef!.getISRC()) && (((song?.getAlbum() == songRef!.getAlbum() || cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) && cleanSpotifyText(title: (song?.getTitle())!, forSearching: false) == cleanSpotifyText(title: songRef!.getTitle(), forSearching: false) && cleanArtistName(name: song!.getArtists()[0], forSearching: false) == cleanArtistName(name: songRef!.getArtists()[0], forSearching: false)))) {
-                    debugPrint("Marked as close match")
-                    // bookmark and come back to this one if nothing else matches
-                    closeMatch = i
-                    lookForCloseMatch = false
+                    // sometimes an exact match doesn't exist due to ISRC discrepancies, these must be resolved with a "close match"
+                } else if (lookForCloseMatch) {
+                    if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
+                        closeMatch = i
+                        debugPrint("Marked as close match")
+                        if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
+                            lookForCloseMatch = false
+                            debugPrint("Marked as very close match")
+                        }
+                    } else if (cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) {
+                        closeMatch = i
+                        debugPrint("Marked as close match")
+                        if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
+                            debugPrint("Marked as very close match")
+                        }
+                    }
                 }
                 
                 i += 1
@@ -195,7 +212,7 @@ class AppleMusicSongData {
                     explicit = true
                 }
                 let albumID = URL(string: attributes.url)!.lastPathComponent
-                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit)
+                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit, trackNum: attributes.trackNumber)
                 debugPrint("Found an exact match")
                 song?.setTranslatedURL(link: attributes.url)
                 print("URL: \(song!.getTranslatedURLasString())")
@@ -206,9 +223,12 @@ class AppleMusicSongData {
                     explicit = true
                 }
                 let albumID = URL(string: attributes.url)!.lastPathComponent
-                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit)
+                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit, trackNum: attributes.trackNumber)
                 debugPrint("Found a close match")
                 song?.setTranslatedURL(link: attributes.url)
+                
+                // broaden search?
+                return false
             } else {
                 debugPrint("No matches")
             }

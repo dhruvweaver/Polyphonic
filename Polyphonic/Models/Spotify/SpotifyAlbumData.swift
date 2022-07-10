@@ -84,6 +84,7 @@ class SpotifyAlbumData {
         let url = URL(string: "https://api.spotify.com/v1/albums/\(albumID!)")!
         let sessionConfig = URLSessionConfiguration.default
         // get authorization key from Spotify
+        debugPrint("Querying: \(url.absoluteString)")
         if let authKey = await getSpotifyAuthKey() {
             let authValue: String = "Bearer \(authKey)"
             sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
