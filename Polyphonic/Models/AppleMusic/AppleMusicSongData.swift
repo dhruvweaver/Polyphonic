@@ -108,7 +108,7 @@ class AppleMusicSongData {
         var searchParams: String
         if (narrowSearch) {
             // album name removed from query. May reduce accuracy and/or increase search time, but may also help with getting the right results
-            searchParams = "\(songStr)+\(artistStr)+\(albumStr)"
+            searchParams = "\(songStr)+\(artistStr)"
         } else {
             searchParams = "\(songStr)+\(artistStr)"
         }
@@ -172,8 +172,8 @@ class AppleMusicSongData {
                 debugPrint(songRef!.getISRC())
                 debugPrint(song!.getArtists()[0])
                 debugPrint(songRef!.getArtists()[0])
-                debugPrint("Apple Album: \((song?.getAlbum())!)")
-                debugPrint("Input Album: \(songRef!.getAlbum())")
+                debugPrint("Apple Album: \(cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false))")
+                debugPrint("Input Album: \(cleanSpotifyText(title: (songRef?.getAlbum())!, forSearching: false))")
                 
                 if (song?.getISRC() == songRef!.getISRC()) {
                     if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
@@ -198,7 +198,7 @@ class AppleMusicSongData {
                             veryCloseMatchFound = true
                             debugPrint("Marked as very close match")
                         }
-                    } else if (cleanSpotifyText(title: (song?.getAlbum())!, forSearching: true) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: true)) {
+                    } else if (cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) {
                         closeMatch = i
                         debugPrint("Marked as close match")
                         if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {

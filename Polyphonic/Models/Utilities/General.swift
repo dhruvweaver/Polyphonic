@@ -136,7 +136,6 @@ func cleanText(title: String) -> String {
     clean = removeSpecialCharsFromString(text: clean)
     
     clean = clean.lowercased()
-    debugPrint(clean)
     return clean
 }
 
