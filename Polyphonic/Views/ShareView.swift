@@ -11,6 +11,7 @@ struct ShareView: View {
     @State var linkStr: String = ""
     @State private var linkOut: String = ""
     @State private var isLoading: Bool = true
+    @State private var isValid: Bool = false
     @State private var songData = MusicData()
     @State private var keySong: Song? = nil
     @State private var isShare = false
@@ -18,13 +19,13 @@ struct ShareView: View {
     
     private func translate() {
         Task {
-            try await Task.sleep(nanoseconds: 100000)
             let results = await songData.translateData(link: linkStr)
             linkOut = results.0
             if let song = results.1 {
                 keySong = song
                 type = results.2
             }
+            validURL()
             isLoading = false
         }
     }
@@ -68,7 +69,7 @@ struct ShareView: View {
                 .font(.title2)
                 .fontWeight(.heavy)
             
-            if (validURL()) {
+            if (isValid) {
                 OutputPreviewView(song: keySong!, type: type)
             } else {
                 OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song)
@@ -78,7 +79,7 @@ struct ShareView: View {
             Button("Share Link") {
                 isShare = true
             }
-            .disabled(isLoading || !validURL())
+            .disabled(isLoading || !isValid)
             .padding()
             .background(SharingViewController(isPresenting: $isShare) {
                 let urlShare = URL(string: linkOut)
@@ -92,11 +93,11 @@ struct ShareView: View {
         }
     }
     
-    private func validURL() -> Bool {
+    private func validURL() {
         if let _ = URL(string: linkOut) {
-            return true
+            isValid = true
         } else {
-            return false
+            isValid = false
         }
     }
 }
