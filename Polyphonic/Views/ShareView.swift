@@ -12,10 +12,15 @@ struct ShareView: View {
     @State private var linkOut: String = ""
     @State private var isLoading: Bool = true
     @State private var isValid: Bool = false
+    
     @State private var songData = MusicData()
-    @State private var keySong: Song? = nil
+    @State private var keySong: Song = Song(title: "Title and Registration", ISRC: "123", artists: ["Death Cab for Cutie"], album: "Transatlanticism", albumID: "123", explicit: false, trackNum: 3)
     @State private var isShare = false
     @State private var type: MusicType = .song
+    @State private var alts: [Song] = []
+    @State private var altURLs: [String] = []
+    
+    @State private var showingEditSheet: Bool = false
     
     private func translate() {
         Task {
@@ -24,6 +29,8 @@ struct ShareView: View {
             if let song = results.1 {
                 keySong = song
                 type = results.2
+                alts = results.4
+                altURLs = results.3
             }
             validURL()
             isLoading = false
@@ -70,10 +77,18 @@ struct ShareView: View {
                 .fontWeight(.heavy)
             
             if (isValid) {
-                OutputPreviewView(song: keySong!, type: type)
+                OutputPreviewView(song: keySong, type: type, url: linkOut)
             } else {
-                OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song)
+                OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song, url: linkOut)
                     .redacted(reason: .placeholder)
+            }
+            
+            Button("Edit") {
+                showingEditSheet.toggle()
+            }
+            .disabled(isLoading || !isValid)
+            .sheet(isPresented: $showingEditSheet) {
+                EditResultsView(song: $keySong, alts: alts, altURLs: altURLs, type: type, linkOut: $linkOut)
             }
             
             Button("Share Link") {

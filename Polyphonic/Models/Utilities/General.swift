@@ -167,3 +167,9 @@ func removeSpecialCharsFromString(text: String) -> String {
     let okayChars = Set("abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890")
     return text.filter {okayChars.contains($0) }
 }
+
+// removes duplicates from list of Song objects
+//func removeDuplicates(songs: inout [Song]) {
+//    let uniqueSongs = Array(Set(songs))
+//    songs = uniqueSongs
+//}

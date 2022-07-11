@@ -243,8 +243,30 @@ class SpotifySongData {
         
         return true
     }
-}
-
-private func generateLink(uri: String) -> String {
-    return "https://open.spotify.com/track/\(uri.suffix(from: uri.index(after: uri.lastIndex(of: ":")!)))"
+    
+    private func generateLink(uri: String) -> String {
+        return "https://open.spotify.com/track/\(uri.suffix(from: uri.index(after: uri.lastIndex(of: ":")!)))"
+    }
+    
+    // returns parsed list of songs for user to override results with alternate results
+    func getAllSongs() -> [Song] {
+        debugPrint("Getting all songs")
+        var songs: [Song] = []
+        if let processed = spotifySearchJSON {
+            for i in processed.tracks.items{
+                let attributes = i
+                var artists: [String] = []
+                for j in attributes.artists {
+                    artists.append(j.name)
+                }
+                let songItem = Song(title: attributes.name, ISRC: attributes.external_ids.isrc, artists: artists, album: attributes.album.name, albumID: attributes.album.id, explicit: attributes.explicit, trackNum: attributes.track_number)
+                songItem.setTranslatedURL(link: generateLink(uri: attributes.uri))
+                songItem.setTranslatedImgURL(link: attributes.album.images[1].url)
+                songs.append(songItem)
+            }
+        }
+        
+        // if array returned is empty, then the UI should reflect that
+        return songs
+    }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct OutputPreviewView: View {
     var song: Song
     var type: MusicType
+    let url: String
     var body: some View {
         let url = song.getTranslatedImgURL()
         let songTitle: String = song.getTitle()
@@ -54,6 +55,7 @@ struct OutputPreviewView: View {
                 Text(artistName)
                     .fontWeight(.medium)
                     .lineLimit(1)
+                Image(systemName: song.getExplicit() ? "e.square.fill" : "c.square")
             }
             .frame(width: 180, alignment: .leading)
             .padding(.trailing, 30)
@@ -64,6 +66,6 @@ struct OutputPreviewView: View {
 struct OutputPreviewView_Previews: PreviewProvider {
     static var previews: some View {
         let sample = Song(title: "Title and Registration", ISRC: "123", artists: ["Death Cab for Cutie"], album: "Transatlanticism", albumID: "123", explicit: false, trackNum: 3)
-        OutputPreviewView(song: sample, type: .song)
+        OutputPreviewView(song: sample, type: .song, url: "test")
     }
 }

@@ -70,9 +70,11 @@ class MusicData {
         return id
     }
     
-    private func translateSpotifyToAppleMusic() async -> (String?, Song?) {
+    private func translateSpotifyToAppleMusic() async -> (String?, Song?, [String], [Song]) {
         var translatedLink: String? = nil
         var translatedSong: Song? = nil
+        var altSongURLs: [String] = []
+        var altSongs: [Song] = []
         print("Link is from Spotify")
         // Spotify API call can be made with the Spotify ID, get song ID
         let spotifyID = getSongID(platform: Platform.spotify)
@@ -97,6 +99,13 @@ class MusicData {
                     translatedLink = translatedSongData.getTranslatedURLasString()
                     
                     translatedSong = translatedSongData
+                    altSongs = appleMusic.getAllSongs()
+                    
+                    for i in altSongs {
+                        let altURL = i.getTranslatedURLasString()
+                        debugPrint("Alt: \(altURL)")
+                        altSongURLs.append(altURL)
+                    }
                 }
             } else {
                 debugPrint("Trying search again")
@@ -109,16 +118,26 @@ class MusicData {
                     translatedLink = translatedSongData.getTranslatedURLasString()
                     
                     translatedSong = translatedSongData
+                    altSongs = appleMusic.getAllSongs()
+                    
+                    for i in altSongs {
+                        let altURL = i.getTranslatedURLasString()
+                        debugPrint("Alt: \(altURL)")
+                        altSongURLs.append(altURL)
+                    }
                 }
             }
         }
         
-        return (translatedLink, translatedSong)
+        return (translatedLink, translatedSong, altSongURLs, altSongs)
     }
     
-    private func translateAppleMusicToSpotify() async -> (String?, Song?) {
+    private func translateAppleMusicToSpotify() async -> (String?, Song?, [String], [Song]) {
         var translatedLink: String? = nil
         var translatedSong: Song? = nil
+        var altSongURLs: [String] = []
+        var altSongs: [Song] = []
+        
         print("Link is from Apple Music")
         // Apple Music API call will be made with the Apple Music ID, get song ID
         let appleMusicID = getSongID(platform: Platform.appleMusic)
@@ -141,6 +160,13 @@ class MusicData {
                     translatedLink = translatedSongData.getTranslatedURLasString()
                     
                     translatedSong = translatedSongData
+                    altSongs = spotify.getAllSongs()
+                    
+                    for i in altSongs {
+                        let altURL = i.getTranslatedURLasString()
+                        debugPrint("Alt: \(altURL)")
+                        altSongURLs.append(altURL)
+                    }
                 }
             } else {
                 debugPrint("Trying search again")
@@ -153,17 +179,27 @@ class MusicData {
                     translatedLink = translatedSongData.getTranslatedURLasString()
                     
                     translatedSong = translatedSongData
+                    altSongs = spotify.getAllSongs()
+                    
+                    for i in altSongs {
+                        let altURL = i.getTranslatedURLasString()
+                        debugPrint("Alt: \(altURL)")
+                        altSongURLs.append(altURL)
+                    }
                 }
             }
         }
         
-        return (translatedLink, translatedSong)
+        return (translatedLink, translatedSong, altSongURLs, altSongs)
     }
     
     // translates album from Spotify to Apple Music
-    private func translateAlbumSpotifyToAppleMusic() async -> (String?, Song?) {
+    private func translateAlbumSpotifyToAppleMusic() async -> (String?, Song?, [String], [Song]) {
         var translatedLink: String? = nil
         var translatedSong: Song? = nil
+        var altSongURLs: [String] = []
+        var altSongs: [Song] = []
+        
         debugPrint("Album link is from Spotify")
         // Spotify API call can be made with the Spotify ID, get song ID
         let spotifyID = getAlbumID(platform: .spotify)
@@ -198,6 +234,17 @@ class MusicData {
                         translatedLink = appleAlbum.appleURL
                         
                         translatedSong = translatedSongData
+                        // get alternate song objects from Apple Music object
+                        altSongs = appleMusic.getAllSongs()
+                        
+                        // get alternate URLs from Apple Music object
+                        for i in altSongs {
+                            let album = AppleMusicAlbumData(albumID: i.getAlbumID())
+                            await album.getAppleAlbumDataByID()
+                            let altURL = album.appleURL
+                            debugPrint("Alt: \(altURL)")
+                            altSongURLs.append(altURL)
+                        }
                     }
                 } else {
                     debugPrint("Trying search again")
@@ -212,18 +259,30 @@ class MusicData {
                         translatedLink = appleAlbum.appleURL
                         
                         translatedSong = translatedSongData
+                        altSongs = appleMusic.getAllSongs()
+                        
+                        for i in altSongs {
+                            let album = AppleMusicAlbumData(albumID: i.getAlbumID())
+                            await album.getAppleAlbumDataByID()
+                            let altURL = album.appleURL
+                            debugPrint("Alt: \(altURL)")
+                            altSongURLs.append(altURL)
+                        }
                     }
                 }
             }
         }
         
-        return (translatedLink, translatedSong)
+        return (translatedLink, translatedSong, altSongURLs, altSongs)
     }
     
     // translates album from Spotify to Apple Music
-    private func translateAlbumAppleMusicToSpotify() async -> (String?, Song?) {
+    private func translateAlbumAppleMusicToSpotify() async -> (String?, Song?, [String], [Song]) {
         var translatedLink: String? = nil
         var translatedSong: Song? = nil
+        var altSongURLs: [String] = []
+        var altSongs: [Song] = []
+        
         debugPrint("Album link is from Apple Music")
         // Spotify API call can be made with the Spotify ID, get song ID
         let appleMusicID = getAlbumID(platform: .spotify)
@@ -258,6 +317,15 @@ class MusicData {
                         translatedLink = spotifyAlbum.spotifyURL
                         
                         translatedSong = translatedSongData
+                        altSongs = spotify.getAllSongs()
+                        
+                        for i in altSongs {
+                            let album = SpotifyAlbumData(albumID: i.getAlbumID())
+                            await album.getSpotifyAlbumDataByID()
+                            let altURL = album.spotifyURL
+                            debugPrint("Alt: \(altURL)")
+                            altSongURLs.append(altURL)
+                        }
                     }
                 } else {
                     debugPrint("Trying search again")
@@ -272,18 +340,30 @@ class MusicData {
                         translatedLink = spotifyAlbum.spotifyURL
                         
                         translatedSong = translatedSongData
+                        altSongs = spotify.getAllSongs()
+                        
+                        for i in altSongs {
+                            let album = SpotifyAlbumData(albumID: i.getAlbumID())
+                            await album.getSpotifyAlbumDataByID()
+                            let altURL = album.spotifyURL
+                            debugPrint("Alt: \(altURL)")
+                            altSongURLs.append(altURL)
+                        }
                     }
                 }
             }
         }
         
-        return (translatedLink, translatedSong)
+        return (translatedLink, translatedSong, altSongURLs, altSongs)
     }
     
-    private func findTranslatedLink() async -> (String?, Song?, MusicType) {
+    private func findTranslatedLink() async -> (String?, Song?, MusicType, [String], [Song]) {
         var musicLink: String? = nil
         var keySong: Song? = nil
         var type: MusicType = .song
+        var altURLs: [String] = []
+        var altkeySongs: [Song] = []
+        
         // first identify which platform the link starts with
         findPlatform()
         
@@ -294,11 +374,15 @@ class MusicData {
                 musicLink = results.0
                 keySong = results.1
                 type = .song
+                altURLs = results.2
+                altkeySongs = results.3
             } else if (starterLink!.absoluteString.contains("album")) {
                 let results = await translateAlbumSpotifyToAppleMusic()
                 musicLink = results.0
                 keySong = results.1
                 type = .album
+                altURLs = results.2
+                altkeySongs = results.3
             }
         } else if (starterSource == Platform.appleMusic) {
             // get Spotify link from Apple Music link
@@ -307,26 +391,30 @@ class MusicData {
                 musicLink = results.0
                 keySong = results.1
                 type = .song
+                altURLs = results.2
+                altkeySongs = results.3
             } else {
                 let results = await translateAlbumAppleMusicToSpotify()
                 musicLink = results.0
                 keySong = results.1
                 type = .album
+                altURLs = results.2
+                altkeySongs = results.3
             }
         }
         
-        return (musicLink, keySong, type)
+        return (musicLink, keySong, type, altURLs, altkeySongs)
     }
     
-    func translateData(link: String) async -> (String, Song?, MusicType) {
+    func translateData(link: String) async -> (String, Song?, MusicType, [String], [Song]) {
         if let songLink = URL(string: link) {
             if (songLink.host != "open.spotify.com" && songLink.host != "music.apple.com") {
-                return ("Link is from an unsupported source", nil, .song)
+                return ("Link is from an unsupported source", nil, .song, [], [])
             } else {
                 starterLink = songLink
             }
         } else {
-            return ("Bad link", nil, .song)
+            return ("Bad link", nil, .song, [], [])
         }
         
         var link: String?
@@ -334,9 +422,10 @@ class MusicData {
         link = results.0
         
         if link != nil {
-            return (link!, results.1, results.2)
+            return (link!, results.1, results.2, results.3, results.4)
         } else {
-            return ("No equivalent song or there was an error", nil, .song)
+            // TODO: allow user to browse for alts if there was no exact hit. Will need to check if alternatives are available
+            return ("No equivalent song or there was an error", nil, .song, [], [])
         }
     }
 }

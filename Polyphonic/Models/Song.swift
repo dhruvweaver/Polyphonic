@@ -8,6 +8,18 @@
 import Foundation
 
 class Song {
+//    static func == (lhs: Song, rhs: Song) -> Bool {
+//        lhs.title == rhs.title
+//        && lhs.ISRC == rhs.ISRC
+//        && lhs.artists == rhs.artists
+//        && lhs.album == rhs.album
+//        && lhs.albumID == rhs.albumID
+//        && lhs.explicit == rhs.explicit
+//        && lhs.translatedURL == rhs.translatedURL
+//        && lhs.trackNum == rhs.trackNum
+//        && lhs.translatedImgURL == rhs.translatedImgURL
+//    }
+    
     private let title: String!
     private let ISRC: String!
     private let artists: [String]!

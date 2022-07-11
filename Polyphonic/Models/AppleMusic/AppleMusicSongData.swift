@@ -256,5 +256,28 @@ class AppleMusicSongData {
         
         return newLink
     }
+    
+    // returns parsed list of songs for user to override results with alternate results
+    func getAllSongs() -> [Song] {
+        debugPrint("Getting all songs")
+        var songs: [Song] = []
+        if let processed = appleMusicSearchJSON {
+            for i in processed.results.songs.data {
+                let attributes = i.attributes
+                var explicit: Bool = false
+                if (attributes.contentRating == "explicit") {
+                    explicit = true
+                }
+                let albumID = URL(string: attributes.url)!.lastPathComponent
+                let songItem = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit, trackNum: attributes.trackNumber)
+                songItem.setTranslatedURL(link: attributes.url)
+                songItem.setTranslatedImgURL(link: getImageURLDimensions(link: attributes.artwork.url))
+                songs.append(songItem)
+            }
+        }
+        
+        // if array returned is empty, then the UI should reflect that
+        return songs
+    }
 }
 
