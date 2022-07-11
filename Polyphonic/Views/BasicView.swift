@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct BasicView: View {
     @State private var linkStr: String = ""
     @State private var linkOut: String = ""
     @State private var isLoading: Bool = false
@@ -19,9 +19,11 @@ struct ContentView: View {
         let musicData = MusicData()
         NavigationView {
             VStack(alignment: .center) {
-                Text("Translate links between Apple Music and Spotify")
+                Text("Share songs and albums between Apple Music and Spotify")
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
+                    .frame(width: 300.0)
+                    .padding(.top, 40)
                 
                 HStack(alignment: .center) {
                     TextField("Press the paste button", text: $linkStr)
@@ -148,6 +150,6 @@ extension View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        BasicView()
     }
 }

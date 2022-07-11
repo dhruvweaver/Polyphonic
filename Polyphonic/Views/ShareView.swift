@@ -18,7 +18,6 @@ struct ShareView: View {
     
     private func translate() {
         Task {
-            try await Task.sleep(nanoseconds: 100000)
             let results = await songData.translateData(link: linkStr)
             linkOut = results.0
             if let song = results.1 {
@@ -68,7 +67,7 @@ struct ShareView: View {
                 .font(.title2)
                 .fontWeight(.heavy)
             
-            if (validURL()) {
+            if (!isLoading) {
                 OutputPreviewView(song: keySong!, type: type)
             } else {
                 OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song)
