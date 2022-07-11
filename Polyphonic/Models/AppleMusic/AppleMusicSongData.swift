@@ -172,8 +172,8 @@ class AppleMusicSongData {
                 debugPrint(songRef!.getISRC())
                 debugPrint(song!.getArtists()[0])
                 debugPrint(songRef!.getArtists()[0])
-                debugPrint("Apple Album: \(cleanSpotifyText(title: (song?.getAlbum())!, forSearching: true))")
-                debugPrint("Input Album: \(cleanSpotifyText(title: songRef!.getAlbum(), forSearching: true))")
+                debugPrint("Apple Album: \((song?.getAlbum())!)")
+                debugPrint("Input Album: \(songRef!.getAlbum())")
                 
                 if (song?.getISRC() == songRef!.getISRC()) {
                     if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {

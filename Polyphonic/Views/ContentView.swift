@@ -13,18 +13,18 @@ struct ContentView: View {
     @State private var isLoading: Bool = false
     @State private var keySong: Song? = nil
     @State private var type: MusicType = .song
-//    @State private var musicData = MusicData()
+    //    @State private var musicData = MusicData()
     
     var body: some View {
         let musicData = MusicData()
         NavigationView {
             VStack(alignment: .center) {
-                Text("Paste a link from Apple Music or Spotify to get started")
+                Text("Translate links between Apple Music and Spotify")
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                 
                 HStack(alignment: .center) {
-                    TextField("Input Link", text: $linkStr)
+                    TextField("Press the paste button", text: $linkStr)
                         .textFieldStyle(.roundedBorder)
                         .cornerRadius(10)
                         .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
@@ -56,6 +56,7 @@ struct ContentView: View {
                 
                 if (!isLoading) {
                     Button("Translate") {
+//                        hideKeyboard()
                         Task {
                             isLoading = true
                             let results = await musicData.translateData(link: linkStr)
@@ -66,7 +67,6 @@ struct ContentView: View {
                                 debugPrint(type)
                             }
                             isLoading = false
-                            hideKeyboard()
                         }
                     }
                     .disabled(linkStr == "")
@@ -79,7 +79,7 @@ struct ContentView: View {
                 }
                 
                 HStack(alignment: .center) {
-                    TextField("Translated Link", text: $linkOut)
+                    TextField("No output yet...", text: $linkOut)
                         .textFieldStyle(.roundedBorder)
                         .cornerRadius(10)
                         .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
@@ -128,6 +128,7 @@ struct ContentView: View {
             .navigationTitle("Polyphonic")
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .gesture(DragGesture().onChanged{_ in UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)})
     }
     
     private func validURL() -> Bool {

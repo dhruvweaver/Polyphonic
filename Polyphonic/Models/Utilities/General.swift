@@ -10,9 +10,14 @@ import Foundation
 // removes items in parentheses and after dashes, adds important search terms like remixes and deluxe editions
 func cleanSpotifyText(title: String, forSearching: Bool) -> String {
     var clean = title
-    clean = clean.replacingOccurrences(of: " - ", with: " * ")
-    clean = clean.replacingOccurrences(of: "+-+", with: " * ")
-    if let indDash = clean.firstIndex(of: "*") {
+    
+    // normalize everything to lowercased lettering
+    clean = clean.lowercased()
+    clean = uncensorText(text: clean)
+    
+    clean = clean.replacingOccurrences(of: " - ", with: " 𝜌 ")
+    clean = clean.replacingOccurrences(of: "+-+", with: " 𝜌 ")
+    if let indDash = clean.firstIndex(of: "𝜌") {
         clean = String(clean[clean.startIndex...clean.index(indDash, offsetBy: -2)])
     }
     clean = clean.replacingOccurrences(of: "+", with: " ")
@@ -61,18 +66,18 @@ func cleanSpotifyText(title: String, forSearching: Bool) -> String {
         }
     }
     
-    // normalize everything to lowercased lettering
-    clean = clean.lowercased()
-    
     return clean
 }
 
 // removes items in parentheses and after dashes, adds important search terms like remixes and deluxe editions
 func cleanAppleMusicText(title: String, forSearching: Bool) -> String {
     var clean = title
-    clean = clean.replacingOccurrences(of: " - ", with: " * ")
-    clean = clean.replacingOccurrences(of: "+-+", with: " * ")
-    if let indDash = clean.firstIndex(of: "*") {
+    
+    clean = clean.lowercased()
+    
+    clean = clean.replacingOccurrences(of: " - ", with: " 𝜌 ")
+    clean = clean.replacingOccurrences(of: "+-+", with: " 𝜌 ")
+    if let indDash = clean.firstIndex(of: "𝜌") {
         clean = String(clean[clean.startIndex...clean.index(indDash, offsetBy: -2)])
     }
     clean = clean.replacingOccurrences(of: "+", with: " ")
@@ -120,18 +125,27 @@ func cleanAppleMusicText(title: String, forSearching: Bool) -> String {
         }
     }
     
-    clean = clean.lowercased()
+    clean = uncensorText(text: clean)
     
     return clean
 }
 
 func cleanText(title: String) -> String {
+    debugPrint(title)
     var clean = title
     clean = removeSpecialCharsFromString(text: clean)
     
     clean = clean.lowercased()
-    
+    debugPrint(clean)
     return clean
+}
+
+func uncensorText(text: String) -> String {
+    var uncensored = text
+    uncensored = uncensored.replacingOccurrences(of: "f****n", with: "")
+    uncensored = uncensored.replacingOccurrences(of: "f**k", with: "")
+    
+    return uncensored
 }
 
 // removes ampersands and dashes in artist names to simplify search and reduce errors

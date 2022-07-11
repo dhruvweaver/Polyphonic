@@ -22,8 +22,8 @@ struct OutputPreviewView: View {
                 content: { image in
                     image.resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: 140, maxHeight: 140)
                         .cornerRadius(5)
+                        .frame(maxWidth: 140, maxHeight: 140)
                         .padding(.leading, 20)
                         .padding(.trailing, 10)
                         .padding(.vertical, 10)
@@ -34,7 +34,8 @@ struct OutputPreviewView: View {
                     ProgressView()
                         .padding(.leading, 80)
                         .padding(.trailing, 70)
-                        .padding(.vertical, 70)
+//                        .padding(.vertical, 70)
+                        .frame (minHeight: 65, maxHeight: 160)
                 }
             )
             

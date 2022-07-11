@@ -173,7 +173,7 @@ class SpotifySongData {
                 debugPrint(songRef!.getISRC())
                 debugPrint(song!.getArtists()[0])
                 debugPrint(songRef!.getArtists()[0])
-                debugPrint("Spotify Album: \(song!.getAlbum())")
+                debugPrint("Spotify Album: \((song?.getAlbum())!)")
                 debugPrint("Input   Album: \(songRef!.getAlbum())")
                 
                 // if there is an exact match with the ISRC, then refine parameters until a match is identified

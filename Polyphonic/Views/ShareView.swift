@@ -18,7 +18,7 @@ struct ShareView: View {
     
     private func translate() {
         Task {
-            try await Task.sleep(nanoseconds: 10000)
+            try await Task.sleep(nanoseconds: 100000)
             let results = await songData.translateData(link: linkStr)
             linkOut = results.0
             if let song = results.1 {
@@ -42,6 +42,7 @@ struct ShareView: View {
                     .cornerRadius(10)
                     .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
                     .padding(.horizontal)
+                    .disabled(true)
             }
             .onAppear(perform: translate)
             
@@ -53,6 +54,7 @@ struct ShareView: View {
                             .cornerRadius(10)
                             .overlay(RoundedRectangle(cornerRadius: 10.0).strokeBorder(Color.gray, style: StrokeStyle(lineWidth: 1.0)))
                             .padding(.horizontal)
+                            .disabled(true)
                     }
                 } else {
                     ProgressView()
