@@ -11,7 +11,14 @@ import Foundation
  Enum specifying the source music type. Either a Song or Album.
  */
 enum MusicType {
-    case song, album
+    case song, album, playlist
+}
+
+/**
+ Enum specifying which platform the link comes from.
+ */
+enum Platform {
+    case unknown, spotify, appleMusic
 }
 
 /**
@@ -24,12 +31,6 @@ class MusicData {
         
     }
     
-    /**
-     Enum specifying which platform the link comes from.
-     */
-    enum Platform {
-        case unknown, spotify, appleMusic
-    }
     private var starterSource: Platform = Platform.unknown
     
     var song: Song? = nil
@@ -421,6 +422,12 @@ class MusicData {
                 type = .album
                 altURLs = results.2
                 altkeySongs = results.3
+            } else if (starterLink!.absoluteString.contains("playlist")) {
+                musicLink = "Try using the playlist tab for this!"
+                keySong = nil
+                type = .playlist
+                altURLs = []
+                altkeySongs = []
             }
         } else if (starterSource == Platform.appleMusic) {
             // get Spotify link from Apple Music link

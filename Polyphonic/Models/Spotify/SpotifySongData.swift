@@ -83,7 +83,7 @@ class SpotifySongData {
      Gets an authorization key from Spotify's API.
      - Returns: Authorization key.
      */
-    private func getSpotifyAuthKey() async -> String? {
+    func getSpotifyAuthKey() async -> String? {
         let url = URL(string: "https://accounts.spotify.com/api/token")!
         let urlSession = URLSession.shared
         let spotifyClientString = (spotifyClientID + ":" + spotifyClientSecret).toBase64()

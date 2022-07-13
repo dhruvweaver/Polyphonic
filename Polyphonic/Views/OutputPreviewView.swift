@@ -56,13 +56,21 @@ struct OutputPreviewView: View {
                     Text("Album:")
                         .fontWeight(.bold)
                         .lineLimit(1)
+                } else if (type == .playlist) {
+                    Text(songTitle)
+                        .fontWeight(.bold)
+                        .lineLimit(1)
                 }
                 Text(albumTitle)
                     .lineLimit(1)
                 Text(artistName)
                     .fontWeight(.medium)
                     .lineLimit(1)
+                if (type != .playlist) {
                 Image(systemName: song.getExplicit() ? "e.square.fill" : "c.square")
+                } else {
+                    Text("\(song.getTrackNum()) tracks")
+                }
             }
             .frame(width: 180, alignment: .leading)
             .padding(.trailing, 30)

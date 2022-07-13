@@ -7,6 +7,47 @@
 
 import Foundation
 
+/* Spotify Authorization Key */
+
+private var spotifyAccessJSON: SpotifyAccessData? = nil
+private struct SpotifyAccessData: Decodable {
+    let access_token: String
+}
+
+/**
+ Gets an authorization key from Spotify's API.
+ - Returns: Authorization key.
+ */
+func getSpotifyAuthKey() async -> String? {
+    let url = URL(string: "https://accounts.spotify.com/api/token")!
+    let urlSession = URLSession.shared
+    let spotifyClientString = (spotifyClientID + ":" + spotifyClientSecret).toBase64()
+    
+    var request = URLRequest(url: url)
+    request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+    request.setValue("Basic \(spotifyClientString)", forHTTPHeaderField: "Authorization")
+    request.httpMethod = "POST"
+    let postString = "grant_type=client_credentials"
+    request.httpBody = postString.data(using: String.Encoding.utf8)
+    
+    do {
+        let (data, _) = try await urlSession.data(for: request)
+        spotifyAccessJSON = try JSONDecoder().decode(SpotifyAccessData.self, from: data)
+    } catch {
+        debugPrint("Error loading \(url): \(String(describing: error))")
+    }
+    
+    var accessKey: String? = nil
+    
+    if let processed = spotifyAccessJSON {
+        accessKey = processed.access_token
+    }
+    
+    return accessKey
+}
+
+/* Spotify Authorization Key */
+
 /**
  For use when querying Spotify's API.
  Removes words in parentheses, after dashes, and optionally adds back any important search terms that may have been removed.
