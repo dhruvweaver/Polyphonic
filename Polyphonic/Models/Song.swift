@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ Class containing important details and parameters for identifying songs.
+ */
 class Song {
     private let title: String!
     private let ISRC: String!
@@ -28,38 +31,65 @@ class Song {
         self.trackNum = trackNum
     }
     
+    /**
+     - Returns: Song's title.
+     */
     func getTitle() -> String {
         return title
     }
     
+    /**
+     - Returns: Song's ISRC.
+     */
     func getISRC() -> String {
         return ISRC
     }
     
+    /**
+     - Returns: Song's artists.
+     */
     func getArtists() -> [String] {
         return artists
     }
     
+    /**
+     - Returns: Song's album.
+     */
     func getAlbum() -> String {
         return album
     }
     
+    /**
+     - Returns: Song's related album ID.
+     */
     func getAlbumID() -> String {
         return albumID
     }
     
+    /**
+     - Returns: Song's content rating; true if explicit.
+     */
     func getExplicit() -> Bool {
         return explicit
     }
     
-    func setTranslatedURL(link: String) {
-        translatedURL = URL(string: link)
-    }
-    
+    /**
+     - Returns: Song's track number in the album.
+     */
     func getTrackNum() -> Int {
         return trackNum
     }
     
+    /**
+     - Parameter link: Link to the song on the output platform.
+     */
+    func setTranslatedURL(link: String) {
+        translatedURL = URL(string: link)
+    }
+    
+    /**
+     - Returns: Translated URL as a `String` if it is valid, otherwise returns a message reflecting an error.
+     */
     func getTranslatedURLasString() -> String {
         if let translatedURL = translatedURL {
             return translatedURL.absoluteString
@@ -68,10 +98,16 @@ class Song {
         }
     }
     
+    /**
+     - Parameter link: Link to the album art on the output platform.
+     */
     func setTranslatedImgURL(link: String) {
         translatedImgURL = URL(string: link)
     }
     
+    /**
+     - Returns: Translated song's album art URL as a `String` if it is valid, otherwise returns a link to an image of a question mark.
+     */
     func getTranslatedImgURL() -> URL {
         if let translatedImgURL = translatedImgURL {
             return translatedImgURL

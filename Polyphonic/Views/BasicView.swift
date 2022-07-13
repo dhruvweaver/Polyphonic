@@ -11,9 +11,13 @@ struct BasicView: View {
     @State private var linkStr: String = ""
     @State private var linkOut: String = ""
     @State private var isLoading: Bool = false
-    @State private var keySong: Song? = nil
+    
+    @State private var keySong: Song = Song(title: "Title and Registration", ISRC: "123", artists: ["Death Cab for Cutie"], album: "Transatlanticism", albumID: "123", explicit: false, trackNum: 3)
     @State private var type: MusicType = .song
-    //    @State private var musicData = MusicData()
+    @State private var alts: [Song] = []
+    @State private var altURLs: [String] = []
+    
+    @State private var showingEditSheet: Bool = false
     
     var body: some View {
         let musicData = MusicData()
@@ -58,15 +62,16 @@ struct BasicView: View {
                 
                 if (!isLoading) {
                     Button("Translate") {
-//                        hideKeyboard()
                         Task {
+                            hideKeyboard()
                             isLoading = true
                             let results = await musicData.translateData(link: linkStr)
                             linkOut = results.0
                             if let song = results.1 {
                                 keySong = song
                                 type = results.2
-                                debugPrint(type)
+                                alts = results.4
+                                altURLs = results.3
                             }
                             isLoading = false
                         }
@@ -121,10 +126,18 @@ struct BasicView: View {
                     .fontWeight(.heavy)
                 
                 if (validURL()) {
-                    OutputPreviewView(song: keySong!, type: type)
+                    OutputPreviewView(song: keySong, type: type, url: linkOut, forEditing: false)
                 } else {
-                    OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song)
+                    OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song, url: linkOut, forEditing: false)
                         .redacted(reason: .placeholder)
+                }
+                
+                Button("Edit") {
+                    showingEditSheet.toggle()
+                }
+                .disabled(isLoading || !validURL())
+                .sheet(isPresented: $showingEditSheet) {
+                    EditResultsView(song: $keySong, alts: alts, altURLs: altURLs, type: type, linkOut: $linkOut)
                 }
             }
             .navigationTitle("Polyphonic")
@@ -143,6 +156,9 @@ struct BasicView: View {
 }
 
 extension View {
+    /**
+     Simple function to hide the keyboard.
+     */
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }

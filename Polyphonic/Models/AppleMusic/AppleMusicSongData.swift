@@ -7,6 +7,25 @@
 
 import Foundation
 
+/**
+ Class containing functions and structures critical to communicating with Apple Music's database, and for identifying a matching song.
+ - Note: `parseToObject()` function only parses objects once decoded JSON data has been assigned within the class. Call either of the `getSpotifySongData` methods to do so.
+ ~~~
+ // initialize object
+ let appleMusicData = AppleMusicSongData("0123456789")
+ 
+ // initialize decoded JSON data within AppleMusicSongData object
+ appleMusicData.getSpotifySongDataByID()
+ 
+ // parse data into something usable,
+ // will store usable `Song` object in public variable
+ let accurate = appleMusicData.parseToObject()
+ // handle whether search results were accurate enough, if applicable
+ let song = appleMusicData.song
+ 
+ // do something with the song
+ ~~~
+ */
 class AppleMusicSongData {
     private let songID: String?
     var song: Song? = nil
@@ -17,6 +36,7 @@ class AppleMusicSongData {
     
     private var appleMusicSongJSON: AppleMusicSongDataRoot? = nil
     
+    /* Start of JSON decoding structs */
     private struct AppleMusicSongDataRoot: Decodable {
         let data: [AppleMusicSongDataData]
     }
@@ -70,7 +90,11 @@ class AppleMusicSongData {
     private struct AppleMusicSearchData: Decodable {
         let attributes: AppleMusicAttributes
     }
+    /* End of JSON decoding structs */
     
+    /**
+     Assings local variable `appleMusicSongJSON` to decoded JSON after querying API for song data using a song ID.
+     */
     func getAppleMusicSongDataByID() async {
         let url = URL(string: "https://api.music.apple.com/v1/catalog/us/songs/\(songID!)")!
         debugPrint("Querying: \(url.absoluteString)")
@@ -91,7 +115,11 @@ class AppleMusicSongData {
         }
     }
     
-    // TODO: NEEDS LOTS OF WORK ON NULL SAFETY
+    /**
+     Assings local variable `spotifySearchJSON` to decoded JSON after querying API for song data using relevant search parameters.
+     - Parameter songRef: Song object containing song data from the original source.
+     - Parameter narrowSearch: Whether or not to use broad search terms or to be more specific.
+     */
     func getAppleMusicSongDataBySearch(songRef: Song, narrowSearch: Bool) async {
         // clean metadata and convert it to a form that will work with the API
         var songStr = songRef.getTitle()
@@ -132,7 +160,13 @@ class AppleMusicSongData {
         }
     }
     
-    // TODO: Needs to differentiate between songs released as a single vs those released with the album. Right now it tends to only pick the album version
+    /**
+     Parses data from decoded JSON to a song object. If the data came from search results more processing is required, and the original `Song` object is compared with the search results to find the best match.
+     The function will then return a `Bool` indicating whether or not a broader search is needed.
+     - Parameter songRef: Reference `Song` object for checking against search results. Not needed if processing results from an ID search.
+     - Returns: `Bool` indicating whether or not a broader search is needed. `True` means results were acceptable.
+     - Note: `parseToObject()` function only parses objects once decoded JSON data has been assigned within the class. Call either of the `getAppleMusicSongData` methods to do so.
+     */
     func parseToObject(songRef: Song?) -> Bool {
         print("Parsing...")
         if let processed = appleMusicSongJSON {
@@ -176,7 +210,7 @@ class AppleMusicSongData {
                 debugPrint("Input Album: \(cleanSpotifyText(title: (songRef?.getAlbum())!, forSearching: false))")
                 
                 if (song?.getISRC() == songRef!.getISRC()) {
-                    if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
+                    if (cleanText(text: song!.getAlbum()) == cleanText(text: songRef!.getAlbum())) {
                         matchFound = true
                         lookForCloseMatch = false
                         debugPrint("Marked as exact match")
@@ -190,7 +224,7 @@ class AppleMusicSongData {
                     }
                     // sometimes an exact match doesn't exist due to ISRC discrepancies, these must be resolved with a "close match"
                 } else if (lookForCloseMatch) {
-                    if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
+                    if (cleanText(text: song!.getAlbum()) == cleanText(text: songRef!.getAlbum())) {
                         closeMatch = i
                         debugPrint("Marked as close match")
                         if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
@@ -242,12 +276,18 @@ class AppleMusicSongData {
                 return veryCloseMatchFound
             } else {
                 debugPrint("No matches")
+                return false
             }
         }
         
         return true
     }
     
+    /**
+     Does string manipulation on the album art URL to get album art of the right dimensions (300x300).
+     - Parameter link: Unprocessed URL to album art. Contains `{w}x{h}` for size parameters
+     - Returns: Modified URL to album art.
+     */
     private func getImageURLDimensions(link: String) -> String {
         var newLink = ""
         
@@ -255,6 +295,33 @@ class AppleMusicSongData {
         newLink = newLink.replacingOccurrences(of: "{h}", with: "300")
         
         return newLink
+    }
+    
+    // parsed list of songs for user to override results with alternate results
+    /**
+     Gets and returns the full list of `Song` objects from decoded JSON data returned by API search.
+     - Returns: `List` of `Song` objects
+     */
+    func getAllSongs() -> [Song] {
+        debugPrint("Getting all songs")
+        var songs: [Song] = []
+        if let processed = appleMusicSearchJSON {
+            for i in processed.results.songs.data {
+                let attributes = i.attributes
+                var explicit: Bool = false
+                if (attributes.contentRating == "explicit") {
+                    explicit = true
+                }
+                let albumID = URL(string: attributes.url)!.lastPathComponent
+                let songItem = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit, trackNum: attributes.trackNumber)
+                songItem.setTranslatedURL(link: attributes.url)
+                songItem.setTranslatedImgURL(link: getImageURLDimensions(link: attributes.artwork.url))
+                songs.append(songItem)
+            }
+        }
+        
+        // if array returned is empty, then the UI should reflect that
+        return songs
     }
 }
 

@@ -7,7 +7,14 @@
 
 import Foundation
 
-// removes items in parentheses and after dashes, adds important search terms like remixes and deluxe editions
+/**
+ For use when querying Spotify's API.
+ Removes words in parentheses, after dashes, and optionally adds back any important search terms that may have been removed.
+ Such as for remixes and deluxe editions.
+ - Parameter title: Title of the song or album to be cleaned for searching.
+ - Parameter forSearching: Whether or not to add search terms from parentheses/after dashes back to the title.
+ - Returns: Cleaned title.
+ */
 func cleanSpotifyText(title: String, forSearching: Bool) -> String {
     var clean = title
     
@@ -70,6 +77,14 @@ func cleanSpotifyText(title: String, forSearching: Bool) -> String {
 }
 
 // removes items in parentheses and after dashes, adds important search terms like remixes and deluxe editions
+/**
+ For use when querying Apple Music's API.
+ Removes words in parentheses, after dashes, and optionally adds back any important search terms that may have been removed.
+ Such as for remixes and deluxe editions. Formats title with "+" replacing spaces.
+ - Parameter title: Title of the song or album to be cleaned for searching.
+ - Parameter forSearching: Whether or not to add search terms from parentheses/after dashes back to the title.
+ - Returns: Cleaned title.
+ */
 func cleanAppleMusicText(title: String, forSearching: Bool) -> String {
     var clean = title
     
@@ -130,15 +145,25 @@ func cleanAppleMusicText(title: String, forSearching: Bool) -> String {
     return clean
 }
 
-func cleanText(title: String) -> String {
-    debugPrint(title)
-    var clean = title
+/**
+ Cleans text by removing special characters from a `String`.
+ - Parameter text: Text to be cleaned.
+ - Returns: Cleaned text.
+ */
+func cleanText(text: String) -> String {
+    debugPrint(text)
+    var clean = text
     clean = removeSpecialCharsFromString(text: clean)
     
     clean = clean.lowercased()
     return clean
 }
 
+/**
+ Uncesors text. Useful when interpreting song and album names from Apple Music, which come back censored.
+ - Parameter text: Text to be uncesored.
+ - Returns: Uncensored text.
+ */
 func uncensorText(text: String) -> String {
     var uncensored = text
     uncensored = uncensored.replacingOccurrences(of: "f****n", with: "")
@@ -148,6 +173,12 @@ func uncensorText(text: String) -> String {
 }
 
 // removes ampersands and dashes in artist names to simplify search and reduce errors
+/**
+ Removes ampersands and dashes in artist names to simplify search terms and reduce errors.
+ - Parameter name: Name to be cleaned.
+ - Parameter forSearching: If true, replaces "-" with "+" to not avoid errors.
+ - Returns: Cleaned artist name.
+ */
 func cleanArtistName(name: String, forSearching: Bool) -> String {
     var clean = name
     if (forSearching) {
@@ -163,7 +194,18 @@ func cleanArtistName(name: String, forSearching: Bool) -> String {
     return clean
 }
 
+/**
+ Removes special characters from a `String`.
+ - Parameter text: Text to have special characters removed.
+ - Returns: Text without special characters.
+ */
 func removeSpecialCharsFromString(text: String) -> String {
     let okayChars = Set("abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890")
     return text.filter {okayChars.contains($0) }
 }
+
+// removes duplicates from list of Song objects
+//func removeDuplicates(songs: inout [Song]) {
+//    let uniqueSongs = Array(Set(songs))
+//    songs = uniqueSongs
+//}
