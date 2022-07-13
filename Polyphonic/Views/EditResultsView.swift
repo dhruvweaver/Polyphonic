@@ -17,34 +17,46 @@ struct EditResultsView: View {
     var onDismiss: ((_ model: String, Song) -> Void)?
     @Binding var linkOut: String
     var body: some View {
-        ScrollView {
-            VStack(alignment: .center) {
-                if (alts.count > 1) {
-                    ForEach(0..<alts.count, id: \.self) { index in
-                        let currentAlt = alts[index]
-                        if (type == .album && (cleanSpotifyText(title: currentAlt.getAlbum(), forSearching: false) == cleanSpotifyText(title: song.getAlbum(), forSearching: false)) && song.getTranslatedURLasString() != currentAlt.getTranslatedURLasString()) {
-                            OutputPreviewView(song: currentAlt, type: type, url: altURLs[index])
-                                .onTapGesture {
-                                    linkOut = altURLs[index]
-                                    song = currentAlt
-                                    onDismiss?(linkOut, song)
-                                    presentationMode.wrappedValue.dismiss()
-                                }
-                        } else if (type == .song && song.getTranslatedURLasString() != currentAlt.getTranslatedURLasString()) {
-                            OutputPreviewView(song: currentAlt, type: type, url: altURLs[index])
-                                .onTapGesture {
-                                    linkOut = altURLs[index]
-                                    song = currentAlt
-                                    onDismiss?(linkOut, song)
-                                    presentationMode.wrappedValue.dismiss()
-                                }
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .center) {
+                    if (alts.count > 1) {
+                        ForEach(0..<alts.count, id: \.self) { index in
+                            let currentAlt = alts[index]
+                            if (type == .album && (cleanSpotifyText(title: currentAlt.getAlbum(), forSearching: false) == cleanSpotifyText(title: song.getAlbum(), forSearching: false)) && song.getTranslatedURLasString() != currentAlt.getTranslatedURLasString()) {
+                                OutputPreviewView(song: currentAlt, type: type, url: altURLs[index], forEditing: true)
+                                    .onTapGesture {
+                                        linkOut = altURLs[index]
+                                        song = currentAlt
+                                        onDismiss?(linkOut, song)
+                                        presentationMode.wrappedValue.dismiss()
+                                    }
+                            } else if (type == .song && song.getTranslatedURLasString() != currentAlt.getTranslatedURLasString()) {
+                                OutputPreviewView(song: currentAlt, type: type, url: altURLs[index], forEditing: true)
+                                    .onTapGesture {
+                                        linkOut = altURLs[index]
+                                        song = currentAlt
+                                        onDismiss?(linkOut, song)
+                                        presentationMode.wrappedValue.dismiss()
+                                    }
+                            }
+                            
                         }
-                    
+                    } else {
+                        Text("No alternatives to pick from")
                     }
-                } else {
-                    Text("No alternatives to pick from")
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    Button("Cancel") {
+                        onDismiss?(linkOut, song)
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
+            .navigationTitle("Alternatives:")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

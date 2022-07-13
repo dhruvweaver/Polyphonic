@@ -63,6 +63,7 @@ struct BasicView: View {
                 if (!isLoading) {
                     Button("Translate") {
                         Task {
+                            hideKeyboard()
                             isLoading = true
                             let results = await musicData.translateData(link: linkStr)
                             linkOut = results.0
@@ -125,9 +126,9 @@ struct BasicView: View {
                     .fontWeight(.heavy)
                 
                 if (validURL()) {
-                    OutputPreviewView(song: keySong, type: type, url: linkOut)
+                    OutputPreviewView(song: keySong, type: type, url: linkOut, forEditing: false)
                 } else {
-                    OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song, url: linkOut)
+                    OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song, url: linkOut, forEditing: false)
                         .redacted(reason: .placeholder)
                 }
                 
@@ -155,6 +156,9 @@ struct BasicView: View {
 }
 
 extension View {
+    /**
+     Simple function to hide the keyboard.
+     */
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }

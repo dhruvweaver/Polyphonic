@@ -6,7 +6,25 @@
 //
 
 import Foundation
-
+/**
+ Class containing functions and structures critical to communicating with Spotify's music database, and for identifying a matching song.
+ - Note: `parseToObject()` function only parses objects once decoded JSON data has been assigned within the class. Call either of the `getSpotifySongData` methods to do so.
+ ~~~
+ // initialize object
+ let spotifyData = SpotifySongData("0123456789")
+ 
+ // initialize decoded JSON data within SpotifySongData object
+ spotifyData.getSpotifySongDataByID()
+ 
+ // parse data into something usable,
+ // will store usable `Song` object in public variable
+ let accurate = spotifyData.parseToObject()
+ // handle whether search results were accurate enough, if applicable
+ let song = spotifyData.song
+ 
+ // do something with the song
+ ~~~
+ */
 class SpotifySongData {
     private let songID: String?
     var song: Song? = nil
@@ -18,7 +36,8 @@ class SpotifySongData {
     private var spotifySongJSON: SpotifySongDataRoot? = nil
     private var spotifySearchJSON: SpotifySongSearchRoot? = nil
     
-    struct SpotifySongDataRoot: Decodable {
+    /* Start of JSON decoding structs */
+    private struct SpotifySongDataRoot: Decodable {
         let album: Album
         let artists: [Artist]
         let explicit: Bool
@@ -28,29 +47,29 @@ class SpotifySongData {
         let uri: String
     }
     
-    struct Album: Decodable {
+    private struct Album: Decodable {
         let id: String
         let name: String
         let images: [ArtImage]
     }
     
-    struct ArtImage: Decodable {
+    private struct ArtImage: Decodable {
         let url: String
     }
     
-    struct Artist: Decodable {
+    private struct Artist: Decodable {
         let name: String
     }
     
-    struct ExternalIDs: Decodable {
+    private struct ExternalIDs: Decodable {
         let isrc: String
     }
     
-    struct SpotifySongSearchRoot: Decodable {
+    private struct SpotifySongSearchRoot: Decodable {
         let tracks: Tracks
     }
     
-    struct Tracks: Decodable {
+    private struct Tracks: Decodable {
         let items: [SpotifySongDataRoot]
     }
     
@@ -58,8 +77,13 @@ class SpotifySongData {
     struct SpotifyAccessData: Decodable {
         let access_token: String
     }
+    /* End of JSON decoding structs */
     
-    func getSpotifyAuthKey() async -> String? {
+    /**
+     Gets an authorization key from Spotify's API.
+     - Returns: Authorization key.
+     */
+    private func getSpotifyAuthKey() async -> String? {
         let url = URL(string: "https://accounts.spotify.com/api/token")!
         let urlSession = URLSession.shared
         let spotifyClientString = (spotifyClientID + ":" + spotifyClientSecret).toBase64()
@@ -87,6 +111,9 @@ class SpotifySongData {
         return accessKey
     }
     
+    /**
+     Assings local variable `spotifySongJSON` to decoded JSON after querying API for song data using a song ID.
+     */
     func getSpotifySongDataByID() async {
         let url = URL(string: "https://api.spotify.com/v1/tracks/\(songID!)")!
         let sessionConfig = URLSessionConfiguration.default
@@ -108,6 +135,11 @@ class SpotifySongData {
         }
     }
     
+    /**
+     Assings local variable `spotifySearchJSON` to decoded JSON after querying API for song data using relevant search parameters.
+     - Parameter songRef: Song object containing song data from the original source.
+     - Parameter narrowSearch: Whether or not to use broad search terms or to be more specific.
+     */
     func getSpotifySongDataBySearch(songRef: Song, narrowSearch: Bool) async {
         var songStr = songRef.getTitle()
         songStr = cleanSpotifyText(title: songStr, forSearching: true)
@@ -140,6 +172,13 @@ class SpotifySongData {
         }
     }
     
+    /**
+     Parses data from decoded JSON to a song object. If the data came from search results more processing is required, and the original `Song` object is compared with the search results to find the best match.
+     The function will then return a `Bool` indicating whether or not a broader search is needed.
+     - Parameter songRef: Reference `Song` object for checking against search results. Not needed if processing results from an ID search.
+     - Returns: `Bool` indicating whether or not a broader search is needed. `True` means results were acceptable.
+     - Note: `parseToObject()` function only parses objects once decoded JSON data has been assigned within the class. Call either of the `getSpotifySongData` methods to do so.
+     */
     func parseToObject(songRef: Song?) -> Bool {
         if let processed = spotifySongJSON {
             var artists: [String] = []
@@ -178,7 +217,7 @@ class SpotifySongData {
                 
                 // if there is an exact match with the ISRC, then refine parameters until a match is identified
                 if (song?.getISRC() == songRef!.getISRC()) {
-                    if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
+                    if (cleanText(text: song!.getAlbum()) == cleanText(text: songRef!.getAlbum())) {
                         matchFound = true
                         lookForCloseMatch = false
                         debugPrint("Marked as exact match")
@@ -192,7 +231,7 @@ class SpotifySongData {
                     }
                     // sometimes an exact match doesn't exist due to ISRC discrepancies, these must be resolved with a "close match"
                 } else if (lookForCloseMatch) {
-                    if (cleanText(title: song!.getAlbum()) == cleanText(title: songRef!.getAlbum())) {
+                    if (cleanText(text: song!.getAlbum()) == cleanText(text: songRef!.getAlbum())) {
                         closeMatch = i
                         debugPrint("Marked as close match")
                         if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
@@ -244,13 +283,21 @@ class SpotifySongData {
         return true
     }
     
+    /**
+     Generates link to a song given its Spotify URI.
+     - Parameter uri: URI as provided by Spotify.
+     - Returns: URL in `String` form.
+     */
     private func generateLink(uri: String) -> String {
         return "https://open.spotify.com/track/\(uri.suffix(from: uri.index(after: uri.lastIndex(of: ":")!)))"
     }
     
-    // returns parsed list of songs for user to override results with alternate results
+    // parsed list of songs for user to override results with alternate results
+    /**
+     Gets and returns the full list of `Song` objects from decoded JSON data returned by API search.
+     - Returns: `List` of `Song` objects
+     */
     func getAllSongs() -> [Song] {
-        debugPrint("Getting all songs")
         var songs: [Song] = []
         if let processed = spotifySearchJSON {
             for i in processed.tracks.items{

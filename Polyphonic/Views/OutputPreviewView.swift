@@ -11,6 +11,7 @@ struct OutputPreviewView: View {
     var song: Song
     var type: MusicType
     let url: String
+    let forEditing: Bool
     var body: some View {
         let url = song.getTranslatedImgURL()
         let songTitle: String = song.getTitle()
@@ -32,11 +33,17 @@ struct OutputPreviewView: View {
                 }
                 ,
                 placeholder: {
-                    ProgressView()
-                        .padding(.leading, 80)
-                        .padding(.trailing, 70)
-//                        .padding(.vertical, 70)
-                        .frame (minHeight: 65, maxHeight: 160)
+                    if (forEditing) {
+                        ProgressView()
+                            .padding(.leading, 80)
+                            .padding(.trailing, 70)
+                            .padding(.vertical, 70)
+                    } else {
+                        ProgressView()
+                            .padding(.leading, 80)
+                            .padding(.trailing, 70)
+                            .frame (minHeight: 65, maxHeight: 160)
+                    }
                 }
             )
             
@@ -66,6 +73,6 @@ struct OutputPreviewView: View {
 struct OutputPreviewView_Previews: PreviewProvider {
     static var previews: some View {
         let sample = Song(title: "Title and Registration", ISRC: "123", artists: ["Death Cab for Cutie"], album: "Transatlanticism", albumID: "123", explicit: false, trackNum: 3)
-        OutputPreviewView(song: sample, type: .song, url: "test")
+        OutputPreviewView(song: sample, type: .song, url: "test", forEditing: false)
     }
 }

@@ -7,6 +7,24 @@
 
 import Foundation
 
+/**
+ Class containing functions and structures critical to communicating with Spotify's music database, and for getting album data.
+ - Note: `parseToObject()` function only parses objects once decoded JSON data has been assigned within the class. Call `getSpotifyAlbumDataByID` to do so.
+ ~~~
+ // initialize object
+ let spotifyData = SpotifyAlbumData()
+ 
+ // initialize decoded JSON data within SpotifyAlbumData object
+ spotifyData.getSpotifyAlbumDataByID()
+ 
+ // parse data into something usable,
+ // will store usable `Album` object in public variable
+ spotifyData.parseToObject()
+ let album = spotifyData.album
+ 
+ // do something with the album
+ ~~~
+ */
 class SpotifyAlbumData {
     private let albumID: String?
     var album: Album? = nil
@@ -15,9 +33,11 @@ class SpotifyAlbumData {
         self.albumID = albumID
     }
     
-    private var spotifyAlbumJSON: SpotifyAlbumDataRoot? = nil
-//    private var spotifyAlbumSearchJSON: SpotifyAlbumSearchRoot? = nil
+    var spotifyURL: String = ""
     
+    private var spotifyAlbumJSON: SpotifyAlbumDataRoot? = nil
+    
+    /* Start of JSON decoding structs */
     struct SpotifyAlbumDataRoot: Decodable {
         let artists: [Artist]
         let external_ids: ExternalIDs
@@ -49,8 +69,13 @@ class SpotifyAlbumData {
     struct SpotifyAccessData: Decodable {
         let access_token: String
     }
+    /* End of JSON decoding structs */
     
-    func getSpotifyAuthKey() async -> String? {
+    /**
+     Gets an authorization key from Spotify's API.
+     - Returns: Authorization key.
+     */
+    private func getSpotifyAuthKey() async -> String? {
         let url = URL(string: "https://accounts.spotify.com/api/token")!
         let urlSession = URLSession.shared
         let spotifyClientString = (spotifyClientID + ":" + spotifyClientSecret).toBase64()
@@ -78,8 +103,9 @@ class SpotifyAlbumData {
         return accessKey
     }
     
-    var spotifyURL: String = ""
-    
+    /**
+     Assings local variable `spotifyAlbumJSON` to decoded JSON after querying API for album data using an album ID.
+     */
     func getSpotifyAlbumDataByID() async {
         let url = URL(string: "https://api.spotify.com/v1/albums/\(albumID!)")!
         let sessionConfig = URLSessionConfiguration.default
@@ -104,7 +130,11 @@ class SpotifyAlbumData {
         }
     }
     
-    func parseToObject(songRef: Song?) -> Bool {
+    /**
+     Parses data from decoded JSON to an album object.
+     - Note: `parseToObject()` function only parses objects once decoded JSON data has been assigned within the class. Call `getSpotifyAlbumDataByID` to do so.
+     */
+    func parseToObject() {
         if let processed = spotifyAlbumJSON {
             var artists: [String] = []
             for i in processed.artists {
@@ -122,7 +152,5 @@ class SpotifyAlbumData {
             album = Album(title: processed.name, UPC: processed.external_ids.upc, artists: artists, songCount: processed.total_tracks, label: processed.label)
             album?.setKeySongID(id: keySongID)
         }
-        
-        return true
     }
 }

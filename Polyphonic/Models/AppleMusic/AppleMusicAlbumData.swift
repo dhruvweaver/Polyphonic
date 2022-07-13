@@ -7,6 +7,24 @@
 
 import Foundation
 
+/**
+ Class containing functions and structures critical to communicating with Apple Music's database, and for getting album data.
+ - Note: `parseToObject()` function only parses objects once decoded JSON data has been assigned within the class. Call `getAppleMusicAlbumDataByID` to do so.
+ ~~~
+ // initialize object
+ let appleMusicData = AppleMusicAlbumData())
+ 
+ // initialize decoded JSON data within AppleMusicSongData object
+ appleMusicData.getAppleMusicAlbumDataByID()
+ 
+ // parse data into something usable,
+ // will store usable `Album` object in public variable
+ appleMusicData.parseToObject()
+ let album = appleMusicData.album
+ 
+ // do something with the album
+ ~~~
+ */
 class AppleMusicAlbumData {
     private let albumID: String?
     var album: Album? = nil
@@ -56,6 +74,9 @@ class AppleMusicAlbumData {
     
     var appleURL: String = ""
     
+    /**
+     Assings local variable `appleMusicAlbumJSON` to decoded JSON after querying API for album data using an album ID.
+     */
     func getAppleAlbumDataByID() async {
         let url = URL(string: "https://api.music.apple.com/v1/catalog/us/albums/\(albumID!)")!
         debugPrint("Querying: \(url.absoluteString)")
@@ -79,6 +100,10 @@ class AppleMusicAlbumData {
         }
     }
     
+    /**
+     Parses data from decoded JSON to an album object.
+     - Note: `parseToObject()` function only parses objects once decoded JSON data has been assigned within the class. Call `getAppleMusicAlbumDataByID` to do so.
+     */
     func parseToObject(albumRef: Album?) -> Bool {
         if let processed = appleMusicAlbumJSON {
             if (processed.data.endIndex >= 1) {

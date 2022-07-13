@@ -77,9 +77,9 @@ struct ShareView: View {
                 .fontWeight(.heavy)
             
             if (isValid) {
-                OutputPreviewView(song: keySong, type: type, url: linkOut)
+                OutputPreviewView(song: keySong, type: type, url: linkOut, forEditing: false)
             } else {
-                OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song, url: linkOut)
+                OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song, url: linkOut, forEditing: false)
                     .redacted(reason: .placeholder)
             }
             
