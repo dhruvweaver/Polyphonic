@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 class PlaylistData {
     private let db = Firestore.firestore()
@@ -55,7 +56,7 @@ class PlaylistData {
         return id
     }
     
-    func processPlaylistItems(playlistLink: String) async -> (Playlist, Bool) {
+    func processPlaylistLink(playlistLink: String) async -> (Playlist, Bool) {
         // replace with playlist title if all goes well
         var title = "Something went wrong"
         let songs: [Song] = []
@@ -80,6 +81,62 @@ class PlaylistData {
         }
         
         // force unwrapping because it was assigned in the previous line
+        return (playlist!, success)
+    }
+    
+    struct PlaylistData: Codable {
+        let title: String
+        let creator: String
+        let imageURL: String
+        let songs: [SongData]
+    }
+    
+    struct SongData: Codable {
+        let title: String
+        let isrc: String
+        let artist: String
+        let album: String
+        let albumID: String
+        let explicit: Bool
+        let trackNum: Int
+    }
+    
+    func processPlaylistID(playlistID: String) async -> (Playlist, Bool) {
+        // replace with playlist title if all goes well
+        var title = "Something went wrong"
+        var songs: [Song] = []
+        var creator = "Unknown"
+        success = false
+        playlist = Playlist(title: title, songs: songs, creator: creator)
+        
+        let docRef = db.collection("playlists").document(playlistID)
+        
+        do {
+            let document = try await docRef.getDocument()
+            if document.exists {
+                do {
+                    let playlistData: PlaylistData = try document.data(as: PlaylistData.self)
+                    title = playlistData.title
+                    creator = playlistData.creator
+                    
+                    for i in playlistData.songs {
+                        let song = Song(title: i.title, ISRC: i.isrc, artists: [i.artist], album: i.album, albumID: i.albumID, explicit: i.explicit, trackNum: i.trackNum)
+                        songs.append(song)
+                    }
+                    
+                    playlist = Playlist(title: title, songs: songs, creator: creator)
+                    playlist?.setImageURL(link: playlistData.imageURL)
+                    success = true
+                } catch {
+                    debugPrint("Could not parse data")
+                }
+            } else {
+                print("Document does not exist")
+            }
+        } catch {
+            debugPrint("Error getting playlist data")
+        }
+        
         return (playlist!, success)
     }
     

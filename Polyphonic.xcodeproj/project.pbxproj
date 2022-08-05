@@ -630,7 +630,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8332040273B8AF4DDEE157D5 /* Pods-Polyphonic.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -664,7 +663,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7EABA53519C8D3A3B8FBB830 /* Pods-Polyphonic.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
