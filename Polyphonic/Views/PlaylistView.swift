@@ -94,24 +94,25 @@ struct PlaylistView: View {
                 Button("Export") {
                     playlistData.writePlaylistJSON()
                     
-                    let fileName = playlist.getTitle().replacingOccurrences(of: " ", with: "-")
-                    
-                    let path = getDocumentsDirectory().appendingPathComponent("\(fileName).polyphonic")
-
-                    // Create the Array which includes the files you want to share
-                    var filesToShare = [Any]()
-
-                    // Add the path of the file to the Array
-                    filesToShare.append(path)
-
-                    // Make the activityViewContoller which shows the share-view
-                    let shareActivity = UIActivityViewController(activityItems: filesToShare, applicationActivities: nil)
-
-                    // Show the share-view
-                    let scenes = UIApplication.shared.connectedScenes
-                    let windowScene = scenes.first as? UIWindowScene
-                    
-                    windowScene?.keyWindow?.rootViewController?.present(shareActivity, animated: true, completion: nil)                }
+//                    let fileName = playlist.getTitle().replacingOccurrences(of: " ", with: "-")
+//                    
+//                    let path = getDocumentsDirectory().appendingPathComponent("\(fileName).polyphonic")
+//
+//                    // Create the Array which includes the files you want to share
+//                    var filesToShare = [Any]()
+//
+//                    // Add the path of the file to the Array
+//                    filesToShare.append(path)
+//
+//                    // Make the activityViewContoller which shows the share-view
+//                    let shareActivity = UIActivityViewController(activityItems: filesToShare, applicationActivities: nil)
+//
+//                    // Show the share-view
+//                    let scenes = UIApplication.shared.connectedScenes
+//                    let windowScene = scenes.first as? UIWindowScene
+//                    
+//                    windowScene?.keyWindow?.rootViewController?.present(shareActivity, animated: true, completion: nil)
+                }
             }
             .navigationTitle("Polyphonic")
         }

@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 class PlaylistData {
+    private let db = Firestore.firestore()
+    
     var currentProgress: Int = 0
     
     private var playlist: Playlist? = nil
@@ -80,76 +83,43 @@ class PlaylistData {
         return (playlist!, success)
     }
     
-    private func generateSongJSON() -> String {
-        var text = ""
-        
+    private func generateSongList() -> [[String : Any]] {
+        var songList: [[String : Any]] = []
         if (success && playlist!.getSongs().count > 0) {
-            for i in playlist!.getSongs().dropLast() {
+            for i in playlist!.getSongs() {
                 let song = i
-                text += """
-    {
-        \"title\": \"\(song.getTitle())\",
-        \"ISRC\": \"\(song.getISRC())\",
-        \"artist\": \"\(song.getArtists()[0])\",
-        \"album\": \"\(song.getAlbum())\",
-        \"albumID\": \"\(song.getAlbumID())\",
-        \"explicit\": \(song.getExplicit()),
-        \"trackNum\": \(song.getTrackNum())
-    },
-
-"""
+                var songData: [String : Any]
+                
+                songData = [
+                    "title" : song.getTitle(),
+                    "isrc" : song.getISRC(),
+                    "artist" : song.getArtists()[0],
+                    "album" : song.getAlbum(),
+                    "albumID" : song.getAlbumID(),
+                    "explicit" : song.getExplicit(),
+                    "trackNum" : song.getTrackNum()
+                ]
+                songList.append(songData)
             }
-            let song = playlist!.getSongs().last!
-            text += """
-    {
-        \"title\": \"\(song.getTitle())\",
-        \"ISRC\": \"\(song.getISRC())\",
-        \"artist\": \"\(song.getArtists()[0])\",
-        \"album\": \"\(song.getAlbum())\",
-        \"albumID\": \"\(song.getAlbumID())\",
-        \"explicit\": \(song.getExplicit()),
-        \"trackNum\": \(song.getTrackNum())
-    }
-
-"""
         }
         
-        return text
-    }
-    
-    private func generatePlaylistJSON() -> String {
-        var text = ""
-        
-        if (success) {
-            text = """
-{
-\"title\": \"\(playlist!.getTitle())\",
-\"creator\": \"\(playlist!.getCreator())\",
-\"imageURL\": \"\(playlist!.getImageURL())\",
-\"songs\": [
-\(generateSongJSON())
-],
-\"error\": false
-}
-"""
-        } else {
-            text = "{\"error\": true}"
-        }
-        
-        return text
+        return songList
     }
     
     func writePlaylistJSON() {
-        let str = generatePlaylistJSON().toBase64()
-        let fileName = playlist!.getTitle().replacingOccurrences(of: " ", with: "-")
-        let path = getDocumentsDirectory().appendingPathComponent("\(fileName).polyphonic")
-        
-        do {
-            try str.write(to: path, atomically: true, encoding: .utf8)
-            let input = try String(contentsOf: path)
-            print(input)
-        } catch {
-            print(error.localizedDescription)
+        let songs = generateSongList()
+        // Add a new document in collection "cities"
+        db.collection("playlists").document("test").setData([
+            "title": playlist!.getTitle(),
+            "creator": playlist!.getCreator(),
+            "imageURL": playlist!.getImageURL().absoluteString,
+            "songs" : songs
+        ]) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document successfully written!")
+            }
         }
     }
 }
