@@ -31,15 +31,6 @@
 		00918A5B2855AB4B00C0B74E /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5A2855AB4B00C0B74E /* Keys.swift */; };
 		00AD80E428624E2F000CFA92 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AD80E328624E2F000CFA92 /* General.swift */; };
 		00BF9885289B3D4800C6BF85 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00BF9884289B3D4800C6BF85 /* GoogleService-Info.plist */; };
-		00BF98A1289C8F9000C6BF85 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 00BF98A0289C8F9000C6BF85 /* FirebaseFirestore */; };
-		00BF98A3289C8F9000C6BF85 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 00BF98A2289C8F9000C6BF85 /* FirebaseFirestoreSwift */; };
-		00BF98A5289C904D00C6BF85 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 00BF98A4289C904D00C6BF85 /* FirebaseAnalytics */; };
-		00BF98A7289C904D00C6BF85 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 00BF98A6289C904D00C6BF85 /* FirebaseAnalyticsSwift */; };
-		00BF98A9289C904D00C6BF85 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 00BF98A8289C904D00C6BF85 /* FirebaseAuth */; };
-		00BF98AB289C904D00C6BF85 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 00BF98AA289C904D00C6BF85 /* FirebaseDatabase */; };
-		00BF98AD289C904D00C6BF85 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 00BF98AC289C904D00C6BF85 /* FirebaseDatabaseSwift */; };
-		00BF98AF289C91B600C6BF85 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 00BF98AE289C91B600C6BF85 /* FirebaseFirestore */; };
-		00BF98B1289C91B600C6BF85 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 00BF98B0289C91B600C6BF85 /* FirebaseFirestoreSwift */; };
 		00C35F5D28663CB40064C8C9 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C35F5C28663CB40064C8C9 /* ShareViewController.swift */; };
 		00C35F6028663CB40064C8C9 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00C35F5E28663CB40064C8C9 /* MainInterface.storyboard */; };
 		00C35F6428663CB40064C8C9 /* MusicShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 00C35F5A28663CB40064C8C9 /* MusicShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -58,6 +49,8 @@
 		00D97F44287BB1900001DE19 /* PlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D97F43287BB1900001DE19 /* PlaylistView.swift */; };
 		00FA18FD287C75C5004F4C9C /* EditResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FA18FC287C75C5004F4C9C /* EditResultsView.swift */; };
 		00FA18FE287C75C5004F4C9C /* EditResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FA18FC287C75C5004F4C9C /* EditResultsView.swift */; };
+		8C1347D62CB8A90590FB997E /* Pods_MusicShare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC0688C8EC05E97A1CD8DA32 /* Pods_MusicShare.framework */; };
+		91CA0FDB996830FC3D9E193C /* Pods_Polyphonic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC23D63D9AEF33571C58DBDC /* Pods_Polyphonic.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +107,12 @@
 		00D97F43287BB1900001DE19 /* PlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistView.swift; sourceTree = "<group>"; };
 		00EFE7C12880792D00AF23F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Polyphonic/Info.plist; sourceTree = "<group>"; };
 		00FA18FC287C75C5004F4C9C /* EditResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditResultsView.swift; sourceTree = "<group>"; };
+		7EABA53519C8D3A3B8FBB830 /* Pods-Polyphonic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Polyphonic.release.xcconfig"; path = "Target Support Files/Pods-Polyphonic/Pods-Polyphonic.release.xcconfig"; sourceTree = "<group>"; };
+		8332040273B8AF4DDEE157D5 /* Pods-Polyphonic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Polyphonic.debug.xcconfig"; path = "Target Support Files/Pods-Polyphonic/Pods-Polyphonic.debug.xcconfig"; sourceTree = "<group>"; };
+		A2E2799F1062C7EB22295551 /* Pods-MusicShare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicShare.release.xcconfig"; path = "Target Support Files/Pods-MusicShare/Pods-MusicShare.release.xcconfig"; sourceTree = "<group>"; };
+		DC23D63D9AEF33571C58DBDC /* Pods_Polyphonic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Polyphonic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E57534C3DB4A29ACCA0D6FEB /* Pods-MusicShare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicShare.debug.xcconfig"; path = "Target Support Files/Pods-MusicShare/Pods-MusicShare.debug.xcconfig"; sourceTree = "<group>"; };
+		FC0688C8EC05E97A1CD8DA32 /* Pods_MusicShare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MusicShare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,13 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00BF98AD289C904D00C6BF85 /* FirebaseDatabaseSwift in Frameworks */,
-				00BF98AB289C904D00C6BF85 /* FirebaseDatabase in Frameworks */,
-				00BF98A7289C904D00C6BF85 /* FirebaseAnalyticsSwift in Frameworks */,
-				00BF98A9289C904D00C6BF85 /* FirebaseAuth in Frameworks */,
-				00BF98A1289C8F9000C6BF85 /* FirebaseFirestore in Frameworks */,
-				00BF98A3289C8F9000C6BF85 /* FirebaseFirestoreSwift in Frameworks */,
-				00BF98A5289C904D00C6BF85 /* FirebaseAnalytics in Frameworks */,
+				91CA0FDB996830FC3D9E193C /* Pods_Polyphonic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,8 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00BF98AF289C91B600C6BF85 /* FirebaseFirestore in Frameworks */,
-				00BF98B1289C91B600C6BF85 /* FirebaseFirestoreSwift in Frameworks */,
+				8C1347D62CB8A90590FB997E /* Pods_MusicShare.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +169,7 @@
 				00C35F5B28663CB40064C8C9 /* MusicShare */,
 				00918A3D2854E99900C0B74E /* Products */,
 				00BF989E289C8EDF00C6BF85 /* Frameworks */,
+				8AD6BB88AF07AE66EE97CC28 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -232,6 +225,8 @@
 		00BF989E289C8EDF00C6BF85 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FC0688C8EC05E97A1CD8DA32 /* Pods_MusicShare.framework */,
+				DC23D63D9AEF33571C58DBDC /* Pods_Polyphonic.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -260,6 +255,17 @@
 			path = Polyphonic/Views;
 			sourceTree = "<group>";
 		};
+		8AD6BB88AF07AE66EE97CC28 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E57534C3DB4A29ACCA0D6FEB /* Pods-MusicShare.debug.xcconfig */,
+				A2E2799F1062C7EB22295551 /* Pods-MusicShare.release.xcconfig */,
+				8332040273B8AF4DDEE157D5 /* Pods-Polyphonic.debug.xcconfig */,
+				7EABA53519C8D3A3B8FBB830 /* Pods-Polyphonic.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -267,10 +273,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00918A4A2854E99B00C0B74E /* Build configuration list for PBXNativeTarget "Polyphonic" */;
 			buildPhases = (
+				EF9BF6BAEDB1D6C38D525D69 /* [CP] Check Pods Manifest.lock */,
 				00918A382854E99900C0B74E /* Sources */,
 				00918A392854E99900C0B74E /* Frameworks */,
 				00918A3A2854E99900C0B74E /* Resources */,
 				005D1E842863746900D9756C /* Embed App Extensions */,
+				A37271DA0119FEEC5471370E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -279,13 +287,6 @@
 			);
 			name = Polyphonic;
 			packageProductDependencies = (
-				00BF98A0289C8F9000C6BF85 /* FirebaseFirestore */,
-				00BF98A2289C8F9000C6BF85 /* FirebaseFirestoreSwift */,
-				00BF98A4289C904D00C6BF85 /* FirebaseAnalytics */,
-				00BF98A6289C904D00C6BF85 /* FirebaseAnalyticsSwift */,
-				00BF98A8289C904D00C6BF85 /* FirebaseAuth */,
-				00BF98AA289C904D00C6BF85 /* FirebaseDatabase */,
-				00BF98AC289C904D00C6BF85 /* FirebaseDatabaseSwift */,
 			);
 			productName = MusicLinkApp;
 			productReference = 00918A3C2854E99900C0B74E /* Polyphonic.app */;
@@ -295,6 +296,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00C35F6728663CB40064C8C9 /* Build configuration list for PBXNativeTarget "MusicShare" */;
 			buildPhases = (
+				6E074F6ED9BE0968292D7C3B /* [CP] Check Pods Manifest.lock */,
 				00C35F5628663CB40064C8C9 /* Sources */,
 				00C35F5728663CB40064C8C9 /* Frameworks */,
 				00C35F5828663CB40064C8C9 /* Resources */,
@@ -305,8 +307,6 @@
 			);
 			name = MusicShare;
 			packageProductDependencies = (
-				00BF98AE289C91B600C6BF85 /* FirebaseFirestore */,
-				00BF98B0289C91B600C6BF85 /* FirebaseFirestoreSwift */,
 			);
 			productName = MusicShare;
 			productReference = 00C35F5A28663CB40064C8C9 /* MusicShare.appex */;
@@ -340,7 +340,6 @@
 			);
 			mainGroup = 00918A332854E99900C0B74E;
 			packageReferences = (
-				00BF989F289C8F9000C6BF85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 00918A3D2854E99900C0B74E /* Products */;
 			projectDirPath = "";
@@ -372,6 +371,70 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6E074F6ED9BE0968292D7C3B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MusicShare-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A37271DA0119FEEC5471370E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Polyphonic/Pods-Polyphonic-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Polyphonic/Pods-Polyphonic-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Polyphonic/Pods-Polyphonic-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EF9BF6BAEDB1D6C38D525D69 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Polyphonic-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		00918A382854E99900C0B74E /* Sources */ = {
@@ -565,6 +628,7 @@
 		};
 		00918A4B2854E99B00C0B74E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8332040273B8AF4DDEE157D5 /* Pods-Polyphonic.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -598,6 +662,7 @@
 		};
 		00918A4C2854E99B00C0B74E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7EABA53519C8D3A3B8FBB830 /* Pods-Polyphonic.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -631,6 +696,7 @@
 		};
 		00C35F6528663CB40064C8C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E57534C3DB4A29ACCA0D6FEB /* Pods-MusicShare.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -640,6 +706,7 @@
 				INFOPLIST_FILE = MusicShare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MusicShare;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -657,6 +724,7 @@
 		};
 		00C35F6628663CB40064C8C9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A2E2799F1062C7EB22295551 /* Pods-MusicShare.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -666,6 +734,7 @@
 				INFOPLIST_FILE = MusicShare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MusicShare;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -712,65 +781,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		00BF989F289C8F9000C6BF85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		00BF98A0289C8F9000C6BF85 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 00BF989F289C8F9000C6BF85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
-		00BF98A2289C8F9000C6BF85 /* FirebaseFirestoreSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 00BF989F289C8F9000C6BF85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestoreSwift;
-		};
-		00BF98A4289C904D00C6BF85 /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 00BF989F289C8F9000C6BF85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		00BF98A6289C904D00C6BF85 /* FirebaseAnalyticsSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 00BF989F289C8F9000C6BF85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsSwift;
-		};
-		00BF98A8289C904D00C6BF85 /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 00BF989F289C8F9000C6BF85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
-		00BF98AA289C904D00C6BF85 /* FirebaseDatabase */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 00BF989F289C8F9000C6BF85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseDatabase;
-		};
-		00BF98AC289C904D00C6BF85 /* FirebaseDatabaseSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 00BF989F289C8F9000C6BF85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseDatabaseSwift;
-		};
-		00BF98AE289C91B600C6BF85 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 00BF989F289C8F9000C6BF85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
-		00BF98B0289C91B600C6BF85 /* FirebaseFirestoreSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 00BF989F289C8F9000C6BF85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestoreSwift;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 00918A342854E99900C0B74E /* Project object */;
 }
