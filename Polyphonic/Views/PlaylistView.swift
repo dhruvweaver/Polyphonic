@@ -10,7 +10,11 @@ import SwiftUI
 struct PlaylistView: View {
     @State private var linkStr: String = ""
     @State private var isProcessing: Bool = false
+    @State var playlistData = PlaylistData()
+    
     @State private var playlist: Playlist = Playlist(title: "nil", songs: [], creator: "nil")
+    @State private var success: Bool = false
+    
     @State private var done: Bool = false
     @State private var songify: Song = Song(title: "Title and Registration", ISRC: "123", artists: ["Death Cab for Cutie"], album: "Transatlanticism", albumID: "123", explicit: false, trackNum: 3)
     
@@ -54,8 +58,10 @@ struct PlaylistView: View {
                             hideKeyboard()
                             isProcessing = true
                             
-                            let playlistData = PlaylistData()
-                            playlist = await playlistData.processPlaylistItems(playlistLink: linkStr)
+                            let results = await playlistData.processPlaylistItems(playlistLink: linkStr)
+                            playlist = results.0
+                            success = results.1
+                            
                             debugPrint(playlist.getImageURL())
                             
                             songify = Song(title: playlist.getTitle(), ISRC: "", artists: [playlist.getCreator()], album: "", albumID: "", explicit: true, trackNum: playlist.getSongs().count)
@@ -84,6 +90,28 @@ struct PlaylistView: View {
                     OutputPreviewView(song: songify, type: .playlist, url: "", forEditing: false)
                         .redacted(reason: .placeholder)
                 }
+                
+                Button("Export") {
+                    playlistData.writePlaylistJSON()
+                    
+                    let fileName = playlist.getTitle().replacingOccurrences(of: " ", with: "-")
+                    
+                    let path = getDocumentsDirectory().appendingPathComponent("\(fileName).polyphonic")
+
+                    // Create the Array which includes the files you want to share
+                    var filesToShare = [Any]()
+
+                    // Add the path of the file to the Array
+                    filesToShare.append(path)
+
+                    // Make the activityViewContoller which shows the share-view
+                    let shareActivity = UIActivityViewController(activityItems: filesToShare, applicationActivities: nil)
+
+                    // Show the share-view
+                    let scenes = UIApplication.shared.connectedScenes
+                    let windowScene = scenes.first as? UIWindowScene
+                    
+                    windowScene?.keyWindow?.rootViewController?.present(shareActivity, animated: true, completion: nil)                }
             }
             .navigationTitle("Polyphonic")
         }

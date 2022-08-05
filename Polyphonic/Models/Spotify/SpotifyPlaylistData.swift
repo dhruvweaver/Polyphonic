@@ -117,8 +117,9 @@ class SpotifyPlaylistData {
         }
     }
     
-    func getPlaylistData() async -> Playlist {
+    func getPlaylistData() async -> (Playlist, Bool) {
         var playlist = Playlist(title: "Could not parse playlist data", songs: [], creator: "Unknown")
+        var success = false
         
         await getSpotifyPlaylistDataByID()
         
@@ -136,6 +137,8 @@ class SpotifyPlaylistData {
                 songItem.setTranslatedURL(link: generateLink(uri: attributes.uri))
                 songItem.setTranslatedImgURL(link: attributes.album.images[1].url)
                 songs.append(songItem)
+                
+                success = true
             }
             
             // check to see if there are more tracks to get. Spotify will only return 100 at a time
@@ -174,7 +177,8 @@ class SpotifyPlaylistData {
             //            return playlist
         }
         
-        return playlist
+        debugPrint("Success? \(success)")
+        return (playlist, success)
     }
     
     /**

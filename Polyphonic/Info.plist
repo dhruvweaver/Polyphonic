@@ -2,17 +2,74 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Polyphonic File</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.dhruvweaver.Polyphonic.polyphonic</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string>music-link-v4-40</string>
 			<key>CFBundleURLName</key>
 			<string>com.dhruvweaver.Polyphonic</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>polyphonic</string>
 			</array>
+		</dict>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeDescription</key>
+			<string>Custom playlist data file. Contains JSON data</string>
+			<key>UTTypeIconFiles</key>
+			<array>
+				<string>music-link-v4-40.png</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>com.dhruvweaver.Polyphonic.polyphonic</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>polyphonic</string>
+				</array>
+				<key>public.mime-type</key>
+				<array/>
+			</dict>
+		</dict>
+	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeDescription</key>
+			<string>Custom playlist data file. Contains JSON data</string>
+			<key>UTTypeIconFiles</key>
+			<array/>
+			<key>UTTypeIdentifier</key>
+			<string>com.dhruvweaver.Polyphonic.polyphonic</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>polyphonic</string>
+				</array>
+			</dict>
 		</dict>
 	</array>
 </dict>

@@ -10,6 +10,9 @@ import Foundation
 class PlaylistData {
     var currentProgress: Int = 0
     
+    private var playlist: Playlist? = nil
+    private var success = false
+    
     // identifies link's source platform
     /**
      Sets `starterSource` variable to the platform of origin of the provided starting link.
@@ -49,12 +52,13 @@ class PlaylistData {
         return id
     }
     
-    func processPlaylistItems(playlistLink: String) async -> Playlist {
+    func processPlaylistItems(playlistLink: String) async -> (Playlist, Bool) {
         // replace with playlist title if all goes well
         var title = "Something went wrong"
         let songs: [Song] = []
         let creator = "Unknown"
-        var playlist = Playlist(title: title, songs: songs, creator: creator)
+        success = false
+        playlist = Playlist(title: title, songs: songs, creator: creator)
         
         if let url = URL(string: playlistLink) {
             let platform = findPlatform(url: url)
@@ -62,14 +66,90 @@ class PlaylistData {
             
             if (platform == .spotify) {
                 let spotify = SpotifyPlaylistData(playlistID: id)
-                playlist = await spotify.getPlaylistData()
-            } else if (platform == .spotify) {
+                let results = await spotify.getPlaylistData()
+                playlist = results.0
+                success = results.1
+            } else if (platform == .appleMusic) {
                 title = "No Apple Music support yet"
             }
         } else {
             title = "Invalid URL"
         }
         
-        return playlist
+        // force unwrapping because it was assigned in the previous line
+        return (playlist!, success)
+    }
+    
+    private func generateSongJSON() -> String {
+        var text = ""
+        
+        if (success && playlist!.getSongs().count > 0) {
+            for i in playlist!.getSongs().dropLast() {
+                let song = i
+                text += """
+    {
+        \"title\": \"\(song.getTitle())\",
+        \"ISRC\": \"\(song.getISRC())\",
+        \"artist\": \"\(song.getArtists()[0])\",
+        \"album\": \"\(song.getAlbum())\",
+        \"albumID\": \"\(song.getAlbumID())\",
+        \"explicit\": \(song.getExplicit()),
+        \"trackNum\": \(song.getTrackNum())
+    },
+
+"""
+            }
+            let song = playlist!.getSongs().last!
+            text += """
+    {
+        \"title\": \"\(song.getTitle())\",
+        \"ISRC\": \"\(song.getISRC())\",
+        \"artist\": \"\(song.getArtists()[0])\",
+        \"album\": \"\(song.getAlbum())\",
+        \"albumID\": \"\(song.getAlbumID())\",
+        \"explicit\": \(song.getExplicit()),
+        \"trackNum\": \(song.getTrackNum())
+    }
+
+"""
+        }
+        
+        return text
+    }
+    
+    private func generatePlaylistJSON() -> String {
+        var text = ""
+        
+        if (success) {
+            text = """
+{
+\"title\": \"\(playlist!.getTitle())\",
+\"creator\": \"\(playlist!.getCreator())\",
+\"imageURL\": \"\(playlist!.getImageURL())\",
+\"songs\": [
+\(generateSongJSON())
+],
+\"error\": false
+}
+"""
+        } else {
+            text = "{\"error\": true}"
+        }
+        
+        return text
+    }
+    
+    func writePlaylistJSON() {
+        let str = generatePlaylistJSON().toBase64()
+        let fileName = playlist!.getTitle().replacingOccurrences(of: " ", with: "-")
+        let path = getDocumentsDirectory().appendingPathComponent("\(fileName).polyphonic")
+        
+        do {
+            try str.write(to: path, atomically: true, encoding: .utf8)
+            let input = try String(contentsOf: path)
+            print(input)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
