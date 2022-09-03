@@ -2,8 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Create and edit playlist data you&apos;ve received</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -25,10 +25,10 @@
 			<key>CFBundleURLIconFile</key>
 			<string>music-link-v4-40</string>
 			<key>CFBundleURLName</key>
-			<string>com.dhruvweaver.Polyphonic</string>
+			<string>Bundle ID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>polyphonic</string>
+				<string>com.dhruvweaver.polyphonic</string>
 			</array>
 		</dict>
 	</array>

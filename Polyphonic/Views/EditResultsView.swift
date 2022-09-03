@@ -4,7 +4,6 @@
 //
 //  Created by Dhruv Weaver on 7/11/22.
 //
-
 import SwiftUI
 
 struct EditResultsView: View {
@@ -24,7 +23,7 @@ struct EditResultsView: View {
                         ForEach(0..<alts.count, id: \.self) { index in
                             let currentAlt = alts[index]
                             if (type == .album && (cleanSpotifyText(title: currentAlt.getAlbum(), forSearching: false) == cleanSpotifyText(title: song.getAlbum(), forSearching: false)) && song.getTranslatedURLasString() != currentAlt.getTranslatedURLasString()) {
-                                OutputPreviewView(song: currentAlt, type: type, url: altURLs[index], forEditing: true)
+                                OutputPreviewView(song: currentAlt, type: type, url: altURLs[index], forEditing: true, forPlaylist: false, altSongs: alts, altURLs: altURLs)
                                     .onTapGesture {
                                         linkOut = altURLs[index]
                                         song = currentAlt
@@ -32,8 +31,11 @@ struct EditResultsView: View {
                                         presentationMode.wrappedValue.dismiss()
                                     }
                             } else if (type == .song && song.getTranslatedURLasString() != currentAlt.getTranslatedURLasString()) {
-                                OutputPreviewView(song: currentAlt, type: type, url: altURLs[index], forEditing: true)
+                                
+                                OutputPreviewView(song: currentAlt, type: type, url: altURLs[index], forEditing: true, forPlaylist: false, altSongs: alts, altURLs: altURLs)
                                     .onTapGesture {
+                                        
+                                            debugPrint(song.getAlbum())
                                         linkOut = altURLs[index]
                                         song = currentAlt
                                         onDismiss?(linkOut, song)
@@ -68,3 +70,4 @@ struct EditResultsView_Previews: PreviewProvider {
         EditResultsView(song: $alts[0], alts: alts, altURLs: ["one", "two"], type: .song, linkOut: $str)
     }
 }
+

@@ -20,3 +20,4 @@ end
 
 pod 'FirebaseFirestore'
 pod 'FirebaseFirestoreSwift'
+pod 'FirebaseDynamicLinks'

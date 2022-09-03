@@ -126,9 +126,9 @@ struct BasicView: View {
                     .fontWeight(.heavy)
                 
                 if (validURL()) {
-                    OutputPreviewView(song: keySong, type: type, url: linkOut, forEditing: false)
+                    OutputPreviewView(song: keySong, type: type, url: linkOut, forEditing: false, forPlaylist: false, altSongs: alts, altURLs: altURLs)
                 } else {
-                    OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song, url: linkOut, forEditing: false)
+                    OutputPreviewView(song: Song(title: "abcdefghijklmnopqr", ISRC: "nil", artists: ["abcdefghijklmno"], album: "abcdefghij", albumID: "nil", explicit: false, trackNum: 0), type: .song, url: linkOut, forEditing: false, forPlaylist: false, altSongs: alts, altURLs: altURLs)
                         .redacted(reason: .placeholder)
                 }
                 

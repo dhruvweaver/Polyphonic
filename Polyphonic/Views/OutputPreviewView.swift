@@ -10,8 +10,14 @@ import SwiftUI
 struct OutputPreviewView: View {
     var song: Song
     var type: MusicType
-    let url: String
+    @State var url: String
     let forEditing: Bool
+    let forPlaylist: Bool
+    var altSongs: [Song]
+    var altURLs: [String]
+    
+    @State private var showingEditSheet: Bool = false
+//    @State private var bindURL: String = ""
     var body: some View {
         let url = song.getTranslatedImgURL()
         let songTitle: String = song.getTitle()
@@ -67,20 +73,33 @@ struct OutputPreviewView: View {
                     .fontWeight(.medium)
                     .lineLimit(1)
                 if (type != .playlist) {
-                Image(systemName: song.getExplicit() ? "e.square.fill" : "c.square")
+                    Image(systemName: song.getExplicit() ? "e.square.fill" : "c.square")
                 } else {
                     Text("\(song.getTrackNum()) tracks")
                 }
             }
             .frame(width: 180, alignment: .leading)
             .padding(.trailing, 30)
+            
+//            if (forPlaylist) {
+//                Button("Edit") {
+//                    showingEditSheet.toggle()
+//                }
+////                .disabled(isLoading)
+//                .sheet(isPresented: $showingEditSheet) {
+//                    EditResultsView(song: $song, alts: altSongs, altURLs: altURLs, type: .song, linkOut: $url)
+//                }
+//            }
         }
     }
 }
 
 struct OutputPreviewView_Previews: PreviewProvider {
+    @State static var altSongs: [Song] = []
+    @State static var altURLs: [String] = []
     static var previews: some View {
         let sample = Song(title: "Title and Registration", ISRC: "123", artists: ["Death Cab for Cutie"], album: "Transatlanticism", albumID: "123", explicit: false, trackNum: 3)
-        OutputPreviewView(song: sample, type: .song, url: "test", forEditing: false)
+        
+        OutputPreviewView(song: sample, type: .song, url: "test", forEditing: false, forPlaylist: false, altSongs: altSongs, altURLs: altURLs)
     }
 }

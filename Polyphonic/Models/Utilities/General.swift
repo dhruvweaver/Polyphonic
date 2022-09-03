@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MusicKit
 
 func getDocumentsDirectory() -> URL {
     // find all possible documents directories for this user
@@ -123,6 +124,30 @@ func cleanSpotifyText(title: String, forSearching: Bool) -> String {
     }
     
     return clean
+}
+
+func getAppleMusicPermission() async {
+    var authStat: MusicAuthorization.Status = MusicAuthorization.currentStatus
+    if (authStat == .authorized) {
+        debugPrint("AM access authorized!")
+    } else {
+        debugPrint("Not authorized to access Apple Music, asking now")
+        authStat = await MusicAuthorization.request()
+    }
+}
+
+func getUserToken() async -> String {
+    var userToken: String = ""
+    
+    let userTokenProvider = MusicUserTokenProvider.init()
+    do {
+        userToken = try await userTokenProvider.userToken(for: appleMusicAuthKey, options: MusicTokenRequestOptions.init())
+        debugPrint("Got user token")
+    } catch {
+        debugPrint("Could not get user token")
+    }
+    
+    return userToken
 }
 
 // removes items in parentheses and after dashes, adds important search terms like remixes and deluxe editions

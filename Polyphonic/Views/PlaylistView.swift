@@ -14,15 +14,21 @@ struct PlaylistView: View {
     @State var playlistData = PlaylistData()
     
     @State private var playlist: Playlist = Playlist(title: "nil", songs: [], creator: "nil")
-    @State private var success: Bool = false
-    
+    @State private var success: Bool = false 
     
     @State private var exportMode: Bool = true
     @State private var expDone: Bool = false
     @State private var impDone: Bool = false
+    
+    @State private var presentImportScreen: Bool = false
+    
     // song representation of playlist. This is because the preview only displays songs
     @State private var expSongify: Song = Song(title: "Title and Registration", ISRC: "123", artists: ["Death Cab for Cutie"], album: "Transatlanticism", albumID: "123", explicit: false, trackNum: 3)
     @State private var impSongify: Song = Song(title: "Title and Registration", ISRC: "123", artists: ["Death Cab for Cutie"], album: "Transatlanticism", albumID: "123", explicit: false, trackNum: 3)
+    
+    
+    private let altSongs: [Song] = []
+    private let altURLs: [String] = []
     
     var body: some View {
         NavigationView {
@@ -110,34 +116,27 @@ struct PlaylistView: View {
                         .fontWeight(.heavy)
                     
                     if (expDone) {
-                        OutputPreviewView(song: expSongify, type: .playlist, url: "", forEditing: false)
+                        OutputPreviewView(song: expSongify, type: .playlist, url: "", forEditing: false, forPlaylist: false, altSongs: altSongs, altURLs: altURLs)
                     } else {
-                        OutputPreviewView(song: expSongify, type: .playlist, url: "", forEditing: false)
+                        OutputPreviewView(song: expSongify, type: .playlist, url: "", forEditing: false, forPlaylist: false, altSongs: altSongs, altURLs: altURLs)
                             .redacted(reason: .placeholder)
                     }
                     
                     Button("Export") {
-                        playlistData.writePlaylistJSON()
+                        let id = playlistData.writePlaylistJSON()
                         
-    //                    let fileName = playlist.getTitle().replacingOccurrences(of: " ", with: "-")
-    //
-    //                    let path = getDocumentsDirectory().appendingPathComponent("\(fileName).polyphonic")
-    //
-    //                    // Create the Array which includes the files you want to share
-    //                    var filesToShare = [Any]()
-    //
-    //                    // Add the path of the file to the Array
-    //                    filesToShare.append(path)
-    //
-    //                    // Make the activityViewContoller which shows the share-view
-    //                    let shareActivity = UIActivityViewController(activityItems: filesToShare, applicationActivities: nil)
-    //
-    //                    // Show the share-view
-    //                    let scenes = UIApplication.shared.connectedScenes
-    //                    let windowScene = scenes.first as? UIWindowScene
-    //
-    //                    windowScene?.keyWindow?.rootViewController?.present(shareActivity, animated: true, completion: nil)
+                        let message = "Import this playlist using the following ID and the Polyphonic app: \(id)"
+                        
+                        // Make the activityViewContoller which shows the share-view
+                        let shareActivity = UIActivityViewController(activityItems: [message], applicationActivities: nil)
+    
+                        // Show the share-view
+                        let scenes = UIApplication.shared.connectedScenes
+                        let windowScene = scenes.first as? UIWindowScene
+    
+                        windowScene?.keyWindow?.rootViewController?.present(shareActivity, animated: true, completion: nil)
                     }
+                    .disabled(!expDone)
                 } else {
                     HStack(alignment: .center) {
                         TextField("Enter playlist ID", text: $importStr)
@@ -178,7 +177,7 @@ struct PlaylistView: View {
                                 hideKeyboard()
                                 isProcessing = true
                                 
-                                let results = await playlistData.processPlaylistID(playlistID: importStr)
+                                let results = await playlistData.processPlaylistByID(playlistID: importStr)
                                 playlist = results.0
                                 success = results.1
                                 
@@ -205,16 +204,16 @@ struct PlaylistView: View {
                         .fontWeight(.heavy)
                     
                     if (impDone) {
-                        OutputPreviewView(song: impSongify, type: .playlist, url: "", forEditing: false)
+                        OutputPreviewView(song: impSongify, type: .playlist, url: "", forEditing: false, forPlaylist: false, altSongs: altSongs, altURLs: altURLs)
                     } else {
-                        OutputPreviewView(song: impSongify, type: .playlist, url: "", forEditing: false)
+                        OutputPreviewView(song: impSongify, type: .playlist, url: "", forEditing: false, forPlaylist: false, altSongs: altSongs, altURLs: altURLs)
                             .redacted(reason: .placeholder)
                     }
                     
-                    Button("Import") {
-                        playlistData.writePlaylistJSON()
+                    NavigationLink(destination: PlaylistImportView(playlistForImport: playlist)) {
+                        Text("Begin import")
                     }
-                    .disabled(true)
+                    .disabled(!impDone)
                 }
             }
             .navigationTitle("Polyphonic")

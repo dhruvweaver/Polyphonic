@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import MusicKit
 
 class PlaylistData {
     private let db = Firestore.firestore()
@@ -16,22 +17,20 @@ class PlaylistData {
     
     private var playlist: Playlist? = nil
     private var success = false
+    private var playlistID: String? = nil
+    private var platform: Platform = .unknown
     
     // identifies link's source platform
     /**
      Sets `starterSource` variable to the platform of origin of the provided starting link.
      */
-    private func findPlatform(url: URL) -> Platform {
-        var platform: Platform = .unknown
-        
+    private func findPlatform(url: URL) {
         let linkString = url.absoluteString
         if (linkString.contains("apple")) {
             platform = Platform.appleMusic
         } else if (linkString.contains("spotify")) {
             platform = Platform.spotify
         }
-        
-        return platform
     }
     
     /**
@@ -40,7 +39,7 @@ class PlaylistData {
      - Parameter url: URL to playlist.
      - Returns: Song ID as a `String`.
      */
-    private func getPlaylistID(platform: Platform, url: URL) -> String {
+    private func getPlaylistID(platform: Platform, url: URL) {
         var id: String = ""
         
         if (platform == Platform.spotify) {
@@ -53,7 +52,8 @@ class PlaylistData {
                 id = String(linkStr[linkStr.index(index, offsetBy: 1)...linkStr.index(linkStr.endIndex, offsetBy: -1)])
             }
         }
-        return id
+        
+        playlistID = id
     }
     
     func processPlaylistLink(playlistLink: String) async -> (Playlist, Bool) {
@@ -65,11 +65,11 @@ class PlaylistData {
         playlist = Playlist(title: title, songs: songs, creator: creator)
         
         if let url = URL(string: playlistLink) {
-            let platform = findPlatform(url: url)
-            let id = getPlaylistID(platform: platform, url: url)
+            findPlatform(url: url)
+            getPlaylistID(platform: platform, url: url)
             
             if (platform == .spotify) {
-                let spotify = SpotifyPlaylistData(playlistID: id)
+                let spotify = SpotifyPlaylistData(playlistID: playlistID!)
                 let results = await spotify.getPlaylistData()
                 playlist = results.0
                 success = results.1
@@ -101,9 +101,10 @@ class PlaylistData {
         let trackNum: Int
     }
     
-    func processPlaylistID(playlistID: String) async -> (Playlist, Bool) {
+    // Get playlist from DB
+    func processPlaylistByID(playlistID: String) async -> (Playlist, Bool) {
         // replace with playlist title if all goes well
-        var title = "Something went wrong"
+        var title = "This ID is not available"
         var songs: [Song] = []
         var creator = "Unknown"
         success = false
@@ -127,6 +128,13 @@ class PlaylistData {
                     playlist = Playlist(title: title, songs: songs, creator: creator)
                     playlist?.setImageURL(link: playlistData.imageURL)
                     success = true
+                    
+                    //                    do {
+                    //                        try await db.collection("playlists").document(generatePlaylistDBID()).delete()
+                    //                        debugPrint("Successfully deleted playlist \(playlistID)")
+                    //                    } catch {
+                    //                        debugPrint("Could not delete playlist")
+                    //                    }
                 } catch {
                     debugPrint("Could not parse data")
                 }
@@ -140,6 +148,7 @@ class PlaylistData {
         return (playlist!, success)
     }
     
+    // creates JSON-ized list of song data for db
     private func generateSongList() -> [[String : Any]] {
         var songList: [[String : Any]] = []
         if (success && playlist!.getSongs().count > 0) {
@@ -163,10 +172,22 @@ class PlaylistData {
         return songList
     }
     
-    func writePlaylistJSON() {
+    // Creates a unique playlist ID for db storage and access
+    private func generatePlaylistDBID() -> String {
+        var dbID: String = ""
+        if (platform == .spotify) {
+            dbID = "S\(playlistID!)"
+        }
+        
+        return dbID
+    }
+    
+    // Writes playlist data to Firebase db
+    func writePlaylistJSON() -> String {
         let songs = generateSongList()
+        let id = generatePlaylistDBID()
         // Add a new document in collection "cities"
-        db.collection("playlists").document("test").setData([
+        db.collection("playlists").document(id).setData([
             "title": playlist!.getTitle(),
             "creator": playlist!.getCreator(),
             "imageURL": playlist!.getImageURL().absoluteString,
@@ -176,6 +197,53 @@ class PlaylistData {
                 print("Error writing document: \(err)")
             } else {
                 print("Document successfully written!")
+            }
+        }
+        
+        return id
+    }
+    
+    // Imports playlist data into destination platform
+    func importPlaylist(playlistPlatform: Platform, playlistSongs: [Song], title: String) async {
+        if (playlistPlatform == .appleMusic) {
+            let json: [String:Any] = ["attributes" : ["name":title]]
+            let jsonData = try? JSONSerialization.data(withJSONObject: json)
+            debugPrint(json)
+            
+            let url = URL(string: "https://api.music.apple.com/v1/me/library/playlists")!
+            debugPrint("Querying: \(url.absoluteString)")
+            let sessionConfig = URLSessionConfiguration.default
+            let authValue: String = "Bearer \(appleMusicAuthKey)"
+            
+            var userToken: String
+            
+            let userTokenProvider = MusicUserTokenProvider.init()
+            do {
+                userToken = try await userTokenProvider.userToken(for: appleMusicAuthKey, options: MusicTokenRequestOptions.init())
+                debugPrint("Got user token")
+                sessionConfig.httpAdditionalHeaders = ["Authorization": authValue, "Music-User-Token": userToken]
+                var request = URLRequest(url: url)
+                request.httpMethod = "POST"
+                debugPrint(userToken)
+                //            request.httpBody = jsonData
+                let urlSession = URLSession(configuration: sessionConfig)
+                
+                do {
+                    let (data, response) = try await urlSession.upload(for: request, from: jsonData!)
+                    if let httpResponse = response as? HTTPURLResponse {
+                        print(httpResponse.statusCode)
+                        
+                        if (httpResponse.statusCode == 201) {
+                            debugPrint("Created new playlist!")
+                        } else {
+                            debugPrint("Could not create the playlist")
+                        }
+                    }
+                } catch {
+                    debugPrint("Error loading \(url): \(String(describing: error))")
+                }
+            } catch {
+                debugPrint("Could not get user token")
             }
         }
     }

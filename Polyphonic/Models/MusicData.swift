@@ -393,6 +393,60 @@ class MusicData {
     }
     
     /**
+     Translates song links from Spotify to Apple Music.
+     - Returns: response containing a `String` for the translated link, a `Song` for the translated song object, a `List` of  alternate URLs as `String`s, and a `List` of alternate `Song` objects.
+     */
+    private func translateSongObjToAppleMusic(songObj: Song) async -> (String, Song?, [String], [Song]) {
+        var translatedLink: String = ""
+        var translatedSong: Song? = nil
+        var altSongURLs: [String] = []
+        var altSongs: [Song] = []
+        // create AppleMusicSongData object
+        let appleMusic = AppleMusicSongData(songID: nil)
+        // this function will talk to the Apple Music API, it requires already known song data
+        await appleMusic.getAppleMusicSongDataBySearch(songRef: songObj, narrowSearch: true)
+        // parse func returns bool depending on whether the search was too limited. True means it was fine, otherwise broaden the search
+        if (appleMusic.parseToObject(songRef: songObj)) {
+            if let translatedSongData = appleMusic.song {
+                debugPrint("Reference Artist: \(songObj.getArtists()[0])")
+                debugPrint("    Apple Artist: \(translatedSongData.getArtists()[0])")
+                // ensure that the translated song matches the original before returning a link -- NOT DOING THAT ANYMORE. MAY NEED TO BRING IT BACK
+                translatedLink = translatedSongData.getTranslatedURLasString()
+                
+                translatedSong = translatedSongData
+                altSongs = appleMusic.getAllSongs()
+                
+                for i in altSongs {
+                    let altURL = i.getTranslatedURLasString()
+                    debugPrint("Alt: \(altURL)")
+                    altSongURLs.append(altURL)
+                }
+            }
+        } else {
+            debugPrint("Trying search again")
+            await appleMusic.getAppleMusicSongDataBySearch(songRef: songObj, narrowSearch: false)
+            _ = appleMusic.parseToObject(songRef: songObj)
+            if let translatedSongData = appleMusic.song {
+                debugPrint("Spotify Artist: \(songObj.getArtists()[0])")
+                debugPrint("Apple   Artist: \(translatedSongData.getArtists()[0])")
+                // ensure that the translated song matches the original before returning a link -- NOT DOING THAT ANYMORE. MAY NEED TO BRING IT BACK
+                translatedLink = translatedSongData.getTranslatedURLasString()
+                
+                translatedSong = translatedSongData
+                altSongs = appleMusic.getAllSongs()
+                
+                for i in altSongs {
+                    let altURL = i.getTranslatedURLasString()
+                    debugPrint("Alt: \(altURL)")
+                    altSongURLs.append(altURL)
+                }
+            }
+        }
+        
+        return (translatedLink, translatedSong, altSongURLs, altSongs)
+    }
+    
+    /**
      Identify source platform, music type (song or album), and then call the related function to get the corresponding data from the output source.
      - Returns: response containing a `String` for the translated key song link, a `Song` for the key translated song object, a `MusicType` for determining how to interpret the results, a `List` of  alternate key song URLs as `String`s, and a `List` of alternate key `Song` objects.
      */
@@ -477,6 +531,23 @@ class MusicData {
         } else {
             // TODO: allow user to browse for alts if there was no exact hit. Will need to check if alternatives are available
             return ("No equivalent song or there was an error", nil, .song, [], [])
+        }
+    }
+    
+    // translates a song using a Song object. Written for use with playlist translation
+    func translateDataBySongObj(songObj: Song, targetPlatform: Platform)  async -> (String, Song?, [String], [Song]) {
+        // TODO: put directly in last return statement
+        let translatedLink: String = "No equivalent song or there was an error"
+        let translatedSong: Song? = nil
+        let altSongURLs: [String] = []
+        let altSongs: [Song] = []
+        
+        if (targetPlatform == .appleMusic) {
+            let results = await translateSongObjToAppleMusic(songObj: songObj)
+            return results
+        }
+        else {
+            return (translatedLink, translatedSong, altSongURLs, altSongs)
         }
     }
 }
