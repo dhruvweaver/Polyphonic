@@ -203,47 +203,78 @@ class PlaylistData {
         return id
     }
     
+    private var appleMusicPlaylistRespJSON: AppleMusicPlaylistDataRoot? = nil
+    
+    /* Start of JSON decoding structs */
+    private struct AppleMusicPlaylistDataRoot: Decodable {
+        let data: [AppleMusicPlaylistDataData]
+    }
+    
+    private struct AppleMusicPlaylistDataData: Decodable {
+        let id: String
+    }
+    
+    /**
+     Gets the appropriate song ID given a link and a starter platform.
+     - Parameter platform: `Platform` enum type.
+     - Returns: Song ID as a `String`.
+     */
+    private func getSongID(platform: Platform, link: URL) -> String {
+        var id: String = ""
+        
+        if (platform == Platform.spotify) {
+            // gets Spotify songID from provided link. This is located at the end of a Spotify link
+            id = link.lastPathComponent
+        } else if (platform == Platform.appleMusic) {
+            let linkStr = link.absoluteString
+            if let index = linkStr.lastIndex(of: "=") {
+                // gets id from end of link string
+                id = String(linkStr[linkStr.index(index, offsetBy: 1)...linkStr.index(linkStr.endIndex, offsetBy: -1)])
+            }
+        }
+        return id
+    }
+    
+    private func getSongImportDict(platform: Platform, songs: [Song]) -> [[String:Any]] {
+        var songJSONList: [[String:Any]] = []
+        
+        for i in songs {
+            songJSONList.append(["id" : getSongID(platform: .appleMusic, link: i.getTranslatedURL())])
+        }
+        
+        return songJSONList
+    }
+    
     // Imports playlist data into destination platform
     func importPlaylist(playlistPlatform: Platform, playlistSongs: [Song], title: String) async {
         if (playlistPlatform == .appleMusic) {
-            let json: [String:Any] = ["attributes" : ["name":title]]
+            let json: [String:Any] = ["attributes" : ["name":title], "relationships" : ["tracks" : ["data" : getSongImportDict(platform: .appleMusic, songs: playlistSongs)]]]
             let jsonData = try? JSONSerialization.data(withJSONObject: json)
             debugPrint(json)
             
             let url = URL(string: "https://api.music.apple.com/v1/me/library/playlists")!
             debugPrint("Querying: \(url.absoluteString)")
-            let sessionConfig = URLSessionConfiguration.default
-            let authValue: String = "Bearer \(appleMusicAuthKey)"
             
-            var userToken: String
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = "POST"
+            urlRequest.httpBody = jsonData
             
-            let userTokenProvider = MusicUserTokenProvider.init()
+            let request = MusicDataRequest(urlRequest: urlRequest)
+            
             do {
-                userToken = try await userTokenProvider.userToken(for: appleMusicAuthKey, options: MusicTokenRequestOptions.init())
-                debugPrint("Got user token")
-                sessionConfig.httpAdditionalHeaders = ["Authorization": authValue, "Music-User-Token": userToken]
-                var request = URLRequest(url: url)
-                request.httpMethod = "POST"
-                debugPrint(userToken)
-                //            request.httpBody = jsonData
-                let urlSession = URLSession(configuration: sessionConfig)
+                let response = try await request.response()
                 
-                do {
-                    let (data, response) = try await urlSession.upload(for: request, from: jsonData!)
-                    if let httpResponse = response as? HTTPURLResponse {
-                        print(httpResponse.statusCode)
-                        
-                        if (httpResponse.statusCode == 201) {
-                            debugPrint("Created new playlist!")
-                        } else {
-                            debugPrint("Could not create the playlist")
-                        }
-                    }
-                } catch {
-                    debugPrint("Error loading \(url): \(String(describing: error))")
+                if response.urlResponse.statusCode == 201 {
+                    self.appleMusicPlaylistRespJSON = try JSONDecoder().decode(AppleMusicPlaylistDataRoot.self, from: response.data)
+                    debugPrint("Created new playlist!")
+                    
+                    // need to import songs seperately to maintain order
+//                    await importPlaylistSongs(playlistID: (appleMusicPlaylistRespJSON?.data[0].id)!, playlistSongs: playlistSongs)
+                } else {
+                    debugPrint("Could not create the playlist")
                 }
             } catch {
-                debugPrint("Could not get user token")
+                debugPrint("There was an error communicating with Apple")
             }
         }
     }

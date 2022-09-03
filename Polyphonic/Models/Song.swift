@@ -87,6 +87,15 @@ class Song {
         translatedURL = URL(string: link)
     }
     
+    func getTranslatedURL() -> URL {
+        if let translatedURL = translatedURL {
+            return translatedURL
+        } else {
+            // TODO: fix this!
+            return URL(string: "")!
+        }
+    }
+    
     /**
      - Returns: Translated URL as a `String` if it is valid, otherwise returns a message reflecting an error.
      */
