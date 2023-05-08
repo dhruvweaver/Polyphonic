@@ -47,17 +47,39 @@ struct BasicView: View {
                     .padding(.top, 16)
                     .help("Clear")
                     
-                    Button(action: {
-                        if let pasteStr = UIPasteboard.general.string {
-                            linkStr = pasteStr
-                            hideKeyboard()
+                    //                    Button(action: {
+                    //                        if let pasteStr = UIPasteboard.general.string {
+                    //                            linkStr = pasteStr
+                    //                            hideKeyboard()
+                    //                        }
+                    //                    }) {
+                    //                        Image(systemName: "doc.on.clipboard")
+                    //                            .padding([.trailing, .top, .bottom])
+                    //                    }
+                    //                    .padding(.top, 16)
+                    //                    .help("Paste link from clipboard")
+                    if #available(iOS 16.0, *) {
+                        PasteButton(payloadType: String.self) { strings in
+                            guard let first = strings.first else { return }
+                            linkStr = first
                         }
-                    }) {
-                        Image(systemName: "doc.on.clipboard")
-                            .padding([.trailing, .top, .bottom])
+                        .labelStyle(.iconOnly)
+                        .buttonBorderShape(.roundedRectangle(radius: 100))
+                        .padding(.top, 16)
+                    } else {
+                        // Fallback on earlier versions
+                        Button(action: {
+                            if let pasteStr = UIPasteboard.general.string {
+                                linkStr = pasteStr
+                                hideKeyboard()
+                            }
+                        }) {
+                            Image(systemName: "doc.on.clipboard")
+                                .padding([.trailing, .top, .bottom])
+                        }
+                        .padding(.top, 16)
+                        .help("Paste link from clipboard")
                     }
-                    .padding(.top, 16)
-                    .help("Paste link from clipboard")
                 }
                 
                 if (!isLoading) {
