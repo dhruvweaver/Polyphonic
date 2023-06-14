@@ -204,6 +204,32 @@ func removeSpecialCharsFromString(text: String) -> String {
     return text.filter {okayChars.contains($0) }
 }
 
+/**
+ Gets image data from a URL, must verify that `artURLasString` is not `nil`.
+ - Returns: `Data` containing image data that was found from URL. Can return `nil` if there is a problem.
+ */
+func getImageData(imageURL: URL) async -> Data? {
+    var imageData: Data? = nil
+    
+    print("Getting image from \(imageURL.absoluteString)")
+    
+    // Creating a session object with the default configuration
+    let urlSession = URLSession(configuration: .default)
+    
+    do {
+        let (data, _) = try await urlSession.data(from: imageURL)
+        debugPrint("Decoded!")
+        
+        imageData = data
+    } catch {
+        debugPrint("Error loading \(imageURL): \(String(describing: error))")
+        
+        imageData = nil
+    }
+    
+    return imageData
+}
+
 // removes duplicates from list of Song objects
 //func removeDuplicates(songs: inout [Song]) {
 //    let uniqueSongs = Array(Set(songs))
