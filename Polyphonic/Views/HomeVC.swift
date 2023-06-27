@@ -509,6 +509,9 @@ extension HomeVC: EditVCDelegate {
         
         Task {
             await setupPreview(fromSong: song)
+            // set output to alt song's link
+            outLink = song.getTranslatedURLasString()
+            outputField.text = outLink
         }
         
         outputField.placeholder = "New link..."
