@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00301A452A456F38008D0744 /* EditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00301A442A456F38008D0744 /* EditVC.swift */; };
+		00301A482A456FC7008D0744 /* PolyphonicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00301A472A456FC7008D0744 /* PolyphonicTableViewCell.swift */; };
+		00301A492A456FC7008D0744 /* PolyphonicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00301A472A456FC7008D0744 /* PolyphonicTableViewCell.swift */; };
+		00301A4A2A45702B008D0744 /* EditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00301A442A456F38008D0744 /* EditVC.swift */; };
 		004423B12A39311700172787 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423B02A39311700172787 /* AppDelegate.swift */; };
 		004423B32A39313E00172787 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423B22A39313E00172787 /* SceneDelegate.swift */; };
 		004423B92A39318900172787 /* PlaylistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423B42A39318800172787 /* PlaylistVC.swift */; };
@@ -17,31 +21,31 @@
 		004423C72A39349A00172787 /* PolyphonicTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423C22A39349A00172787 /* PolyphonicTextField.swift */; };
 		004423C82A39349A00172787 /* PolyphonicTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423C32A39349A00172787 /* PolyphonicTitle.swift */; };
 		004423C92A39349A00172787 /* PolyphonicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423C42A39349A00172787 /* PolyphonicButton.swift */; };
-		004423D02A39355900172787 /* SpaceMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 004423CC2A3934A100172787 /* SpaceMono-Bold.ttf */; };
-		004423D12A39355A00172787 /* SpaceMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 004423CC2A3934A100172787 /* SpaceMono-Bold.ttf */; };
-		004423D32A39355E00172787 /* SpaceMono-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 004423CA2A3934A100172787 /* SpaceMono-BoldItalic.ttf */; };
-		004423D42A39355F00172787 /* SpaceMono-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 004423CA2A3934A100172787 /* SpaceMono-BoldItalic.ttf */; };
-		004423D52A39356200172787 /* SpaceMono-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 004423CD2A3934A100172787 /* SpaceMono-Italic.ttf */; };
-		004423D62A39356200172787 /* SpaceMono-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 004423CD2A3934A100172787 /* SpaceMono-Italic.ttf */; };
-		004423D72A39356400172787 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 004423CB2A3934A100172787 /* SpaceMono-Regular.ttf */; };
-		004423D82A39356500172787 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 004423CB2A3934A100172787 /* SpaceMono-Regular.ttf */; };
-		004423DA2A397FF600172787 /* OutputPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423D92A397FF600172787 /* OutputPreviewView.swift */; };
-		004423DC2A39804D00172787 /* OutputPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423D92A397FF600172787 /* OutputPreviewView.swift */; };
 		00511478286A232C00B69CBC /* SpotifyAlbumData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00511477286A232C00B69CBC /* SpotifyAlbumData.swift */; };
 		00511479286A232C00B69CBC /* SpotifyAlbumData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00511477286A232C00B69CBC /* SpotifyAlbumData.swift */; };
 		0051147B286A318100B69CBC /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0051147A286A318100B69CBC /* Album.swift */; };
 		0051147C286A318100B69CBC /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0051147A286A318100B69CBC /* Album.swift */; };
 		0051147F286A385700B69CBC /* AppleMusicAlbumData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0051147E286A385700B69CBC /* AppleMusicAlbumData.swift */; };
 		00511480286A385700B69CBC /* AppleMusicAlbumData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0051147E286A385700B69CBC /* AppleMusicAlbumData.swift */; };
-		00918A422854E99900C0B74E /* BasicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A412854E99900C0B74E /* BasicView.swift */; };
+		008139922A4A0A2300DE10B7 /* PolyphonicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423C42A39349A00172787 /* PolyphonicButton.swift */; };
+		008139932A4A0A2700DE10B7 /* PolyphonicTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423C32A39349A00172787 /* PolyphonicTitle.swift */; };
+		008139942A4A0A3500DE10B7 /* PolyphonicTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423C22A39349A00172787 /* PolyphonicTextField.swift */; };
+		008139A62A4A1DEC00DE10B7 /* SpaceMono-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 008139A22A4A1DEC00DE10B7 /* SpaceMono-BoldItalic.ttf */; };
+		008139A72A4A1DEC00DE10B7 /* SpaceMono-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 008139A22A4A1DEC00DE10B7 /* SpaceMono-BoldItalic.ttf */; };
+		008139A82A4A1DEC00DE10B7 /* SpaceMono-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 008139A32A4A1DEC00DE10B7 /* SpaceMono-Italic.ttf */; };
+		008139A92A4A1DEC00DE10B7 /* SpaceMono-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 008139A32A4A1DEC00DE10B7 /* SpaceMono-Italic.ttf */; };
+		008139AA2A4A1DEC00DE10B7 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 008139A42A4A1DEC00DE10B7 /* SpaceMono-Regular.ttf */; };
+		008139AC2A4A1DEC00DE10B7 /* SpaceMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 008139A52A4A1DEC00DE10B7 /* SpaceMono-Bold.ttf */; };
+		008139AD2A4A1DEC00DE10B7 /* SpaceMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 008139A52A4A1DEC00DE10B7 /* SpaceMono-Bold.ttf */; };
+		008139AE2A4A234100DE10B7 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 008139A42A4A1DEC00DE10B7 /* SpaceMono-Regular.ttf */; };
 		00918A442854E99B00C0B74E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00918A432854E99B00C0B74E /* Assets.xcassets */; };
 		00918A4F2854F03B00C0B74E /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A4E2854F03B00C0B74E /* Song.swift */; };
 		00918A532854F5A300C0B74E /* MusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A522854F5A300C0B74E /* MusicData.swift */; };
 		00918A5728559D4300C0B74E /* Base64Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5628559D4300C0B74E /* Base64Encode.swift */; };
 		00918A5B2855AB4B00C0B74E /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5A2855AB4B00C0B74E /* Keys.swift */; };
+		00A426C02A455F68008C4739 /* PolyphonicPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423C52A39349A00172787 /* PolyphonicPreview.swift */; };
 		00AD80E428624E2F000CFA92 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AD80E328624E2F000CFA92 /* General.swift */; };
-		00C35F5D28663CB40064C8C9 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C35F5C28663CB40064C8C9 /* ShareViewController.swift */; };
-		00C35F6028663CB40064C8C9 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00C35F5E28663CB40064C8C9 /* MainInterface.storyboard */; };
+		00C35F5D28663CB40064C8C9 /* ShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C35F5C28663CB40064C8C9 /* ShareVC.swift */; };
 		00C35F6428663CB40064C8C9 /* MusicShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 00C35F5A28663CB40064C8C9 /* MusicShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		00C35F6928663D360064C8C9 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A4E2854F03B00C0B74E /* Song.swift */; };
 		00C35F6A28663D390064C8C9 /* MusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A522854F5A300C0B74E /* MusicData.swift */; };
@@ -50,12 +54,8 @@
 		00C35F6D28663D440064C8C9 /* AppleMusicSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EE2856718200159B04 /* AppleMusicSongData.swift */; };
 		00C35F6E28663D470064C8C9 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AD80E328624E2F000CFA92 /* General.swift */; };
 		00C35F6F28663D4A0064C8C9 /* Base64Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5628559D4300C0B74E /* Base64Encode.swift */; };
-		00C35F7028666A110064C8C9 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D1E8F286374C800D9756C /* ShareView.swift */; };
-		00C35F7128666A280064C8C9 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005D1E8F286374C800D9756C /* ShareView.swift */; };
 		00CD71ED28564D2100159B04 /* SpotifySongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EC28564D2100159B04 /* SpotifySongData.swift */; };
 		00CD71EF2856718200159B04 /* AppleMusicSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EE2856718200159B04 /* AppleMusicSongData.swift */; };
-		00FA18FD287C75C5004F4C9C /* EditResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FA18FC287C75C5004F4C9C /* EditResultsView.swift */; };
-		00FA18FE287C75C5004F4C9C /* EditResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FA18FC287C75C5004F4C9C /* EditResultsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +83,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00301A442A456F38008D0744 /* EditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditVC.swift; sourceTree = "<group>"; };
+		00301A472A456FC7008D0744 /* PolyphonicTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyphonicTableViewCell.swift; sourceTree = "<group>"; };
 		004423B02A39311700172787 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		004423B22A39313E00172787 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		004423B42A39318800172787 /* PlaylistVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistVC.swift; sourceTree = "<group>"; };
@@ -93,17 +95,14 @@
 		004423C32A39349A00172787 /* PolyphonicTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyphonicTitle.swift; sourceTree = "<group>"; };
 		004423C42A39349A00172787 /* PolyphonicButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyphonicButton.swift; sourceTree = "<group>"; };
 		004423C52A39349A00172787 /* PolyphonicPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyphonicPreview.swift; sourceTree = "<group>"; };
-		004423CA2A3934A100172787 /* SpaceMono-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-BoldItalic.ttf"; sourceTree = "<group>"; };
-		004423CB2A3934A100172787 /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-Regular.ttf"; sourceTree = "<group>"; };
-		004423CC2A3934A100172787 /* SpaceMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-Bold.ttf"; sourceTree = "<group>"; };
-		004423CD2A3934A100172787 /* SpaceMono-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-Italic.ttf"; sourceTree = "<group>"; };
-		004423D92A397FF600172787 /* OutputPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputPreviewView.swift; sourceTree = "<group>"; };
 		00511477286A232C00B69CBC /* SpotifyAlbumData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyAlbumData.swift; sourceTree = "<group>"; };
 		0051147A286A318100B69CBC /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		0051147E286A385700B69CBC /* AppleMusicAlbumData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicAlbumData.swift; sourceTree = "<group>"; };
-		005D1E8F286374C800D9756C /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
+		008139A22A4A1DEC00DE10B7 /* SpaceMono-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-BoldItalic.ttf"; sourceTree = "<group>"; };
+		008139A32A4A1DEC00DE10B7 /* SpaceMono-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-Italic.ttf"; sourceTree = "<group>"; };
+		008139A42A4A1DEC00DE10B7 /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-Regular.ttf"; sourceTree = "<group>"; };
+		008139A52A4A1DEC00DE10B7 /* SpaceMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-Bold.ttf"; sourceTree = "<group>"; };
 		00918A3C2854E99900C0B74E /* Polyphonic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Polyphonic.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		00918A412854E99900C0B74E /* BasicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicView.swift; sourceTree = "<group>"; };
 		00918A432854E99B00C0B74E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Polyphonic/Assets.xcassets; sourceTree = "<group>"; };
 		00918A4E2854F03B00C0B74E /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		00918A522854F5A300C0B74E /* MusicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicData.swift; sourceTree = "<group>"; };
@@ -111,12 +110,10 @@
 		00918A5A2855AB4B00C0B74E /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		00AD80E328624E2F000CFA92 /* General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.swift; sourceTree = "<group>"; };
 		00C35F5A28663CB40064C8C9 /* MusicShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MusicShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		00C35F5C28663CB40064C8C9 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		00C35F5F28663CB40064C8C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		00C35F5C28663CB40064C8C9 /* ShareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareVC.swift; sourceTree = "<group>"; };
 		00C35F6128663CB40064C8C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00CD71EC28564D2100159B04 /* SpotifySongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifySongData.swift; sourceTree = "<group>"; };
 		00CD71EE2856718200159B04 /* AppleMusicSongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicSongData.swift; sourceTree = "<group>"; };
-		00FA18FC287C75C5004F4C9C /* EditResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditResultsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,7 +141,7 @@
 				004423C52A39349A00172787 /* PolyphonicPreview.swift */,
 				004423C22A39349A00172787 /* PolyphonicTextField.swift */,
 				004423C32A39349A00172787 /* PolyphonicTitle.swift */,
-				004423D92A397FF600172787 /* OutputPreviewView.swift */,
+				00301A472A456FC7008D0744 /* PolyphonicTableViewCell.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -152,10 +149,10 @@
 		004423CF2A3934BE00172787 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				004423CC2A3934A100172787 /* SpaceMono-Bold.ttf */,
-				004423CA2A3934A100172787 /* SpaceMono-BoldItalic.ttf */,
-				004423CD2A3934A100172787 /* SpaceMono-Italic.ttf */,
-				004423CB2A3934A100172787 /* SpaceMono-Regular.ttf */,
+				008139A52A4A1DEC00DE10B7 /* SpaceMono-Bold.ttf */,
+				008139A22A4A1DEC00DE10B7 /* SpaceMono-BoldItalic.ttf */,
+				008139A32A4A1DEC00DE10B7 /* SpaceMono-Italic.ttf */,
+				008139A42A4A1DEC00DE10B7 /* SpaceMono-Regular.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -236,8 +233,7 @@
 		00C35F5B28663CB40064C8C9 /* MusicShare */ = {
 			isa = PBXGroup;
 			children = (
-				00C35F5C28663CB40064C8C9 /* ShareViewController.swift */,
-				00C35F5E28663CB40064C8C9 /* MainInterface.storyboard */,
+				00C35F5C28663CB40064C8C9 /* ShareVC.swift */,
 				00C35F6128663CB40064C8C9 /* Info.plist */,
 			);
 			path = MusicShare;
@@ -247,12 +243,10 @@
 			isa = PBXGroup;
 			children = (
 				004423B62A39318800172787 /* TabVC.swift */,
-				00918A412854E99900C0B74E /* BasicView.swift */,
 				004423B72A39318800172787 /* HomeVC.swift */,
+				00301A442A456F38008D0744 /* EditVC.swift */,
 				004423B42A39318800172787 /* PlaylistVC.swift */,
 				004423B82A39318800172787 /* SettingsVC.swift */,
-				005D1E8F286374C800D9756C /* ShareView.swift */,
-				00FA18FC287C75C5004F4C9C /* EditResultsView.swift */,
 				004423CE2A3934AD00172787 /* UIComponents */,
 			);
 			name = Views;
@@ -340,11 +334,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				004423D52A39356200172787 /* SpaceMono-Italic.ttf in Resources */,
-				004423D72A39356400172787 /* SpaceMono-Regular.ttf in Resources */,
+				008139A62A4A1DEC00DE10B7 /* SpaceMono-BoldItalic.ttf in Resources */,
+				008139A82A4A1DEC00DE10B7 /* SpaceMono-Italic.ttf in Resources */,
+				008139AC2A4A1DEC00DE10B7 /* SpaceMono-Bold.ttf in Resources */,
 				00918A442854E99B00C0B74E /* Assets.xcassets in Resources */,
-				004423D32A39355E00172787 /* SpaceMono-BoldItalic.ttf in Resources */,
-				004423D02A39355900172787 /* SpaceMono-Bold.ttf in Resources */,
+				008139AA2A4A1DEC00DE10B7 /* SpaceMono-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,11 +346,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				004423D62A39356200172787 /* SpaceMono-Italic.ttf in Resources */,
-				004423D82A39356500172787 /* SpaceMono-Regular.ttf in Resources */,
-				00C35F6028663CB40064C8C9 /* MainInterface.storyboard in Resources */,
-				004423D42A39355F00172787 /* SpaceMono-BoldItalic.ttf in Resources */,
-				004423D12A39355A00172787 /* SpaceMono-Bold.ttf in Resources */,
+				008139A92A4A1DEC00DE10B7 /* SpaceMono-Italic.ttf in Resources */,
+				008139AE2A4A234100DE10B7 /* SpaceMono-Regular.ttf in Resources */,
+				008139AD2A4A1DEC00DE10B7 /* SpaceMono-Bold.ttf in Resources */,
+				008139A72A4A1DEC00DE10B7 /* SpaceMono-BoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,26 +360,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00C35F7028666A110064C8C9 /* ShareView.swift in Sources */,
+				00301A482A456FC7008D0744 /* PolyphonicTableViewCell.swift in Sources */,
 				00511478286A232C00B69CBC /* SpotifyAlbumData.swift in Sources */,
 				0051147F286A385700B69CBC /* AppleMusicAlbumData.swift in Sources */,
 				00918A5728559D4300C0B74E /* Base64Encode.swift in Sources */,
 				00918A5B2855AB4B00C0B74E /* Keys.swift in Sources */,
 				00918A4F2854F03B00C0B74E /* Song.swift in Sources */,
-				00918A422854E99900C0B74E /* BasicView.swift in Sources */,
 				00918A532854F5A300C0B74E /* MusicData.swift in Sources */,
-				004423DA2A397FF600172787 /* OutputPreviewView.swift in Sources */,
 				004423C62A39349A00172787 /* PolyphonicPreview.swift in Sources */,
 				004423BC2A39318900172787 /* HomeVC.swift in Sources */,
 				004423BB2A39318900172787 /* TabVC.swift in Sources */,
 				004423C92A39349A00172787 /* PolyphonicButton.swift in Sources */,
-				00FA18FD287C75C5004F4C9C /* EditResultsView.swift in Sources */,
 				004423B12A39311700172787 /* AppDelegate.swift in Sources */,
 				00AD80E428624E2F000CFA92 /* General.swift in Sources */,
 				00CD71ED28564D2100159B04 /* SpotifySongData.swift in Sources */,
 				00CD71EF2856718200159B04 /* AppleMusicSongData.swift in Sources */,
 				004423B32A39313E00172787 /* SceneDelegate.swift in Sources */,
 				004423C82A39349A00172787 /* PolyphonicTitle.swift in Sources */,
+				00301A452A456F38008D0744 /* EditVC.swift in Sources */,
 				004423C72A39349A00172787 /* PolyphonicTextField.swift in Sources */,
 				004423BD2A39318900172787 /* SettingsVC.swift in Sources */,
 				004423B92A39318900172787 /* PlaylistVC.swift in Sources */,
@@ -403,15 +394,18 @@
 				00511479286A232C00B69CBC /* SpotifyAlbumData.swift in Sources */,
 				00C35F6A28663D390064C8C9 /* MusicData.swift in Sources */,
 				00C35F6C28663D410064C8C9 /* SpotifySongData.swift in Sources */,
-				00C35F5D28663CB40064C8C9 /* ShareViewController.swift in Sources */,
-				004423DC2A39804D00172787 /* OutputPreviewView.swift in Sources */,
+				00301A4A2A45702B008D0744 /* EditVC.swift in Sources */,
+				008139942A4A0A3500DE10B7 /* PolyphonicTextField.swift in Sources */,
+				00C35F5D28663CB40064C8C9 /* ShareVC.swift in Sources */,
+				008139932A4A0A2700DE10B7 /* PolyphonicTitle.swift in Sources */,
 				00C35F6F28663D4A0064C8C9 /* Base64Encode.swift in Sources */,
-				00C35F7128666A280064C8C9 /* ShareView.swift in Sources */,
+				00301A492A456FC7008D0744 /* PolyphonicTableViewCell.swift in Sources */,
+				008139922A4A0A2300DE10B7 /* PolyphonicButton.swift in Sources */,
+				00A426C02A455F68008C4739 /* PolyphonicPreview.swift in Sources */,
 				0051147C286A318100B69CBC /* Album.swift in Sources */,
 				00C35F6E28663D470064C8C9 /* General.swift in Sources */,
 				00511480286A385700B69CBC /* AppleMusicAlbumData.swift in Sources */,
 				00C35F6B28663D3E0064C8C9 /* Keys.swift in Sources */,
-				00FA18FE287C75C5004F4C9C /* EditResultsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,17 +418,6 @@
 			targetProxy = 00C35F6228663CB40064C8C9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		00C35F5E28663CB40064C8C9 /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				00C35F5F28663CB40064C8C9 /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00918A482854E99B00C0B74E /* Debug */ = {
@@ -558,7 +541,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Polyphonic/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
 				ENABLE_PREVIEWS = YES;
@@ -591,7 +574,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Polyphonic/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
 				ENABLE_PREVIEWS = YES;
@@ -622,7 +605,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MusicShare/Info.plist;
@@ -648,7 +631,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MusicShare/Info.plist;

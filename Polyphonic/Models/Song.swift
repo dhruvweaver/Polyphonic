@@ -20,6 +20,7 @@ class Song {
     private var translatedURL: URL?
     private let trackNum: Int!
     private var translatedImgURL: URL?
+    private var translatedImgData: Data?
     
     init(title: String, ISRC: String, artists: [String], album: String, albumID: String, explicit: Bool, trackNum: Int) {
         self.title = title
@@ -117,5 +118,19 @@ class Song {
             return translatedImgURL
         }
         return URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/800px-Question_mark_%28black%29.svg.png")!
+    }
+    
+    /**
+     Asyncronously gets image data from the `translatedImgURL` and saves it to `translatedImgData` in the `Song` object.
+     */
+    func setTranslatedImgData() async {
+        translatedImgData = await getImageData(imageURL: self.getTranslatedImgURL())
+    }
+    
+    /**
+     - Returns: Image data previously gathered from the internet. `nil` if there is none.
+     */
+    func getTranslatedImgData() -> Data? {
+        return translatedImgData
     }
 }

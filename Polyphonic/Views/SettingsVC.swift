@@ -118,9 +118,9 @@ class SettingsVC: UIViewController {
         pasteInfoLabel.translatesAutoresizingMaskIntoConstraints = false
         
         pasteInfoLabel.text = """
-        iOS 16+ requires all apps to ask for clipboard access every time.
+        iOS 16+ requires apps to ask for clipboard access every time.
         
-        This can be changed in settings by choosing "Allow" from
+        This can be changed by choosing "Allow" from
         "Paste from Other Apps"
         """
         

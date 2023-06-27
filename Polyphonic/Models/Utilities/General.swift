@@ -218,7 +218,7 @@ func getImageData(imageURL: URL) async -> Data? {
     
     do {
         let (data, _) = try await urlSession.data(from: imageURL)
-        debugPrint("Decoded!")
+        debugPrint("Decoded image!")
         
         imageData = data
     } catch {

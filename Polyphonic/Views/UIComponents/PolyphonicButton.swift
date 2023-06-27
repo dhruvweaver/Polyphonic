@@ -51,8 +51,8 @@ class PolyphonicButton: UIButton {
         layer.cornerRadius = 19
         
         // drop shadow
-        layer.shadowColor = UIColor.label.cgColor;
-        layer.shadowOpacity = 0.3;
+        layer.shadowColor = UIColor.label.cgColor
+        layer.shadowOpacity = 0.3
         layer.shadowRadius = 5
         layer.shadowOffset = CGSize(width: 0, height: 0)
         
@@ -73,8 +73,8 @@ class PolyphonicButton: UIButton {
         configuration?.image = UIImage(systemName: icon)
         
         // drop shadow
-        layer.shadowColor = UIColor.label.cgColor;
-        layer.shadowOpacity = 0.3;
+        layer.shadowColor = UIColor.label.cgColor
+        layer.shadowOpacity = 0.3
         layer.shadowRadius = 2
         layer.shadowOffset = CGSize(width: 0, height: 0)
         
@@ -124,10 +124,10 @@ class PolyphonicButton: UIButton {
         super.traitCollectionDidChange(previousTraitCollection)
         if(customBorder && (traitCollection.userInterfaceStyle == .dark)){
             layer.borderColor = UIColor.label.cgColor
-            layer.shadowColor = UIColor.label.cgColor;
+//            layer.shadowColor = UIColor.label.cgColor;
         } else {
             layer.borderColor = UIColor.label.cgColor
-            layer.shadowColor = UIColor.label.cgColor;
+//            layer.shadowColor = UIColor.label.cgColor;
         }
     }
     

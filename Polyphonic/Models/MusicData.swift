@@ -453,7 +453,7 @@ class MusicData {
     func translateData(link: String) async -> (String, Song?, MusicType, [String], [Song]) {
         if let songLink = URL(string: link) {
             if (songLink.host != "open.spotify.com" && songLink.host != "music.apple.com") {
-                return ("Link is from an unsupported source", nil, .song, [], [])
+                return ("Link not supported", nil, .song, [], [])
             } else {
                 starterLink = songLink
             }

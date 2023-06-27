@@ -135,7 +135,7 @@ class PolyphonicPreview: UIView {
         imageView.layer.borderColor = UIColor.label.cgColor
         
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.48),
+            imageView.widthAnchor.constraint(equalTo: self.heightAnchor),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
             imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
@@ -176,7 +176,7 @@ class PolyphonicPreview: UIView {
             ])
         } else {
             titleLabel.textColor = .label
-            titleLabel.backgroundColor = .systemBackground
+            titleLabel.backgroundColor = .clear
             titleLabel.layer.masksToBounds = false
             
             if (isExplicit) { // set up explicit icon
@@ -223,11 +223,11 @@ class PolyphonicPreview: UIView {
             albumLabel.layer.cornerRadius = 4
         } else {
             albumLabel.textColor = .label
-            albumLabel.backgroundColor = .systemBackground
+            albumLabel.backgroundColor = .clear
             albumLabel.layer.masksToBounds = false
         }
         NSLayoutConstraint.activate([
-            albumLabel.leadingAnchor.constraint(equalTo: self.centerXAnchor, constant: 15),
+            albumLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 14),
             albumLabel.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
             albumLabel.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor)
         ])
@@ -249,7 +249,7 @@ class PolyphonicPreview: UIView {
             artistLabel.layer.cornerRadius = 4
         } else {
             artistLabel.textColor = .label
-            artistLabel.backgroundColor = .systemBackground
+            artistLabel.backgroundColor = .clear
             artistLabel.layer.masksToBounds = false
         }
         NSLayoutConstraint.activate([
