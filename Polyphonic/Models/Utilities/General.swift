@@ -8,141 +8,159 @@
 import Foundation
 
 /**
- For use when querying Spotify's API.
- Removes words in parentheses, after dashes, and optionally adds back any important search terms that may have been removed.
- Such as for remixes and deluxe editions.
- - Parameter title: Title of the song or album to be cleaned for searching.
- - Parameter forSearching: Whether or not to add search terms from parentheses/after dashes back to the title.
- - Returns: Cleaned title.
+ Calculate Levenshtein distance between two strings. Distance is determined by number of edits needed to make one string match the other.
+ - Parameter str1: First string to be compared.
+ - Parameter str2: Second string to be compared.
+ - Returns Levenshtein distance between both strings. The lower the better.
  */
-func cleanSpotifyText(title: String, forSearching: Bool) -> String {
-    var clean = title
-    
-    // normalize everything to lowercased lettering
-    clean = clean.lowercased()
-    clean = uncensorText(text: clean)
-    
-    clean = clean.replacingOccurrences(of: " - ", with: " 𝜌 ")
-    clean = clean.replacingOccurrences(of: "+-+", with: " 𝜌 ")
-    if let indDash = clean.firstIndex(of: "𝜌") {
-        clean = String(clean[clean.startIndex...clean.index(indDash, offsetBy: -2)])
+func levDis(_ str1: String, _ str2: String) -> Int {
+    let empty = [Int](repeating:0, count: str2.count)
+    var last = [Int](0...str2.count)
+
+    for (i, char1) in str1.enumerated() {
+        var cur = [i + 1] + empty
+        for (j, char2) in str2.enumerated() {
+            cur[j + 1] = char1 == char2 ? last[j] : min(last[j], last[j + 1], cur[j]) + 1
+        }
+        last = cur
     }
-    clean = clean.replacingOccurrences(of: "+", with: " ")
-    clean = clean.replacingOccurrences(of: "-", with: "+")
-    if let indParen = clean.firstIndex(of: "(") {
-        clean = String(clean[clean.startIndex...clean.index(indParen, offsetBy: -2)])
-    }
-    if let indColon = clean.firstIndex(of: ":") {
-        clean = String(clean[clean.startIndex...clean.index(indColon, offsetBy: -1)])
-    }
-    
-    // remove special characters
-    clean = clean.replacingOccurrences(of: "/", with: "")
-    clean = clean.replacingOccurrences(of: "\\", with: "")
-    clean = clean.replacingOccurrences(of: "'", with: "")
-    clean = clean.replacingOccurrences(of: "\"", with: "")
-    clean = clean.replacingOccurrences(of: ",", with: "")
-    clean = clean.replacingOccurrences(of: ". ", with: " ")
-    clean = clean.replacingOccurrences(of: " & ", with: " ")
-    
-    // add key search terms based on what was removed from qualifiers in original song or album name
-    if (forSearching) {
-        if (title.contains("Remix") && !clean.contains("Remix")) {
-            clean.append(contentsOf: " remix")
-        }
-        if (title.contains("Deluxe") && !clean.contains("Deluxe")) {
-            clean.append(contentsOf: " deluxe")
-        }
-        if (title.contains("Acoustic") && !clean.contains("Acoustic")) {
-            clean.append(contentsOf: " acoustic")
-        }
-        if (title.contains("Demo") && !clean.contains("Demo")) {
-            clean.append(contentsOf: " demo")
-        }
-        if (title.contains("Radio") && !clean.contains("Radio")) {
-            clean.append(contentsOf: " radio")
-        }
-        if (title.contains("Edit") && !title.contains("Edition") && !clean.contains("Edit")) {
-            clean.append(contentsOf: " edit")
-        }
-        if (title.contains("Edition") && !clean.contains("Edition")) {
-            clean.append(contentsOf: " edition")
-        }
-        if (title.contains("EP") && !clean.contains("EP")) {
-            clean.append(contentsOf: " ep")
-        }
-    }
-    
-    return clean
+    return last.last!
 }
 
-// removes items in parentheses and after dashes, adds important search terms like remixes and deluxe editions
 /**
- For use when querying Apple Music's API.
- Removes words in parentheses, after dashes, and optionally adds back any important search terms that may have been removed.
- Such as for remixes and deluxe editions. Formats title with "+" replacing spaces.
- - Parameter title: Title of the song or album to be cleaned for searching.
- - Parameter forSearching: Whether or not to add search terms from parentheses/after dashes back to the title.
- - Returns: Cleaned title.
+ Simplify music text for search optimization. Also allows for more or less information to be kept after simplification.
+ - Parameter title: String to be simplified.
+ - Parameter broadSearch: Whether or not to include details (remastered, remix, etc) after simplification.
+ - Returns Simplified string.
  */
-func cleanAppleMusicText(title: String, forSearching: Bool) -> String {
-    var clean = title
+func simplifyMusicText(title: String, broadSearch: Bool) -> String {
+    var simpleText = title
+    var remaster: Bool = false
+    var remix: Bool = false
     
-    clean = clean.lowercased()
+//    debugPrint("Original text: \(simpleText)")
     
-    clean = clean.replacingOccurrences(of: " - ", with: " 𝜌 ")
-    clean = clean.replacingOccurrences(of: "+-+", with: " 𝜌 ")
-    if let indDash = clean.firstIndex(of: "𝜌") {
-        clean = String(clean[clean.startIndex...clean.index(indDash, offsetBy: -2)])
-    }
-    clean = clean.replacingOccurrences(of: "+", with: " ")
-    clean = clean.replacingOccurrences(of: "-", with: "+")
-    if let indParen = clean.firstIndex(of: "(") {
-        clean = String(clean[clean.startIndex...clean.index(indParen, offsetBy: -2)])
-    }
-    if let indColon = clean.firstIndex(of: ":") {
-        clean = String(clean[clean.startIndex...clean.index(indColon, offsetBy: -1)])
+    // Ignore case sensitivity
+    simpleText = simpleText.lowercased()
+    
+    // keep remaster as search term if needed
+    if (!broadSearch && simpleText.contains("remaster")) {
+//        debugPrint("Song is a remaster")
+        remaster = true
     }
     
-    // TODO: replace with REGEX
-    clean = clean.replacingOccurrences(of: "/", with: "")
-    clean = clean.replacingOccurrences(of: "\\", with: "")
-    clean = clean.replacingOccurrences(of: "'", with: "")
-    clean = clean.replacingOccurrences(of: "\"", with: "")
-    clean = clean.replacingOccurrences(of: ",", with: "")
-    clean = clean.replacingOccurrences(of: ". ", with: " ")
-    clean = clean.replacingOccurrences(of: " & ", with: " ")
-    
-    if (forSearching) {
-        if (title.contains("Remix") && !clean.contains("Remix")) {
-            clean.append(contentsOf: "+remix")
-        }
-        if (title.contains("Deluxe") && !clean.contains("Deluxe")) {
-            clean.append(contentsOf: "+deluxe")
-        }
-        if (title.contains("Acoustic") && !clean.contains("Acoustic")) {
-            clean.append(contentsOf: "+acoustic")
-        }
-        if (title.contains("Demo") && !clean.contains("Demo")) {
-            clean.append(contentsOf: "+demo")
-        }
-        if (title.contains("Radio") && !clean.contains("Radio")) {
-            clean.append(contentsOf: "+radio")
-        }
-        if (title.contains("Edit") && !title.contains("Edition") && !clean.contains("Edit")) {
-            clean.append(contentsOf: "+edit")
-        }
-        if (title.contains("Edition") && !clean.contains("Edition")) {
-            clean.append(contentsOf: "+edition")
-        }
-        if (title.contains("EP") && !clean.contains("EP")) {
-            clean.append(contentsOf: "+ep")
-        }
+    // remove text after a dash unless it's used to define a remix
+    if (simpleText.contains("remix")) {
+        remix = true
     }
     
-    clean = uncensorText(text: clean)
+    // Remove words in parentheses
+    simpleText = simpleText.replacingOccurrences(of: "\\([^()]*\\)", with: "", options: .regularExpression)
+    // Remove words in brackets
+    simpleText = simpleText.replacingOccurrences(of: "\\[[^()]*\\]", with: "", options: .regularExpression)
+    // remove text after dash
+    simpleText = removeTextAfterDash(simpleText)
     
-    return clean
+    simpleText = uncensorText(text: simpleText)
+    
+    // Remove special characters
+    simpleText = simpleText.replacingOccurrences(of: "-", with: " ")
+    
+    var characterSet: CharacterSet
+    let specialChars = "àáâäèéêëìíîïòóôöùúûüñçðæ:"
+    let specialSet = CharacterSet(charactersIn: "\(specialChars)")
+    
+    if (!broadSearch) {
+        simpleText = convertToLatinCharacters(simpleText)
+        characterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz1234567890. ").union(specialSet)
+    } else {
+        characterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz1234567890 ").union(specialSet)
+    }
+    simpleText = simpleText.components(separatedBy: characterSet.inverted).joined(separator: "")
+    
+    
+    if (broadSearch) {
+        // Remove featuring artists
+        simpleText = simpleText.replacingOccurrences(
+            of: #"(\s+)?feat(\.|uring)?(\.|&)?(\s+)?[^ ]+"#,
+            with: "",
+            options: .regularExpression
+        )
+    }
+    if (!broadSearch && remaster) {
+        // add remaster keyword
+        simpleText = "\(simpleText) remaster"
+    }
+    if (!broadSearch && remix) {
+        // add remaster keyword
+        simpleText = "\(simpleText) remix"
+    }
+    
+    // Remove unnecessary words if they are not the only word in the song
+    characterSet = CharacterSet.whitespacesAndNewlines.union(.punctuationCharacters)
+    let components = simpleText.components(separatedBy: characterSet)
+    let words = components.filter { !$0.isEmpty }
+    
+    if (words.count > 1) {
+        let unnecessaryWords = ["a", "an", "in", "on", "at", "and", "or", "degrees"] // these could be problematic
+        let wordPattern = "\\b(" + unnecessaryWords.joined(separator: "|") + ")\\b"
+        simpleText = simpleText.replacingOccurrences(
+            of: wordPattern,
+            with: "",
+            options: [.regularExpression, .caseInsensitive]
+        )
+    }
+    
+    // Simplify variations
+    
+    // Step 6: Extract key words
+    let keywords = simpleText.components(separatedBy: .whitespaces)
+        .filter { !$0.isEmpty }
+    
+    // Join the keywords with a space to form the final simplified query
+    let finalText = keywords.joined(separator: " ")
+    
+    return finalText
+}
+
+/**
+ Converts all characters in a string to latin characters.
+ - Parameter input: String to be converted.
+ - Returns Converted string.
+ */
+func convertToLatinCharacters(_ input: String) -> String {
+    let mutableString = NSMutableString(string: input) as CFMutableString
+    CFStringTransform(mutableString, nil, kCFStringTransformToLatin, false)
+    CFStringTransform(mutableString, nil, kCFStringTransformStripCombiningMarks, false)
+    return mutableString as String
+}
+
+/**
+ Removes all text in a string after a hyphen (includes spacing, i.e. "` - `").
+ - Parameter input: String to have hyphenated section removed.
+ - Returns String without text after hyphenation.
+ */
+func removeTextAfterDash(_ input: String) -> String {
+    let components = input.components(separatedBy: " - ")
+    if let firstComponent = components.first {
+        return firstComponent.trimmingCharacters(in: .whitespacesAndNewlines)
+    } else {
+        return input
+    }
+}
+
+/**
+ Normalize string, particularly useful for comparing strings with Levenshtein distance.
+ - Parameter str: String to be normalized.
+ - Returns Normalized string.
+ */
+func normalizeString(str: String) -> String {
+    var normalizedStr = str.lowercased()
+    normalizedStr = str.trimmingCharacters(in: .whitespacesAndNewlines)
+    normalizedStr = str.replacingOccurrences(of: "[^a-zA-Z0-9]+", with: "", options: .regularExpression)
+    normalizedStr = str.precomposedStringWithCanonicalMapping
+    
+    return normalizedStr
 }
 
 /**
@@ -229,9 +247,3 @@ func getImageData(imageURL: URL) async -> Data? {
     
     return imageData
 }
-
-// removes duplicates from list of Song objects
-//func removeDuplicates(songs: inout [Song]) {
-//    let uniqueSongs = Array(Set(songs))
-//    songs = uniqueSongs
-//}

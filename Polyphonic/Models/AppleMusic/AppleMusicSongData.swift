@@ -121,23 +121,30 @@ class AppleMusicSongData {
      - Parameter narrowSearch: Whether or not to use broad search terms or to be more specific.
      */
     func getAppleMusicSongDataBySearch(songRef: Song, narrowSearch: Bool) async {
+        if (!narrowSearch) {
+            debugPrint("Broad search beginning")
+        }
+        
         // clean metadata and convert it to a form that will work with the API
         var songStr = songRef.getTitle()
-        songStr = songStr.replacingOccurrences(of: "(", with: "")
-        songStr = songStr.replacingOccurrences(of: ")", with: "")
-        songStr = cleanAppleMusicText(title: songStr, forSearching: true).replacingOccurrences(of: " ", with: "+")
-        var albumStr = cleanAppleMusicText(title: songRef.getAlbum(), forSearching: true).replacingOccurrences(of: " ", with: "+")
-        albumStr = albumStr.replacingOccurrences(of: songStr, with: "")
-        let artistStr = cleanArtistName(name: songRef.getArtists()[0], forSearching: true).replacingOccurrences(of: " ", with: "+")
-        debugPrint("Song: \(songStr)")
-        debugPrint("Album: \(albumStr)")
-        debugPrint("Artist: \(artistStr)")
+        var artistStr = songRef.getArtists()[0]
+        
+        songStr = simplifyMusicText(title: songStr, broadSearch: false).replacingOccurrences(of: " ", with: "+")
+        artistStr = normalizeString(str: artistStr).replacingOccurrences(of: " ", with: "+")
+        
         
         var searchParams: String
         if (narrowSearch) {
+            debugPrint("Song: \(songStr)")
+            debugPrint("Artist: \(artistStr)")
             // album name removed from query. May reduce accuracy and/or increase search time, but may also help with getting the right results
             searchParams = "\(songStr)+\(artistStr)"
         } else {
+            songStr = simplifyMusicText(title: songRef.getTitle(), broadSearch: true).replacingOccurrences(of: " ", with: "+")
+            
+            debugPrint("Song: \(songStr)")
+            debugPrint("Artist: \(artistStr)")
+            
             searchParams = "\(songStr)+\(artistStr)"
         }
         let urlString = "https://api.music.apple.com/v1/catalog/us/search?types=songs&term=\(searchParams)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -153,10 +160,12 @@ class AppleMusicSongData {
             if let httpResponse = response as? HTTPURLResponse {
                 print(httpResponse.statusCode)
             }
+            debugPrint("Trying to parse")
             self.appleMusicSearchJSON = try JSONDecoder().decode(AppleMusicSearchRoot.self, from: data)
             debugPrint("Decoded!")
         } catch {
             debugPrint("Error loading \(url): \(String(describing: error))")
+            self.appleMusicSongJSON = nil
         }
     }
     
@@ -192,6 +201,9 @@ class AppleMusicSongData {
             var i = 0
             var matchFound: Bool! = false
             var closeMatch: Int? = nil
+            var veryCloseMatch: Int? = nil
+            var bestLevNumTitle = 1000
+            var bestLevNumAlbum = 5
             var lookForCloseMatch: Bool = true
             var veryCloseMatchFound: Bool = false
             while (resultsCount > i && !matchFound) {
@@ -206,37 +218,83 @@ class AppleMusicSongData {
                 debugPrint(songRef!.getISRC())
                 debugPrint(song!.getArtists()[0])
                 debugPrint(songRef!.getArtists()[0])
-                debugPrint("Apple Album: \(cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false))")
-                debugPrint("Input Album: \(cleanSpotifyText(title: (songRef?.getAlbum())!, forSearching: false))")
+                debugPrint("Apple Album: \(simplifyMusicText(title: (song?.getAlbum())!, broadSearch: false))  - track: \(song!.getTrackNum())")
+                debugPrint("Input Album: \(simplifyMusicText(title: (songRef?.getAlbum())!, broadSearch: false))  - track: \(songRef!.getTrackNum())")
                 
-                if (song?.getISRC() == songRef!.getISRC()) {
-                    if (cleanText(text: song!.getAlbum()) == cleanText(text: songRef!.getAlbum())) {
+                if (song?.getISRC() == songRef!.getISRC()) { // if ISRC matches no further effort required
+                    if (normalizeString(str: song!.getAlbum()) == normalizeString(str: songRef!.getAlbum())) {
                         matchFound = true
                         lookForCloseMatch = false
-                        debugPrint("Marked as exact match")
+                        debugPrint("Marked as exact match (e1)")
                     } else if (lookForCloseMatch) {
                         closeMatch = i
-                        debugPrint("Marked as close match")
+                        debugPrint("Marked as close match (c1)")
+                        // album titles might be slightly different, but if two similar song names also have the same track number and explicit status, they're probably the same
                         if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
+                            veryCloseMatch = i
+                            veryCloseMatchFound = true
                             lookForCloseMatch = false
-                            debugPrint("Marked as very close match")
+                            
+                            debugPrint("Marked as very close match (v1)")
+                        } else {
+                            debugPrint("Good ISRC. Levenshtein distance for song comparison")
+                            
+                            let normTitle1 = normalizeString(str: song!.getTitle())
+                            let normTitle2 = normalizeString(str: songRef!.getTitle())
+                            
+                            // get Levenshtein distance between song titles
+                            let levNum = levDis(normTitle1, normTitle2)
+                            if (levNum < bestLevNumTitle) {
+                                debugPrint("Best Lev distance: \(levNum)")
+                                bestLevNumTitle = levNum
+                                
+                                veryCloseMatch = i
+                                
+                                veryCloseMatchFound = true
+                                lookForCloseMatch = false
+                                debugPrint("Marked as very close match (v2)")
+                            }
                         }
                     }
                     // sometimes an exact match doesn't exist due to ISRC discrepancies, these must be resolved with a "close match"
                 } else if (lookForCloseMatch) {
-                    if (cleanText(text: song!.getAlbum()) == cleanText(text: songRef!.getAlbum())) {
-                        closeMatch = i
-                        debugPrint("Marked as close match")
+                    let normTitle1 = normalizeString(str: song!.getTitle())
+                    let normTitle2 = normalizeString(str: songRef!.getTitle())
+                    
+                    if (normTitle1 == normTitle2) {
                         if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
+                            matchFound = true
                             lookForCloseMatch = false
-                            veryCloseMatchFound = true
-                            debugPrint("Marked as very close match")
+                            debugPrint("Marked as exact match (e2) ")
                         }
-                    } else if (cleanSpotifyText(title: (song?.getAlbum())!, forSearching: false) == cleanSpotifyText(title: songRef!.getAlbum(), forSearching: false)) {
-                        closeMatch = i
-                        debugPrint("Marked as close match")
-                        if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
-                            debugPrint("Marked as very close match")
+                    } else {
+                        // get Levenshtein distance between song titles
+                        debugPrint("Resorting to Levenshtein distance for song comparison")
+                        
+                        let levNum = levDis(normTitle1, normTitle2)
+                        if (levNum <= bestLevNumTitle) {
+                            debugPrint("Best title Lev distance: \(levNum)")
+                            bestLevNumTitle = levNum
+                            
+                            closeMatch = i
+                            
+                            let normAlbum1 = normalizeString(str: song!.getAlbum())
+                            let normAlbum2 = normalizeString(str: songRef!.getAlbum())
+                            let levAlbum = levDis(normAlbum1, normAlbum2)
+                            
+                            if (levAlbum < bestLevNumAlbum) {
+                                debugPrint("Best album Lev distance: \(levNum)")
+                                bestLevNumAlbum = levAlbum
+                                
+                                veryCloseMatch = i
+                                veryCloseMatchFound = true
+                                debugPrint("Marked as very close match (v3)")
+                                if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
+                                    matchFound = true
+                                    lookForCloseMatch = false
+                                    debugPrint("Marked as exact match (e2)")
+                                }
+                            }
                         }
                     }
                 }
@@ -259,6 +317,21 @@ class AppleMusicSongData {
                 song?.setTranslatedImgURL(link: getImageURLDimensions(link: attributes.artwork.url))
                 
                 print("URL: \(song!.getTranslatedURLasString())")
+            } else if (veryCloseMatchFound) {
+                let attributes = processed.results.songs.data[veryCloseMatch!].attributes
+                var explicit: Bool = false
+                if (attributes.contentRating == "explicit") {
+                    explicit = true
+                }
+                let albumID = URL(string: attributes.url)!.lastPathComponent
+                song = Song(title: attributes.name, ISRC: attributes.isrc, artists: [attributes.artistName], album: attributes.albumName, albumID: albumID, explicit: explicit, trackNum: attributes.trackNumber)
+                debugPrint("Found a very close match: \(veryCloseMatch!)")
+                song?.setTranslatedURL(link: attributes.url)
+                song?.setTranslatedImgURL(link: getImageURLDimensions(link: attributes.artwork.url))
+                debugPrint("Image: \(attributes.artwork.url)")
+                
+                // broaden search?
+                return veryCloseMatchFound
             } else if (closeMatch != nil) {
                 let attributes = processed.results.songs.data[closeMatch!].attributes
                 var explicit: Bool = false
@@ -278,6 +351,8 @@ class AppleMusicSongData {
                 debugPrint("No matches")
                 return false
             }
+        } else {
+            return false
         }
         
         return true
