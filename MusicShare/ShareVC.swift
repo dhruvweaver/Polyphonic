@@ -39,6 +39,7 @@ class ShareVC: UIViewController {
     var type: MusicType = .album
     var altSongs: [String] = []
     var alts: [Song] = []
+    var match: TranslationMatchLevel = .none
     
     // pasteboard for reading and writing clipboard data
     private let pasteboard = UIPasteboard.general
@@ -119,6 +120,7 @@ class ShareVC: UIViewController {
                     type = results.2
                     altSongs = results.3
                     alts = results.4
+                    match = results.5
                     
                     keySong = song
                     // setup preview UI elements
@@ -129,6 +131,7 @@ class ShareVC: UIViewController {
                 } else {
                     alts = []
                     altSongs = []
+                    match = .none
                     
                     sharePreview.update(art: nil, title: "", album: "", artist: "", isExplicit: false, placeholder: true)
                     
@@ -191,56 +194,6 @@ class ShareVC: UIViewController {
     @objc private func buttonSoftClick() {
         let generator = UIImpactFeedbackGenerator(style: .soft)
         generator.impactOccurred()
-    }
-    
-    /**
-     TODO: Will be used for translating links between streaming services.
-     */
-    @objc private func translateButtonHandler() {
-        buttonDeepClick()
-        
-        loadingIndicator.startAnimating()
-        if let inLink = inputField.text {
-            print("Translating: \(inLink)")
-            
-            outputField.text = ""
-            outputField.placeholder = "Loading..."
-            
-            let musicData = MusicData()
-            Task {
-                let results = await musicData.translateData(link: inLink)
-                
-                outLink = results.0
-                if let song = results.1 {
-                    //                    keySong = song
-                    type = results.2
-                    altSongs = results.3
-                    alts = results.4
-                    
-                    keySong = song
-                    // setup preview UI elements
-                    await setupPreview(fromSong: song)
-                    
-                    loadingIndicator.stopAnimating()
-                    outputField.placeholder = "New link..."
-                } else {
-                    alts = []
-                    altSongs = []
-                    
-                    sharePreview.update(art: nil, title: "", album: "", artist: "", isExplicit: false, placeholder: true)
-                    
-                    outputField.text = outLink
-                    
-                    loadingIndicator.stopAnimating()
-                    outputField.placeholder = "New link..."
-                }
-                
-                configureEditButton()
-            }
-        } else {
-            debugPrint("Error: could not get text from input field")
-            return
-        }
     }
     
     /**
@@ -458,7 +411,14 @@ class ShareVC: UIViewController {
             editButton.isUserInteractionEnabled = true
 
             editButton.configuration?.baseForegroundColor = .label
-
+            
+            // color code edit button depending on whether an exact match was found
+            if (match.rawValue < TranslationMatchLevel.exact.rawValue) {
+                editButton.configuration?.baseBackgroundColor = .systemYellow
+            } else {
+                editButton.configuration?.baseBackgroundColor = .systemBackground
+            }
+            
             // drop shadow
             editButton.layer.shadowColor = UIColor.label.cgColor
 

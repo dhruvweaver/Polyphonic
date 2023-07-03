@@ -156,7 +156,7 @@ class SpotifySongData {
         } else {
             debugPrint("Performing broader search")
             songStr = simplifyMusicText(title: songRef.getTitle(), broadSearch: true)
-            searchParams = "track:\(songStr)&type=track"
+            searchParams = "track:\(songStr) artist:\(artistStr)&type=track"
         }
         
         let url = URL(string: "https://api.spotify.com/v1/search?q=\(searchParams.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)")!
@@ -183,10 +183,11 @@ class SpotifySongData {
      Parses data from decoded JSON to a song object. If the data came from search results more processing is required, and the original `Song` object is compared with the search results to find the best match.
      The function will then return a `Bool` indicating whether or not a broader search is needed.
      - Parameter songRef: Reference `Song` object for checking against search results. Not needed if processing results from an ID search.
-     - Returns: `Bool` indicating whether or not a broader search is needed. `True` means results were acceptable.
+     - Parameter vagueMatching: Whether or not to use vague matching techniques. Useful if no exact results have been found.
+     - Returns: `TranslationMatchLevel` indicating how close the match was and whether or not a broader search is needed. See documentation for `TranslationMatchLevel` for more.
      - Note: `parseToObject()` function only parses objects once decoded JSON data has been assigned within the class. Call either of the `getSpotifySongData` methods to do so.
      */
-    func parseToObject(songRef: Song?) -> Bool {
+    func parseToObject(songRef: Song?, vagueMatching: Bool) -> TranslationMatchLevel {
         if let processed = spotifySongJSON {
             var artists: [String] = []
             for i in processed.artists {
@@ -200,7 +201,7 @@ class SpotifySongData {
             if (resultsCount == 0) {
                 debugPrint("Spotify search too narrow")
                 // broaden search, remove artist parameter
-                return false
+                return .none
             }
             
             var i = 0
@@ -243,8 +244,16 @@ class SpotifySongData {
                         } else {
                             debugPrint("Good ISRC. Levenshtein distance for song comparison")
                             
-                            let normTitle1 = normalizeString(str: song!.getTitle())
-                            let normTitle2 = normalizeString(str: songRef!.getTitle())
+                            var normTitle1: String
+                            var normTitle2: String
+                            
+                            if (!vagueMatching) {
+                                normTitle1 = normalizeString(str: song!.getTitle())
+                                normTitle2 = normalizeString(str: songRef!.getTitle())
+                            } else { // use vague comparison methods
+                                normTitle1 = simplifyMusicText(title: song!.getTitle(), broadSearch: true)
+                                normTitle2 = simplifyMusicText(title: songRef!.getTitle(), broadSearch: true)
+                            }
                             
                             // get Levenshtein distance between song titles
                             let levNum = levDis(normTitle1, normTitle2)
@@ -262,11 +271,22 @@ class SpotifySongData {
                     }
                     // sometimes an exact match doesn't exist due to ISRC discrepancies, these must be resolved with a "close match"
                 } else if (lookForCloseMatch) {
-                    let normTitle1 = normalizeString(str: song!.getTitle())
-                    let normTitle2 = normalizeString(str: songRef!.getTitle())
+                    var normTitle1: String
+                    var normTitle2: String
+                    
+                    if (!vagueMatching) {
+                        normTitle1 = normalizeString(str: song!.getTitle())
+                        normTitle2 = normalizeString(str: songRef!.getTitle())
+                    } else { // use vague comparison methods
+                        normTitle1 = simplifyMusicText(title: song!.getTitle(), broadSearch: true)
+                        normTitle2 = simplifyMusicText(title: songRef!.getTitle(), broadSearch: true)
+                    }
                     
                     if (normTitle1 == normTitle2) {
-                        if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
+                        let normAlbum1 = simplifyMusicText(title: song!.getAlbum(), broadSearch: true)
+                        let normAlbum2 = simplifyMusicText(title: songRef!.getAlbum(), broadSearch: true)
+                        
+                        if ((song?.getTrackNum() == songRef!.getTrackNum()) && (song?.getExplicit() == songRef?.getExplicit()) && (normAlbum1 == normAlbum2)) {
                             matchFound = true
                             lookForCloseMatch = false
                             debugPrint("Marked as exact match (e2) ")
@@ -282,11 +302,20 @@ class SpotifySongData {
                             
                             closeMatch = i
                             
-                            let normAlbum1 = normalizeString(str: song!.getAlbum())
-                            let normAlbum2 = normalizeString(str: songRef!.getAlbum())
+                            var normAlbum1: String
+                            var normAlbum2: String
+                            
+                            if (!vagueMatching) {
+                                normAlbum1 = normalizeString(str: song!.getAlbum())
+                                normAlbum2 = normalizeString(str: songRef!.getAlbum())
+                            } else { // use vague comparison methods
+                                normAlbum1 = simplifyMusicText(title: song!.getAlbum(), broadSearch: true)
+                                normAlbum2 = simplifyMusicText(title: songRef!.getAlbum(), broadSearch: true)
+                            }
+                            
                             let levAlbum = levDis(normAlbum1, normAlbum2)
                             
-                            if (levAlbum <= bestLevNumAlbum) {
+                            if (levAlbum < bestLevNumAlbum) {
                                 debugPrint("Best album Lev distance: \(levNum)")
                                 bestLevNumAlbum = levAlbum
                                 
@@ -329,7 +358,7 @@ class SpotifySongData {
                 song?.setTranslatedImgURL(link: attributes.album.images[1].url)
                 
                 // broaden search?
-                return veryCloseMatchFound
+                return .veryClose
             } else if (closeMatch != nil) {
                 let attributes = processed.tracks.items[closeMatch!]
                 var artists: [String] = []
@@ -342,13 +371,16 @@ class SpotifySongData {
                 song?.setTranslatedImgURL(link: attributes.album.images[1].url)
                 
                 // broaden search?
-                return veryCloseMatchFound
+                return .close
             } else {
                 debugPrint("No matches")
+                return .none
             }
+        } else {
+            return .none
         }
         
-        return true
+        return .exact
     }
     
     /**

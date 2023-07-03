@@ -45,13 +45,21 @@ func simplifyMusicText(title: String, broadSearch: Bool) -> String {
     
     // keep remaster as search term if needed
     if (!broadSearch && simpleText.contains("remaster")) {
-//        debugPrint("Song is a remaster")
         remaster = true
     }
     
     // remove text after a dash unless it's used to define a remix
     if (simpleText.contains("remix")) {
         remix = true
+    }
+    
+    // handle featured artists. If not a broad search, they will be removed by the parenthesis
+    if (!broadSearch) {
+        let pattern = "\\(feat\\.\\s*([^)]*)\\)"
+        let regex = try! NSRegularExpression(pattern: pattern)
+
+        let range = NSRange(simpleText.startIndex..<simpleText.endIndex, in: simpleText)
+        simpleText = regex.stringByReplacingMatches(in: simpleText, options: [], range: range, withTemplate: "$1")
     }
     
     // Remove words in parentheses
@@ -72,28 +80,22 @@ func simplifyMusicText(title: String, broadSearch: Bool) -> String {
     
     if (!broadSearch) {
         simpleText = convertToLatinCharacters(simpleText)
-        characterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz1234567890. ").union(specialSet)
+        characterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz1234567890.& ").union(specialSet)
     } else {
         characterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz1234567890 ").union(specialSet)
     }
     simpleText = simpleText.components(separatedBy: characterSet.inverted).joined(separator: "")
     
-    
-    if (broadSearch) {
-        // Remove featuring artists
-        simpleText = simpleText.replacingOccurrences(
-            of: #"(\s+)?feat(\.|uring)?(\.|&)?(\s+)?[^ ]+"#,
-            with: "",
-            options: .regularExpression
-        )
-    }
-    if (!broadSearch && remaster) {
-        // add remaster keyword
-        simpleText = "\(simpleText) remaster"
-    }
-    if (!broadSearch && remix) {
-        // add remaster keyword
-        simpleText = "\(simpleText) remix"
+   
+    if (!broadSearch) {
+        if (remaster) {
+            // add remaster keyword
+            simpleText = "\(simpleText) remaster"
+        }
+        if (remix) {
+            // add remaster keyword
+            simpleText = "\(simpleText) remix"
+        }
     }
     
     // Remove unnecessary words if they are not the only word in the song
@@ -102,7 +104,15 @@ func simplifyMusicText(title: String, broadSearch: Bool) -> String {
     let words = components.filter { !$0.isEmpty }
     
     if (words.count > 1) {
-        let unnecessaryWords = ["a", "an", "in", "on", "at", "and", "or", "degrees"] // these could be problematic
+        var unnecessaryWords = ["a", "an", "in", "on", "at", "and", "or", "degrees"] // these could be problematic
+        
+        if (broadSearch) {
+            unnecessaryWords.append("remastered")
+            unnecessaryWords.append("remaster")
+            unnecessaryWords.append("remix")
+            unnecessaryWords.append("mix")
+        }
+        
         let wordPattern = "\\b(" + unnecessaryWords.joined(separator: "|") + ")\\b"
         simpleText = simpleText.replacingOccurrences(
             of: wordPattern,
@@ -110,6 +120,8 @@ func simplifyMusicText(title: String, broadSearch: Bool) -> String {
             options: [.regularExpression, .caseInsensitive]
         )
     }
+    
+    simpleText = simpleText.replacingOccurrences(of: "&", with: " ")
     
     // Simplify variations
     

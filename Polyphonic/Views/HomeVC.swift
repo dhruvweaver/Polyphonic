@@ -39,6 +39,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
     var type: MusicType = .album
     var altSongs: [String] = []
     var alts: [Song] = []
+    var match: TranslationMatchLevel = .none
     
     
     // pasteboard for reading and writing clipboard data
@@ -175,6 +176,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
                     type = results.2
                     altSongs = results.3
                     alts = results.4
+                    match = results.5
                     
                     keySong = song
                     // setup preview UI elements
@@ -185,6 +187,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
                 } else {
                     alts = []
                     altSongs = []
+                    match = .none
                     
                     mainPreview.update(art: nil, title: "", album: "", artist: "", isExplicit: false, placeholder: true)
                     
@@ -459,6 +462,13 @@ class HomeVC: UIViewController, UITextFieldDelegate {
             
             editButton.configuration?.baseForegroundColor = .label
             
+            // color code edit button depending on whether an exact match was found
+            if (match.rawValue < TranslationMatchLevel.exact.rawValue) {
+                editButton.configuration?.baseBackgroundColor = .systemYellow
+            } else {
+                editButton.configuration?.baseBackgroundColor = .systemBackground
+            }
+            
             // drop shadow
             editButton.layer.shadowColor = UIColor.label.cgColor
             
@@ -467,6 +477,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         } else {
             editButton.isUserInteractionEnabled = false
             editButton.configuration?.baseForegroundColor = .systemGray4
+            editButton.configuration?.baseBackgroundColor = .systemBackground
             
             // drop shadow
             editButton.layer.shadowColor = UIColor.clear.cgColor

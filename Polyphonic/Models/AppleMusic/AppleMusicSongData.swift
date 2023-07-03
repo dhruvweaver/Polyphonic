@@ -132,7 +132,6 @@ class AppleMusicSongData {
         songStr = simplifyMusicText(title: songStr, broadSearch: false).replacingOccurrences(of: " ", with: "+")
         artistStr = normalizeString(str: artistStr).replacingOccurrences(of: " ", with: "+")
         
-        
         var searchParams: String
         if (narrowSearch) {
             debugPrint("Song: \(songStr)")
@@ -173,10 +172,11 @@ class AppleMusicSongData {
      Parses data from decoded JSON to a song object. If the data came from search results more processing is required, and the original `Song` object is compared with the search results to find the best match.
      The function will then return a `Bool` indicating whether or not a broader search is needed.
      - Parameter songRef: Reference `Song` object for checking against search results. Not needed if processing results from an ID search.
-     - Returns: `Bool` indicating whether or not a broader search is needed. `True` means results were acceptable.
+     - Parameter vagueMatching: Whether or not to use vague matching techniques. Useful if no exact results have been found.
+     - Returns: `TranslationMatchLevel` indicating how close the match was and whether or not a broader search is needed. See documentation for `TranslationMatchLevel` for more.
      - Note: `parseToObject()` function only parses objects once decoded JSON data has been assigned within the class. Call either of the `getAppleMusicSongData` methods to do so.
      */
-    func parseToObject(songRef: Song?) -> Bool {
+    func parseToObject(songRef: Song?, vagueMatching: Bool) -> TranslationMatchLevel {
         print("Parsing...")
         if let processed = appleMusicSongJSON {
             if (processed.data.endIndex >= 1) { // should prevent crashes when there are no results. Needs further testing
@@ -195,7 +195,7 @@ class AppleMusicSongData {
             if (resultsCount == 0) {
                 debugPrint("Apple Music search too narrow")
                 // broaden search, remove artist parameter
-                return false
+                return .none
             }
             
             var i = 0
@@ -239,8 +239,16 @@ class AppleMusicSongData {
                         } else {
                             debugPrint("Good ISRC. Levenshtein distance for song comparison")
                             
-                            let normTitle1 = normalizeString(str: song!.getTitle())
-                            let normTitle2 = normalizeString(str: songRef!.getTitle())
+                            var normTitle1: String
+                            var normTitle2: String
+                            
+                            if (!vagueMatching) {
+                                normTitle1 = normalizeString(str: song!.getTitle())
+                                normTitle2 = normalizeString(str: songRef!.getTitle())
+                            } else { // use vague comparison methods
+                                normTitle1 = simplifyMusicText(title: song!.getTitle(), broadSearch: true)
+                                normTitle2 = simplifyMusicText(title: songRef!.getTitle(), broadSearch: true)
+                            }
                             
                             // get Levenshtein distance between song titles
                             let levNum = levDis(normTitle1, normTitle2)
@@ -258,11 +266,22 @@ class AppleMusicSongData {
                     }
                     // sometimes an exact match doesn't exist due to ISRC discrepancies, these must be resolved with a "close match"
                 } else if (lookForCloseMatch) {
-                    let normTitle1 = normalizeString(str: song!.getTitle())
-                    let normTitle2 = normalizeString(str: songRef!.getTitle())
+                    var normTitle1: String
+                    var normTitle2: String
+                    
+                    if (!vagueMatching) {
+                        normTitle1 = normalizeString(str: song!.getTitle())
+                        normTitle2 = normalizeString(str: songRef!.getTitle())
+                    } else { // use vague comparison methods
+                        normTitle1 = simplifyMusicText(title: song!.getTitle(), broadSearch: true)
+                        normTitle2 = simplifyMusicText(title: songRef!.getTitle(), broadSearch: true)
+                    }
                     
                     if (normTitle1 == normTitle2) {
-                        if (song?.getTrackNum() == songRef!.getTrackNum() && song?.getExplicit() == songRef?.getExplicit()) {
+                        let normAlbum1 = simplifyMusicText(title: song!.getAlbum(), broadSearch: true)
+                        let normAlbum2 = simplifyMusicText(title: songRef!.getAlbum(), broadSearch: true)
+                        
+                        if ((song?.getTrackNum() == songRef!.getTrackNum()) && (song?.getExplicit() == songRef?.getExplicit()) && (normAlbum1 == normAlbum2)) {
                             matchFound = true
                             lookForCloseMatch = false
                             debugPrint("Marked as exact match (e2) ")
@@ -278,8 +297,17 @@ class AppleMusicSongData {
                             
                             closeMatch = i
                             
-                            let normAlbum1 = normalizeString(str: song!.getAlbum())
-                            let normAlbum2 = normalizeString(str: songRef!.getAlbum())
+                            var normAlbum1: String
+                            var normAlbum2: String
+                            
+                            if (!vagueMatching) {
+                                normAlbum1 = normalizeString(str: song!.getAlbum())
+                                normAlbum2 = normalizeString(str: songRef!.getAlbum())
+                            } else { // use vague comparison methods
+                                normAlbum1 = simplifyMusicText(title: song!.getAlbum(), broadSearch: true)
+                                normAlbum2 = simplifyMusicText(title: songRef!.getAlbum(), broadSearch: true)
+                            }
+                            
                             let levAlbum = levDis(normAlbum1, normAlbum2)
                             
                             if (levAlbum < bestLevNumAlbum) {
@@ -331,7 +359,7 @@ class AppleMusicSongData {
                 debugPrint("Image: \(attributes.artwork.url)")
                 
                 // broaden search?
-                return veryCloseMatchFound
+                return .veryClose
             } else if (closeMatch != nil) {
                 let attributes = processed.results.songs.data[closeMatch!].attributes
                 var explicit: Bool = false
@@ -346,16 +374,16 @@ class AppleMusicSongData {
                 debugPrint("Image: \(attributes.artwork.url)")
                 
                 // broaden search?
-                return veryCloseMatchFound
+                return .close
             } else {
                 debugPrint("No matches")
-                return false
+                return .none
             }
         } else {
-            return false
+            return .none
         }
         
-        return true
+        return .exact
     }
     
     /**

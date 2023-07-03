@@ -15,9 +15,14 @@ class PolyphonicPreview: UIView {
     private var artData: Data? = nil
     private let imageView = UIImageView()
     private let titleLabel = UILabel()
+    private var ratingView = UIImageView()
     private let albumLabel = UILabel()
     private let artistLabel = UILabel()
-    private var isExplicit: Bool = false
+    private var isExplicit: Bool = false {
+        didSet {
+            configureUI()
+        }
+    }
     private var placeholder: Bool = true
     
     /**
@@ -101,15 +106,14 @@ class PolyphonicPreview: UIView {
         configureText()
     }
     
+    /**
+     Configures Album, Title, and Artist labels.
+     */
     private func configureText() {
         configureAlbum()
         configureTitle()
         configureArtist()
     }
-    
-//    private func redactArt() {
-//
-//    }
     
     /**
      Configures and gets album art (using `getImageData()`.
@@ -169,6 +173,8 @@ class PolyphonicPreview: UIView {
             titleLabel.layer.masksToBounds = true
             titleLabel.layer.cornerRadius = 4
             
+            ratingView.isHidden = true
+            
             NSLayoutConstraint.activate([
                 titleLabel.leadingAnchor.constraint(equalTo: albumLabel.leadingAnchor),
                 titleLabel.bottomAnchor.constraint(equalTo: albumLabel.topAnchor, constant: -4),
@@ -184,7 +190,9 @@ class PolyphonicPreview: UIView {
                 let color = UIImage.SymbolConfiguration(paletteColors: [.label])
                 let configuration = weight.applying(color)
                 let ratingSymbol = UIImage(systemName: "e.square", withConfiguration: configuration)
-                let ratingView = UIImageView(image: ratingSymbol)
+                
+                ratingView = UIImageView(image: ratingSymbol)
+                ratingView.isHidden = false
                 
                 addSubview(ratingView)
                 ratingView.translatesAutoresizingMaskIntoConstraints = false
@@ -198,6 +206,8 @@ class PolyphonicPreview: UIView {
                     ratingView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor)
                 ])
             } else {
+                ratingView.isHidden = true
+                
                 NSLayoutConstraint.activate([
                     titleLabel.leadingAnchor.constraint(equalTo: albumLabel.leadingAnchor),
                     titleLabel.bottomAnchor.constraint(equalTo: albumLabel.topAnchor, constant: -4),
