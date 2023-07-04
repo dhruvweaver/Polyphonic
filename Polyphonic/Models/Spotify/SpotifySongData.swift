@@ -285,6 +285,7 @@ class SpotifySongData {
                     if (normTitle1 == normTitle2) {
                         let normAlbum1 = simplifyMusicText(title: song!.getAlbum(), broadSearch: true)
                         let normAlbum2 = simplifyMusicText(title: songRef!.getAlbum(), broadSearch: true)
+                        closeMatch = i
                         
                         if ((song?.getTrackNum() == songRef!.getTrackNum()) && (song?.getExplicit() == songRef?.getExplicit()) && (normAlbum1 == normAlbum2)) {
                             matchFound = true

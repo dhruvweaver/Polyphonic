@@ -162,6 +162,10 @@ class PolyphonicPreview: UIView {
      Configures title (song name or "Album") label with or without explicit marker (depending on `isExplicit` status.
      */
     private func configureTitle() {
+        // reset these views for when the explicit symbol is added and removed
+        titleLabel.removeFromSuperview()
+        ratingView.removeFromSuperview()
+        
         self.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -172,8 +176,6 @@ class PolyphonicPreview: UIView {
             titleLabel.backgroundColor = .systemGray4
             titleLabel.layer.masksToBounds = true
             titleLabel.layer.cornerRadius = 4
-            
-            ratingView.isHidden = true
             
             NSLayoutConstraint.activate([
                 titleLabel.leadingAnchor.constraint(equalTo: albumLabel.leadingAnchor),
@@ -192,7 +194,6 @@ class PolyphonicPreview: UIView {
                 let ratingSymbol = UIImage(systemName: "e.square", withConfiguration: configuration)
                 
                 ratingView = UIImageView(image: ratingSymbol)
-                ratingView.isHidden = false
                 
                 addSubview(ratingView)
                 ratingView.translatesAutoresizingMaskIntoConstraints = false
@@ -206,8 +207,6 @@ class PolyphonicPreview: UIView {
                     ratingView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor)
                 ])
             } else {
-                ratingView.isHidden = true
-                
                 NSLayoutConstraint.activate([
                     titleLabel.leadingAnchor.constraint(equalTo: albumLabel.leadingAnchor),
                     titleLabel.bottomAnchor.constraint(equalTo: albumLabel.topAnchor, constant: -4),

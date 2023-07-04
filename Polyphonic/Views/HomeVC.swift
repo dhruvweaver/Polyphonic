@@ -166,6 +166,8 @@ class HomeVC: UIViewController, UITextFieldDelegate {
             outputField.text = ""
             outputField.placeholder = "Loading..."
             
+            mainPreview.update(art: nil, title: "", album: "", artist: "", isExplicit: false, placeholder: true)
+            
             let musicData = MusicData()
             Task {
                 let results = await musicData.translateData(link: inLink)
@@ -188,8 +190,6 @@ class HomeVC: UIViewController, UITextFieldDelegate {
                     alts = []
                     altSongs = []
                     match = .none
-                    
-                    mainPreview.update(art: nil, title: "", album: "", artist: "", isExplicit: false, placeholder: true)
                     
                     outputField.text = outLink
                     
