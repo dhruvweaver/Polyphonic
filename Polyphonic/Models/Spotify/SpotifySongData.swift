@@ -156,6 +156,8 @@ class SpotifySongData {
         } else {
             debugPrint("Performing broader search")
             songStr = simplifyMusicText(title: songRef.getTitle(), broadSearch: true)
+            artistStr  = simplifyMusicText(title: songRef.getArtists()[0], broadSearch: true)
+            
             searchParams = "track:\(songStr) artist:\(artistStr)&type=track"
         }
         
@@ -282,10 +284,13 @@ class SpotifySongData {
                         normTitle2 = simplifyMusicText(title: songRef!.getTitle(), broadSearch: true)
                     }
                     
-                    if (normTitle1 == normTitle2) {
+                    let levNum = levDis(normTitle1, normTitle2)
+                    if (levNum == 0) {
+                        bestLevNumTitle = levNum
+                        closeMatch = i
+                        
                         let normAlbum1 = simplifyMusicText(title: song!.getAlbum(), broadSearch: true)
                         let normAlbum2 = simplifyMusicText(title: songRef!.getAlbum(), broadSearch: true)
-                        closeMatch = i
                         
                         if ((song?.getTrackNum() == songRef!.getTrackNum()) && (song?.getExplicit() == songRef?.getExplicit()) && (normAlbum1 == normAlbum2)) {
                             matchFound = true

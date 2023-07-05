@@ -174,7 +174,6 @@ class HomeVC: UIViewController, UITextFieldDelegate {
                 
                 outLink = results.0
                 if let song = results.1 {
-//                    keySong = song
                     type = results.2
                     altSongs = results.3
                     alts = results.4

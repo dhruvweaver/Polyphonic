@@ -140,6 +140,7 @@ class AppleMusicSongData {
             searchParams = "\(songStr)+\(artistStr)"
         } else {
             songStr = simplifyMusicText(title: songRef.getTitle(), broadSearch: true).replacingOccurrences(of: " ", with: "+")
+            artistStr  = simplifyMusicText(title: songRef.getArtists()[0], broadSearch: true)
             
             debugPrint("Song: \(songStr)")
             debugPrint("Artist: \(artistStr)")
@@ -277,10 +278,13 @@ class AppleMusicSongData {
                         normTitle2 = simplifyMusicText(title: songRef!.getTitle(), broadSearch: true)
                     }
                     
-                    if (normTitle1 == normTitle2) {
+                    let levNum = levDis(normTitle1, normTitle2)
+                    if (levNum == 0) {
+                        bestLevNumTitle = levNum
+                        closeMatch = i
+                        
                         let normAlbum1 = simplifyMusicText(title: song!.getAlbum(), broadSearch: true)
                         let normAlbum2 = simplifyMusicText(title: songRef!.getAlbum(), broadSearch: true)
-                        closeMatch = i
                         
                         if ((song?.getTrackNum() == songRef!.getTrackNum()) && (song?.getExplicit() == songRef?.getExplicit()) && (normAlbum1 == normAlbum2)) {
                             matchFound = true
