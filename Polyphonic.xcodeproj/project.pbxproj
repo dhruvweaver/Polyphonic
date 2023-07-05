@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000793D02A55D63100FEC683 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00918A432854E99B00C0B74E /* Assets.xcassets */; };
 		00301A452A456F38008D0744 /* EditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00301A442A456F38008D0744 /* EditVC.swift */; };
 		00301A482A456FC7008D0744 /* PolyphonicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00301A472A456FC7008D0744 /* PolyphonicTableViewCell.swift */; };
 		00301A492A456FC7008D0744 /* PolyphonicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00301A472A456FC7008D0744 /* PolyphonicTableViewCell.swift */; };
@@ -350,6 +351,7 @@
 				008139AE2A4A234100DE10B7 /* SpaceMono-Regular.ttf in Resources */,
 				008139AD2A4A1DEC00DE10B7 /* SpaceMono-Bold.ttf in Resources */,
 				008139A72A4A1DEC00DE10B7 /* SpaceMono-BoldItalic.ttf in Resources */,
+				000793D02A55D63100FEC683 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

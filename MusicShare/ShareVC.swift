@@ -415,6 +415,7 @@ class ShareVC: UIViewController {
             // color code edit button depending on whether an exact match was found
             if (match.rawValue < TranslationMatchLevel.exact.rawValue) {
                 editButton.configuration?.baseBackgroundColor = .systemYellow
+                editButton.configuration?.baseForegroundColor = UIColor(named: "EditLabelColor")
             } else {
                 editButton.configuration?.baseBackgroundColor = .systemBackground
             }
