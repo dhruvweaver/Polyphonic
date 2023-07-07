@@ -296,6 +296,9 @@ class SpotifyArtistData {
                 
                 let artistItem = Artist(name: attributes.name)
                 artistItem.setTranslatedURL(link: generateLink(uri: attributes.uri))
+                if (attributes.images.count > 1) {
+                    artistItem.setTranslatedImgURL(link: attributes.images[1].url)
+                }
                 artists.append(artistItem)
             }
         }
