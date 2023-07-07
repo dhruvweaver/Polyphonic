@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  polyphonic_fr
 //
-//  Created by Grant Elijah Kilgard on 5/6/23.
+//  Created by Dhruv Weaver on 5/6/23.
 //
 
 import UIKit

@@ -14,7 +14,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
     
     private let inputField = PolyphonicTextField(placeholderText: "Paste a link", keyboardType: .URL)
     
-    private let translateButton = PolyphonicButton(title: "Translate")
+    private let translateButton = PolyphonicButton(title: "Convert")
     private let loadingIndicator = UIActivityIndicatorView(style: .medium)
     
     private let outputField = PolyphonicTextField(placeholderText: "New link...", keyboardType: .URL)
@@ -36,9 +36,11 @@ class HomeVC: UIViewController, UITextFieldDelegate {
     private var outLink: String = ""
     
     var keySong: Song = Song(title: "", ISRC: "", artists: [""], album: "", albumID: "", explicit: false, trackNum: 0)
+    var keyArtist: Artist = Artist(name: "")
     var type: MusicType = .album
     var altSongs: [String] = []
     var alts: [Song] = []
+    var altArtists: [Artist] = []
     var match: TranslationMatchLevel = .none
     
     
@@ -150,6 +152,14 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         outputField.text = outLink
     }
     
+    private func setupPreview(fromArtist artist: Artist) async {
+        let title = "Artist"
+        
+        mainPreview.update(art: await getImageData(imageURL: artist.getTranslatedImgURL()), title: title, album: artist.getName(), artist: "", isExplicit: false, placeholder: false)
+        
+        outputField.text = outLink
+    }
+    
     /**
      TODO: Will be used for translating links between streaming services.
      */
@@ -174,14 +184,28 @@ class HomeVC: UIViewController, UITextFieldDelegate {
                 
                 outLink = results.0
                 if let song = results.1 {
-                    type = results.2
-                    altSongs = results.3
-                    alts = results.4
-                    match = results.5
+                    type = results.3
+                    altSongs = results.4
+                    alts = results.5
+                    altArtists = results.6
+                    match = results.7
                     
                     keySong = song
                     // setup preview UI elements
                     await setupPreview(fromSong: song)
+                    
+                    loadingIndicator.stopAnimating()
+                    outputField.placeholder = "New link..."
+                } else if let artist = results.2 {
+                    type = results.3
+                    altSongs = results.4
+                    alts = results.5
+                    altArtists = results.6
+                    match = results.7
+                    
+                    keyArtist = artist
+                    // setup preview UI elements
+                    await setupPreview(fromArtist: artist)
                     
                     loadingIndicator.stopAnimating()
                     outputField.placeholder = "New link..."
@@ -242,14 +266,27 @@ class HomeVC: UIViewController, UITextFieldDelegate {
             configureLoadingIndicatorEdit()
             loadingIndicatorEdit.startAnimating()
             
-            for i in alts {
-                await i.setTranslatedImgData()
+            if (type != .artist) {
+                for i in alts {
+                    await i.setTranslatedImgData()
+                }
+                
+                
+                let editView = EditVC(altSongs: altSongs, alts: alts, currentSong: keySong, type: type)
+                editView.delegate = self
+                
+                present(editView, animated: true)
+            } else {
+                for i in altArtists {
+                    await i.setTranslatedImgData()
+                }
+
+
+                let editView = EditVC(altArtists: altArtists, currentArtist: keyArtist, type: .artist)
+                editView.delegate = self
+
+                present(editView, animated: true)
             }
-            
-            let editView = EditVC(altSongs: altSongs, alts: alts, currentSong: keySong, type: type)
-            editView.delegate = self
-            
-            present(editView, animated: true)
             
             /* turn loading indicator back into edit button */
             loadingIndicatorEdit.stopAnimating()
@@ -456,7 +493,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         view.addSubview(editButton)
         editButton.translatesAutoresizingMaskIntoConstraints = false
         
-        if (alts.count > 1) {
+        if ((alts.count > 1) || (altArtists.count > 1)) { // for later:  || (altArtists.count > 1)
             editButton.isUserInteractionEnabled = true
             
             editButton.configuration?.baseForegroundColor = .label
@@ -522,6 +559,24 @@ extension HomeVC: EditVCDelegate {
             await setupPreview(fromSong: song)
             // set output to alt song's link
             outLink = song.getTranslatedURLasString()
+            outputField.text = outLink
+        }
+        
+        outputField.placeholder = "New link..."
+    }
+    
+    func updateSelection(withArtist artist: Artist) {
+        keyArtist = artist
+        
+        // first show empty preview
+        mainPreview.update(art: nil, title: "", album: "", artist: "", isExplicit: false, placeholder: true)
+        outputField.text = ""
+        outputField.placeholder = "Loading..."
+        
+        Task {
+            await setupPreview(fromArtist: artist)
+            // set output to alt song's link
+            outLink = artist.getTranslatedURLasString()
             outputField.text = outLink
         }
         

@@ -35,6 +35,22 @@ class PolyphonicTableViewCell: UITableViewCell {
             }
         }
     }
+    var artist: Artist? {
+        didSet {
+            if let artist = artist {
+                Task {
+                    let art = artist.getTranslatedImgData()
+                    var title: String
+                    title = "Artist"
+                    let album = artist.getName()
+                    let artist = ""
+                    let isExplicit = false
+                    
+                    preview.update(art: art, title: title, album: album, artist: artist, isExplicit: isExplicit, placeholder: false)
+                }
+            }
+        }
+    }
     var type: MusicType = .song
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

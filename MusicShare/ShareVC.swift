@@ -36,9 +36,11 @@ class ShareVC: UIViewController {
     private var outLink: String = ""
     
     var keySong: Song = Song(title: "", ISRC: "", artists: [""], album: "", albumID: "", explicit: false, trackNum: 0)
+    var keyArtist: Artist = Artist(name: "")
     var type: MusicType = .album
     var altSongs: [String] = []
     var alts: [Song] = []
+    var altArtists: [Artist] = []
     var match: TranslationMatchLevel = .none
     
     // pasteboard for reading and writing clipboard data
@@ -116,11 +118,11 @@ class ShareVC: UIViewController {
                 
                 outLink = results.0
                 if let song = results.1 {
-                    //                    keySong = song
-                    type = results.2
-                    altSongs = results.3
-                    alts = results.4
-                    match = results.5
+                    type = results.3
+                    altSongs = results.4
+                    alts = results.5
+                    altArtists = results.6
+                    match = results.7
                     
                     keySong = song
                     // setup preview UI elements
@@ -128,12 +130,23 @@ class ShareVC: UIViewController {
                     
                     loadingIndicator.stopAnimating()
                     outputField.placeholder = "New link..."
+                } else if let artist = results.2 {
+                    type = results.3
+                    altSongs = results.4
+                    alts = results.5
+                    altArtists = results.6
+                    match = results.7
+                    
+                    keyArtist = artist
+                    // setup preview UI elements
+                    await setupPreview(fromArtist: artist)
+                    
+                    loadingIndicator.stopAnimating()
+                    outputField.placeholder = "New link..."
                 } else {
                     alts = []
                     altSongs = []
                     match = .none
-                    
-                    sharePreview.update(art: nil, title: "", album: "", artist: "", isExplicit: false, placeholder: true)
                     
                     outputField.text = outLink
                     
@@ -164,6 +177,14 @@ class ShareVC: UIViewController {
         
         
         sharePreview.update(art: await getImageData(imageURL: song.getTranslatedImgURL()), title: title, album: album, artist: artist, isExplicit: isExplicit, placeholder: false)
+        
+        outputField.text = outLink
+    }
+    
+    private func setupPreview(fromArtist artist: Artist) async {
+        let title = "Artist"
+        
+        sharePreview.update(art: await getImageData(imageURL: artist.getTranslatedImgURL()), title: title, album: artist.getName(), artist: "", isExplicit: false, placeholder: false)
         
         outputField.text = outLink
     }
@@ -243,19 +264,34 @@ class ShareVC: UIViewController {
         buttonClick()
 
         Task {
+            /* turn edit button into loading indicator */
             editButton.removeFromSuperview()
             configureLoadingIndicatorEdit()
             loadingIndicatorEdit.startAnimating()
+            
+            if (type != .artist) {
+                for i in alts {
+                    await i.setTranslatedImgData()
+                }
+                
+                
+                let editView = EditVC(altSongs: altSongs, alts: alts, currentSong: keySong, type: type)
+                editView.delegate = self
+                
+                present(editView, animated: true)
+            } else {
+                for i in altArtists {
+                    await i.setTranslatedImgData()
+                }
 
-            for i in alts {
-                await i.setTranslatedImgData()
+
+                let editView = EditVC(altArtists: altArtists, currentArtist: keyArtist, type: .artist)
+                editView.delegate = self
+
+                present(editView, animated: true)
             }
-
-            let editView = EditVC(altSongs: altSongs, alts: alts, currentSong: keySong, type: type)
-            editView.delegate = self
-
-            present(editView, animated: true)
-
+            
+            /* turn loading indicator back into edit button */
             loadingIndicatorEdit.stopAnimating()
             loadingIndicatorEdit.removeFromSuperview()
             configureEditButton()
@@ -407,7 +443,7 @@ class ShareVC: UIViewController {
         view.addSubview(editButton)
         editButton.translatesAutoresizingMaskIntoConstraints = false
 
-        if (alts.count > 1) {
+        if ((alts.count > 1) || (altArtists.count > 1)) {
             editButton.isUserInteractionEnabled = true
 
             editButton.configuration?.baseForegroundColor = .label
@@ -505,6 +541,24 @@ extension ShareVC: EditVCDelegate {
             await setupPreview(fromSong: song)
             // set output to alt song's link
             outLink = song.getTranslatedURLasString()
+            outputField.text = outLink
+        }
+        
+        outputField.placeholder = "New link..."
+    }
+    
+    func updateSelection(withArtist artist: Artist) {
+        keyArtist = artist
+        
+        // first show empty preview
+        sharePreview.update(art: nil, title: "", album: "", artist: "", isExplicit: false, placeholder: true)
+        outputField.text = ""
+        outputField.placeholder = "Loading..."
+        
+        Task {
+            await setupPreview(fromArtist: artist)
+            // set output to alt song's link
+            outLink = artist.getTranslatedURLasString()
             outputField.text = outLink
         }
         

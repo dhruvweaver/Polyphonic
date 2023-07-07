@@ -134,7 +134,7 @@ class PolyphonicPreview: UIView {
         }
         
         imageView.layer.masksToBounds = true
-        imageView.layer.cornerRadius = 15
+//        imageView.layer.cornerRadius = 15
         imageView.layer.borderWidth = 1.5
         imageView.layer.borderColor = UIColor.label.cgColor
         
@@ -175,7 +175,7 @@ class PolyphonicPreview: UIView {
             titleLabel.textColor = .systemGray4
             titleLabel.backgroundColor = .systemGray4
             titleLabel.layer.masksToBounds = true
-            titleLabel.layer.cornerRadius = 4
+//            titleLabel.layer.cornerRadius = 4
             
             NSLayoutConstraint.activate([
                 titleLabel.leadingAnchor.constraint(equalTo: albumLabel.leadingAnchor),
@@ -229,7 +229,7 @@ class PolyphonicPreview: UIView {
             albumLabel.textColor = .systemGray4
             albumLabel.backgroundColor = .systemGray4
             albumLabel.layer.masksToBounds = true
-            albumLabel.layer.cornerRadius = 4
+//            albumLabel.layer.cornerRadius = 4
         } else {
             albumLabel.textColor = .label
             albumLabel.backgroundColor = .clear
@@ -255,7 +255,7 @@ class PolyphonicPreview: UIView {
             artistLabel.textColor = .systemGray4
             artistLabel.backgroundColor = .systemGray4
             artistLabel.layer.masksToBounds = true
-            artistLabel.layer.cornerRadius = 4
+//            artistLabel.layer.cornerRadius = 4
         } else {
             artistLabel.textColor = .label
             artistLabel.backgroundColor = .clear

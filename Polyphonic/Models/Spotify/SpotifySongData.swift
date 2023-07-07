@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 /**
  Class containing functions and structures critical to communicating with Spotify's music database, and for identifying a matching song.
  - Note: `parseToObject()` function only parses objects once decoded JSON data has been assigned within the class. Call either of the `getSpotifySongData` methods to do so.
