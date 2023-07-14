@@ -1,88 +1,34 @@
 //
-//  Song.swift
+//  Artist.swift
 //  Polyphonic
 //
-//  Created by Dhruv Weaver on 6/11/22.
+//  Created by Dhruv Weaver on 7/6/23.
 //
 
 import Foundation
 
 /**
- Class containing important details and parameters for identifying songs.
+ Class containing important details and parameters for identifying artists.
  */
-class Song {
-    private let title: String!
-    private let ISRC: String!
-    private let artists: [String]!
-    private let album: String!
-    private let albumID: String!
-    private let explicit: Bool!
+class Artist {
+    private let name: String!
     private var translatedURL: URL?
-    private let trackNum: Int!
     private var translatedImgURL: URL?
     private var translatedImgData: Data?
     
-    init(title: String, ISRC: String, artists: [String], album: String, albumID: String, explicit: Bool, trackNum: Int) {
-        self.title = title
-        self.ISRC = ISRC
-        self.artists = artists
-        self.album = album
-        self.albumID = albumID
-        self.explicit = explicit
-        self.trackNum = trackNum
+    init(name: String) {
+        self.name = name
     }
     
     /**
-     - Returns: Song's title.
+     - Returns: Artist's name.
      */
-    func getTitle() -> String {
-        return title
+    func getName() -> String {
+        return name
     }
     
     /**
-     - Returns: Song's ISRC.
-     */
-    func getISRC() -> String {
-        return ISRC
-    }
-    
-    /**
-     - Returns: Song's artists.
-     */
-    func getArtists() -> [String] {
-        return artists
-    }
-    
-    /**
-     - Returns: Song's album.
-     */
-    func getAlbum() -> String {
-        return album
-    }
-    
-    /**
-     - Returns: Song's related album ID.
-     */
-    func getAlbumID() -> String {
-        return albumID
-    }
-    
-    /**
-     - Returns: Song's content rating; true if explicit.
-     */
-    func getExplicit() -> Bool {
-        return explicit
-    }
-    
-    /**
-     - Returns: Song's track number in the album.
-     */
-    func getTrackNum() -> Int {
-        return trackNum
-    }
-    
-    /**
-     - Parameter link: Link to the song on the output platform.
+     - Parameter link: Link to the artist on the output platform.
      */
     func setTranslatedURL(link: String) {
         translatedURL = URL(string: link)
@@ -111,7 +57,7 @@ class Song {
     }
     
     /**
-     - Returns: Translated song's album art URL as a `String` if it is valid, otherwise returns a link to an image of a question mark.
+     - Returns: Translated artist's profile picture URL as a `String` if it is valid, otherwise returns a link to an image of a question mark.
      */
     func getTranslatedImgURL() -> URL {
         if let translatedImgURL = translatedImgURL {
