@@ -26,6 +26,13 @@ enum TranslationMatchLevel: Int {
 }
 
 /**
+ Enum specifying which platform the link comes from.
+ */
+enum Platform {
+    case unknown, spotify, appleMusic
+}
+
+/**
  Class containing key music translating functions.
  */
 class MusicData {
@@ -35,12 +42,6 @@ class MusicData {
         
     }
     
-    /**
-     Enum specifying which platform the link comes from.
-     */
-    enum Platform {
-        case unknown, spotify, appleMusic
-    }
     private var starterSource: Platform = Platform.unknown
     
     var song: Song? = nil
@@ -632,12 +633,6 @@ class MusicData {
                     translatedArtist = translatedArtistData
                     altArtists = spotify.getAllArtists()
                     match = .exact
-                    
-//                    for i in altSongs {
-//                        let altURL = i.getTranslatedURLasString()
-//                        debugPrint("Alt: \(altURL)")
-//                        altSongURLs.append(altURL)
-//                    }
                 }
             } else { // an exact match was not found, so the search will be broadened
                 debugPrint("No exact match, trying search again")
@@ -658,12 +653,6 @@ class MusicData {
                         translatedArtist = translatedArtistData
                         altArtists = spotify.getAllArtists()
                         match = .exact
-                        
-//                        for i in altSongs {
-//                            let altURL = i.getTranslatedURLasString()
-//                            debugPrint("Alt: \(altURL)")
-//                            altSongURLs.append(altURL)
-//                        }
                     }
                 } else { // try matching results using more vague comparisons, we no longer care about how close the results are
                     debugPrint("No exact match, trying more vague matching")
@@ -679,12 +668,6 @@ class MusicData {
                         
                         translatedArtist = translatedArtistData
                         altArtists = spotify.getAllArtists()
-                        
-//                        for i in altSongs {
-//                            let altURL = i.getTranslatedURLasString()
-//                            debugPrint("Alt: \(altURL)")
-//                            altSongURLs.append(altURL)
-//                        }
                     }
                 }
             }
