@@ -3,4 +3,4 @@ iOS app for translating links for songs and albums between multiple music stream
 
 Currently being tested with only Spotify ↔ Apple Music translation, with more hopefully coming later.
 
-![Screenshot of app's main view, showing converted music link.](./images/screenshot-1.png "Primary view.")
+<img src="images/screenshot-1.png" width="260"><img src="images/screenshot-2.png" width="260">
