@@ -53,7 +53,7 @@
 		00A426C02A455F68008C4739 /* PolyphonicPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423C52A39349A00172787 /* PolyphonicPreview.swift */; };
 		00AD80E428624E2F000CFA92 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AD80E328624E2F000CFA92 /* General.swift */; };
 		00C35F5D28663CB40064C8C9 /* ShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C35F5C28663CB40064C8C9 /* ShareVC.swift */; };
-		00C35F6428663CB40064C8C9 /* MusicShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 00C35F5A28663CB40064C8C9 /* MusicShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		00C35F6428663CB40064C8C9 /* MusicShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 00C35F5A28663CB40064C8C9 /* MusicShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		00C35F6928663D360064C8C9 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A4E2854F03B00C0B74E /* Song.swift */; };
 		00C35F6A28663D390064C8C9 /* MusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A522854F5A300C0B74E /* MusicData.swift */; };
 		00C35F6B28663D3E0064C8C9 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5A2855AB4B00C0B74E /* Keys.swift */; };
@@ -76,15 +76,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		005D1E842863746900D9756C /* Embed App Extensions */ = {
+		005D1E842863746900D9756C /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				00C35F6428663CB40064C8C9 /* MusicShare.appex in Embed App Extensions */,
+				00C35F6428663CB40064C8C9 /* MusicShare.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -276,7 +276,7 @@
 				00918A382854E99900C0B74E /* Sources */,
 				00918A392854E99900C0B74E /* Frameworks */,
 				00918A3A2854E99900C0B74E /* Resources */,
-				005D1E842863746900D9756C /* Embed App Extensions */,
+				005D1E842863746900D9756C /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -313,7 +313,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					00918A3B2854E99900C0B74E = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -476,6 +476,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -536,6 +537,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
