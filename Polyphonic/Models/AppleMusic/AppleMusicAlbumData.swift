@@ -78,15 +78,15 @@ class AppleMusicAlbumData {
      Assings local variable `appleMusicAlbumJSON` to decoded JSON after querying API for album data using an album ID.
      */
     func getAppleAlbumDataByID() async {
-        let url = URL(string: "https://api.music.apple.com/v1/catalog/us/albums/\(albumID!)")!
+        let url = URL(string: "\(serverAddress)/apple/album/id/\(albumID!)")!
         debugPrint("Querying: \(url.absoluteString)")
-        let sessionConfig = URLSessionConfiguration.default
-        let authValue: String = "Bearer \(appleMusicAuthKey)"
-        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
+//        let authValue: String = "Bearer \(appleMusicAuthKey)"
+//        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
         let urlSession = URLSession(configuration: sessionConfig)
 
         do {
             let (data, response) = try await urlSession.data(from: url)
+            urlSession.finishTasksAndInvalidate()
             if let httpResponse = response as? HTTPURLResponse {
                 print(httpResponse.statusCode)
             }

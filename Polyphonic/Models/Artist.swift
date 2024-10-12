@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
  Class containing important details and parameters for identifying artists.
@@ -59,18 +60,23 @@ class Artist {
     /**
      - Returns: Translated artist's profile picture URL as a `String` if it is valid, otherwise returns a link to an image of a question mark.
      */
-    func getTranslatedImgURL() -> URL {
+    func getTranslatedImgURL() -> URL? {
         if let translatedImgURL = translatedImgURL {
             return translatedImgURL
         }
-        return URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/800px-Question_mark_%28black%29.svg.png")!
+        return nil
     }
     
     /**
      Asyncronously gets image data from the `translatedImgURL` and saves it to `translatedImgData` in the `Song` object.
      */
     func setTranslatedImgData() async {
-        translatedImgData = await getImageData(imageURL: self.getTranslatedImgURL())
+        if let url = self.getTranslatedImgURL() {
+            translatedImgData = await getImageData(imageURL: url)
+        } else {
+            let image = UIImage(named: "NoMusic")
+            translatedImgData = image?.pngData()
+        }
     }
     
     /**

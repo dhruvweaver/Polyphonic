@@ -53,12 +53,22 @@ class ShareVC: UIViewController {
         setupNavBar()
         
         var urlStr = "Link could not be processed"
-        Task {
-            if let str = await getURL() {
-                urlStr = str
-                print(urlStr)
+        // get link from share sheet
+        if let item = extensionContext?.inputItems.first as? NSExtensionItem {
+            if let attachments = item.attachments {
+                for attachment in attachments {
+                    if attachment.hasItemConformingToTypeIdentifier("public.url") {
+                        attachment.loadItem(forTypeIdentifier: "public.url", options: nil) { (url, error) in
+                            if let shareURL = url as? URL {
+                                urlStr = shareURL.absoluteString
+                            }
+                        }
+                    }
+                }
             }
-            
+        }
+        
+        Task {
             inLink = urlStr
             inputField.text = inLink
             
@@ -67,27 +77,6 @@ class ShareVC: UIViewController {
             // immediately translate links without user input (once share extension is launched)
             translateMusic()
         }
-    }
-    
-    func getURL() async -> String? {
-        var urlStr: String? = nil
-        if let item = extensionContext?.inputItems.first as? NSExtensionItem {
-            if let itemProvider = item.attachments?.first {
-                if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
-                    do {
-                        let url = try await itemProvider.loadItem(forTypeIdentifier: "public.url", options: nil)
-                        do {
-                            if let url = url as? URL{
-                                urlStr = url.absoluteString
-                            }
-                        }
-                    } catch {
-                        debugPrint("Error getting url: \(String(describing: error))")
-                    }
-                }
-            }
-        }
-        return urlStr
     }
     
     @objc func openURL(_ url: URL) -> Bool {

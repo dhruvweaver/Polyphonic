@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
  Class containing important details and parameters for identifying songs.
@@ -17,10 +18,14 @@ class Song {
     private let album: String!
     private let albumID: String!
     private let explicit: Bool!
+    private var originalURL: URL?
     private var translatedURL: URL?
+    private var translationConfidence: Int = 0
     private let trackNum: Int!
     private var translatedImgURL: URL?
     private var translatedImgData: Data?
+    
+    var alts: [Song] = []
     
     init(title: String, ISRC: String, artists: [String], album: String, albumID: String, explicit: Bool, trackNum: Int) {
         self.title = title
@@ -81,6 +86,14 @@ class Song {
         return trackNum
     }
     
+    func setOriginalURL(link: String) {
+        originalURL = URL(string: link)
+    }
+    
+    func getOriginalURL() -> URL? {
+        return originalURL
+    }
+    
     /**
      - Parameter link: Link to the song on the output platform.
      */
@@ -103,6 +116,13 @@ class Song {
         }
     }
     
+    func setConfidence(level: Int) {
+        translationConfidence = level
+    }
+    
+    func getConfidence() -> Int {
+        return translationConfidence
+    }
     /**
      - Parameter link: Link to the album art on the output platform.
      */
@@ -113,18 +133,23 @@ class Song {
     /**
      - Returns: Translated song's album art URL as a `String` if it is valid, otherwise returns a link to an image of a question mark.
      */
-    func getTranslatedImgURL() -> URL {
+    func getTranslatedImgURL() -> URL? {
         if let translatedImgURL = translatedImgURL {
             return translatedImgURL
         }
-        return URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/800px-Question_mark_%28black%29.svg.png")!
+        return nil
     }
     
     /**
      Asyncronously gets image data from the `translatedImgURL` and saves it to `translatedImgData` in the `Song` object.
      */
     func setTranslatedImgData() async {
-        translatedImgData = await getImageData(imageURL: self.getTranslatedImgURL())
+        if let url = self.getTranslatedImgURL() {
+            translatedImgData = await getImageData(imageURL: url)
+        } else {
+            let image = UIImage(named: "NoMusic")
+            translatedImgData = image?.pngData()
+        }
     }
     
     /**

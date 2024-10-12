@@ -71,6 +71,7 @@ class MusicData {
         
         if (platform == Platform.spotify) {
             // gets Spotify songID from provided link. This is located at the end of a Spotify link
+            // TODO: does not work with new spotify.link shortened links
             id = starterLink!.lastPathComponent
         } else if (platform == Platform.appleMusic) {
             let linkStr = starterLink!.absoluteString
@@ -161,6 +162,7 @@ class MusicData {
                     translatedSong = translatedSongData
                     altSongs = appleMusic.getAllSongs()
                     match = .exact
+                    translatedSong?.setConfidence(level: TranslationMatchLevel.exact.rawValue)
                     
                     for i in altSongs {
                         let altURL = i.getTranslatedURLasString()
@@ -187,6 +189,7 @@ class MusicData {
                         translatedSong = translatedSongData
                         altSongs = appleMusic.getAllSongs()
                         match = .exact
+                        translatedSong?.setConfidence(level: TranslationMatchLevel.exact.rawValue)
                         
                         for i in altSongs {
                             let altURL = i.getTranslatedURLasString()
@@ -208,6 +211,7 @@ class MusicData {
                         
                         translatedSong = translatedSongData
                         altSongs = appleMusic.getAllSongs()
+                        translatedSong?.setConfidence(level: match.rawValue)
                         
                         for i in altSongs {
                             let altURL = i.getTranslatedURLasString()
@@ -262,6 +266,7 @@ class MusicData {
                     translatedSong = translatedSongData
                     altSongs = spotify.getAllSongs()
                     match = .exact
+                    translatedSong?.setConfidence(level: TranslationMatchLevel.exact.rawValue)
                     
                     for i in altSongs {
                         let altURL = i.getTranslatedURLasString()
@@ -288,6 +293,7 @@ class MusicData {
                         translatedSong = translatedSongData
                         altSongs = spotify.getAllSongs()
                         match = .exact
+                        translatedSong?.setConfidence(level: TranslationMatchLevel.exact.rawValue)
                         
                         for i in altSongs {
                             let altURL = i.getTranslatedURLasString()
@@ -309,6 +315,7 @@ class MusicData {
                         
                         translatedSong = translatedSongData
                         altSongs = spotify.getAllSongs()
+                        translatedSong?.setConfidence(level: match.rawValue)
                         
                         for i in altSongs {
                             let altURL = i.getTranslatedURLasString()
@@ -758,7 +765,7 @@ class MusicData {
      */
     func translateData(link: String) async -> (String, Song?, Artist?, MusicType, [String], [Song], [Artist], TranslationMatchLevel) {
         if let songLink = URL(string: link) {
-            if (songLink.host != "open.spotify.com" && songLink.host != "music.apple.com") {
+            if ((songLink.host != "open.spotify.com" && songLink.host != "spotify.link") && songLink.host != "music.apple.com") {
                 return ("Link not supported", nil, nil, .song, [], [], [], .none)
             } else {
                 starterLink = songLink
@@ -774,7 +781,6 @@ class MusicData {
         if link != nil {
             return (link!, results.1, results.2, results.3, results.4, results.5, results.6, results.7)
         } else {
-            // TODO: allow user to browse for alts if there was no exact hit. Will need to check if alternatives are available
             return ("No equivalent song or there was an error", nil, nil, .song, [], [], [], .none)
         }
     }

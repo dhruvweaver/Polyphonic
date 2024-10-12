@@ -122,7 +122,7 @@ class PolyphonicPreview: UIView {
         self.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        imageView.backgroundColor = .systemGray4
+        imageView.backgroundColor = UIColor(named: "CustomGray")
         
         if (!placeholder) {
             if let imageData = artData {
@@ -135,7 +135,7 @@ class PolyphonicPreview: UIView {
         
         imageView.layer.masksToBounds = true
 //        imageView.layer.cornerRadius = 15
-        imageView.layer.borderWidth = 1.5
+        imageView.layer.borderWidth = 2.5
         imageView.layer.borderColor = UIColor.label.cgColor
         
         NSLayoutConstraint.activate([
@@ -172,8 +172,8 @@ class PolyphonicPreview: UIView {
         titleLabel.font = UIFont(name: "SpaceMono-Bold", size: 17)
         
         if (placeholder) {
-            titleLabel.textColor = .systemGray4
-            titleLabel.backgroundColor = .systemGray4
+            titleLabel.textColor = UIColor(named: "CustomGray")
+            titleLabel.backgroundColor = UIColor(named: "CustomGray")
             titleLabel.layer.masksToBounds = true
 //            titleLabel.layer.cornerRadius = 4
             
@@ -226,8 +226,8 @@ class PolyphonicPreview: UIView {
         albumLabel.font = UIFont(name: "SpaceMono-Regular", size: 17)
         
         if (placeholder) {
-            albumLabel.textColor = .systemGray4
-            albumLabel.backgroundColor = .systemGray4
+            albumLabel.textColor = UIColor(named: "CustomGray")
+            albumLabel.backgroundColor = UIColor(named: "CustomGray")
             albumLabel.layer.masksToBounds = true
 //            albumLabel.layer.cornerRadius = 4
         } else {
@@ -252,8 +252,8 @@ class PolyphonicPreview: UIView {
         artistLabel.font = UIFont(name: "SpaceMono-Bold", size: 17)
         
         if (placeholder) {
-            artistLabel.textColor = .systemGray4
-            artistLabel.backgroundColor = .systemGray4
+            artistLabel.textColor = UIColor(named: "CustomGray")
+            artistLabel.backgroundColor = UIColor(named: "CustomGray")
             artistLabel.layer.masksToBounds = true
 //            artistLabel.layer.cornerRadius = 4
         } else {

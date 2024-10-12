@@ -34,6 +34,7 @@
 		0051147C286A318100B69CBC /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0051147A286A318100B69CBC /* Album.swift */; };
 		0051147F286A385700B69CBC /* AppleMusicAlbumData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0051147E286A385700B69CBC /* AppleMusicAlbumData.swift */; };
 		00511480286A385700B69CBC /* AppleMusicAlbumData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0051147E286A385700B69CBC /* AppleMusicAlbumData.swift */; };
+		0069E6E12A685F10008E2CDC /* PlaylistOverviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0069E6E02A685F10008E2CDC /* PlaylistOverviewVC.swift */; };
 		008139922A4A0A2300DE10B7 /* PolyphonicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423C42A39349A00172787 /* PolyphonicButton.swift */; };
 		008139932A4A0A2700DE10B7 /* PolyphonicTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423C32A39349A00172787 /* PolyphonicTitle.swift */; };
 		008139942A4A0A3500DE10B7 /* PolyphonicTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423C22A39349A00172787 /* PolyphonicTextField.swift */; };
@@ -53,7 +54,7 @@
 		00A426C02A455F68008C4739 /* PolyphonicPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004423C52A39349A00172787 /* PolyphonicPreview.swift */; };
 		00AD80E428624E2F000CFA92 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AD80E328624E2F000CFA92 /* General.swift */; };
 		00C35F5D28663CB40064C8C9 /* ShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C35F5C28663CB40064C8C9 /* ShareVC.swift */; };
-		00C35F6428663CB40064C8C9 /* MusicShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 00C35F5A28663CB40064C8C9 /* MusicShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		00C35F6428663CB40064C8C9 /* MusicShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 00C35F5A28663CB40064C8C9 /* MusicShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		00C35F6928663D360064C8C9 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A4E2854F03B00C0B74E /* Song.swift */; };
 		00C35F6A28663D390064C8C9 /* MusicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A522854F5A300C0B74E /* MusicData.swift */; };
 		00C35F6B28663D3E0064C8C9 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5A2855AB4B00C0B74E /* Keys.swift */; };
@@ -63,6 +64,12 @@
 		00C35F6F28663D4A0064C8C9 /* Base64Encode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00918A5628559D4300C0B74E /* Base64Encode.swift */; };
 		00CD71ED28564D2100159B04 /* SpotifySongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EC28564D2100159B04 /* SpotifySongData.swift */; };
 		00CD71EF2856718200159B04 /* AppleMusicSongData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD71EE2856718200159B04 /* AppleMusicSongData.swift */; };
+		00E0AB1B2A673652006C7BF4 /* PolyphonicPlaylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E0AB1A2A673652006C7BF4 /* PolyphonicPlaylist.swift */; };
+		00E0AB1C2A673652006C7BF4 /* PolyphonicPlaylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E0AB1A2A673652006C7BF4 /* PolyphonicPlaylist.swift */; };
+		00E0AB1E2A6738D4006C7BF4 /* PlaylistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E0AB1D2A6738D4006C7BF4 /* PlaylistData.swift */; };
+		00E0AB1F2A6738D4006C7BF4 /* PlaylistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E0AB1D2A6738D4006C7BF4 /* PlaylistData.swift */; };
+		00E0AB212A673FC6006C7BF4 /* SpotifyPlaylistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E0AB202A673FC6006C7BF4 /* SpotifyPlaylistData.swift */; };
+		00E0AB222A673FC6006C7BF4 /* SpotifyPlaylistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E0AB202A673FC6006C7BF4 /* SpotifyPlaylistData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,15 +83,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		005D1E842863746900D9756C /* Embed App Extensions */ = {
+		005D1E842863746900D9756C /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				00C35F6428663CB40064C8C9 /* MusicShare.appex in Embed App Extensions */,
+				00C35F6428663CB40064C8C9 /* MusicShare.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -108,6 +115,7 @@
 		00511477286A232C00B69CBC /* SpotifyAlbumData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyAlbumData.swift; sourceTree = "<group>"; };
 		0051147A286A318100B69CBC /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		0051147E286A385700B69CBC /* AppleMusicAlbumData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicAlbumData.swift; sourceTree = "<group>"; };
+		0069E6E02A685F10008E2CDC /* PlaylistOverviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistOverviewVC.swift; sourceTree = "<group>"; };
 		008139A22A4A1DEC00DE10B7 /* SpaceMono-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-BoldItalic.ttf"; sourceTree = "<group>"; };
 		008139A32A4A1DEC00DE10B7 /* SpaceMono-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-Italic.ttf"; sourceTree = "<group>"; };
 		008139A42A4A1DEC00DE10B7 /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-Regular.ttf"; sourceTree = "<group>"; };
@@ -124,6 +132,9 @@
 		00C35F6128663CB40064C8C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00CD71EC28564D2100159B04 /* SpotifySongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifySongData.swift; sourceTree = "<group>"; };
 		00CD71EE2856718200159B04 /* AppleMusicSongData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicSongData.swift; sourceTree = "<group>"; };
+		00E0AB1A2A673652006C7BF4 /* PolyphonicPlaylist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyphonicPlaylist.swift; sourceTree = "<group>"; };
+		00E0AB1D2A6738D4006C7BF4 /* PlaylistData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistData.swift; sourceTree = "<group>"; };
+		00E0AB202A673FC6006C7BF4 /* SpotifyPlaylistData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyPlaylistData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +184,7 @@
 				00CD71EC28564D2100159B04 /* SpotifySongData.swift */,
 				00511477286A232C00B69CBC /* SpotifyAlbumData.swift */,
 				004C8E502A572D7D00717164 /* SpotifyArtistData.swift */,
+				00E0AB202A673FC6006C7BF4 /* SpotifyPlaylistData.swift */,
 			);
 			path = Spotify;
 			sourceTree = "<group>";
@@ -232,6 +244,8 @@
 				00511476286A231000B69CBC /* AppleMusic */,
 				00511475286A22FE00B69CBC /* Spotify */,
 				00918A4E2854F03B00C0B74E /* Song.swift */,
+				00E0AB1A2A673652006C7BF4 /* PolyphonicPlaylist.swift */,
+				00E0AB1D2A6738D4006C7BF4 /* PlaylistData.swift */,
 				0051147A286A318100B69CBC /* Album.swift */,
 				004C8E4A2A572C7E00717164 /* Artist.swift */,
 				00918A522854F5A300C0B74E /* MusicData.swift */,
@@ -259,11 +273,20 @@
 				004423B72A39318800172787 /* HomeVC.swift */,
 				00301A442A456F38008D0744 /* EditVC.swift */,
 				004423B42A39318800172787 /* PlaylistVC.swift */,
+				0069E6E02A685F10008E2CDC /* PlaylistOverviewVC.swift */,
 				004423B82A39318800172787 /* SettingsVC.swift */,
+				00E59BA72A780D7400E39AB8 /* PlaylistVCHelpers */,
 				004423CE2A3934AD00172787 /* UIComponents */,
 			);
 			name = Views;
 			path = Polyphonic/Views;
+			sourceTree = "<group>";
+		};
+		00E59BA72A780D7400E39AB8 /* PlaylistVCHelpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PlaylistVCHelpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,7 +299,7 @@
 				00918A382854E99900C0B74E /* Sources */,
 				00918A392854E99900C0B74E /* Frameworks */,
 				00918A3A2854E99900C0B74E /* Resources */,
-				005D1E842863746900D9756C /* Embed App Extensions */,
+				005D1E842863746900D9756C /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -313,7 +336,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					00918A3B2854E99900C0B74E = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -375,21 +398,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				00301A482A456FC7008D0744 /* PolyphonicTableViewCell.swift in Sources */,
+				00E0AB1B2A673652006C7BF4 /* PolyphonicPlaylist.swift in Sources */,
 				00511478286A232C00B69CBC /* SpotifyAlbumData.swift in Sources */,
 				0051147F286A385700B69CBC /* AppleMusicAlbumData.swift in Sources */,
 				00918A5728559D4300C0B74E /* Base64Encode.swift in Sources */,
 				00918A5B2855AB4B00C0B74E /* Keys.swift in Sources */,
 				00918A4F2854F03B00C0B74E /* Song.swift in Sources */,
+				00E0AB1E2A6738D4006C7BF4 /* PlaylistData.swift in Sources */,
 				00918A532854F5A300C0B74E /* MusicData.swift in Sources */,
 				004423C62A39349A00172787 /* PolyphonicPreview.swift in Sources */,
 				004423BC2A39318900172787 /* HomeVC.swift in Sources */,
 				004C8E4E2A572D7000717164 /* AppleMusicArtistData.swift in Sources */,
 				004423BB2A39318900172787 /* TabVC.swift in Sources */,
+				0069E6E12A685F10008E2CDC /* PlaylistOverviewVC.swift in Sources */,
 				004423C92A39349A00172787 /* PolyphonicButton.swift in Sources */,
 				004C8E512A572D7D00717164 /* SpotifyArtistData.swift in Sources */,
 				004423B12A39311700172787 /* AppDelegate.swift in Sources */,
 				00AD80E428624E2F000CFA92 /* General.swift in Sources */,
 				004C8E4B2A572C7E00717164 /* Artist.swift in Sources */,
+				00E0AB212A673FC6006C7BF4 /* SpotifyPlaylistData.swift in Sources */,
 				00CD71ED28564D2100159B04 /* SpotifySongData.swift in Sources */,
 				00CD71EF2856718200159B04 /* AppleMusicSongData.swift in Sources */,
 				004423B32A39313E00172787 /* SceneDelegate.swift in Sources */,
@@ -409,6 +436,7 @@
 				004C8E4F2A572D7000717164 /* AppleMusicArtistData.swift in Sources */,
 				00C35F6D28663D440064C8C9 /* AppleMusicSongData.swift in Sources */,
 				00C35F6928663D360064C8C9 /* Song.swift in Sources */,
+				00E0AB1F2A6738D4006C7BF4 /* PlaylistData.swift in Sources */,
 				00511479286A232C00B69CBC /* SpotifyAlbumData.swift in Sources */,
 				00C35F6A28663D390064C8C9 /* MusicData.swift in Sources */,
 				00C35F6C28663D410064C8C9 /* SpotifySongData.swift in Sources */,
@@ -420,9 +448,11 @@
 				00301A492A456FC7008D0744 /* PolyphonicTableViewCell.swift in Sources */,
 				008139922A4A0A2300DE10B7 /* PolyphonicButton.swift in Sources */,
 				004C8E4C2A572C7E00717164 /* Artist.swift in Sources */,
+				00E0AB222A673FC6006C7BF4 /* SpotifyPlaylistData.swift in Sources */,
 				00A426C02A455F68008C4739 /* PolyphonicPreview.swift in Sources */,
 				0051147C286A318100B69CBC /* Album.swift in Sources */,
 				00C35F6E28663D470064C8C9 /* General.swift in Sources */,
+				00E0AB1C2A673652006C7BF4 /* PolyphonicPlaylist.swift in Sources */,
 				004C8E522A572D7D00717164 /* SpotifyArtistData.swift in Sources */,
 				00511480286A385700B69CBC /* AppleMusicAlbumData.swift in Sources */,
 				00C35F6B28663D3E0064C8C9 /* Keys.swift in Sources */,
@@ -476,6 +506,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -536,6 +567,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -561,7 +593,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Polyphonic/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
 				ENABLE_PREVIEWS = YES;
@@ -578,7 +610,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.0;
+				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic;
 				PRODUCT_NAME = Polyphonic;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -594,7 +626,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Polyphonic/Preview Content\"";
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
 				ENABLE_PREVIEWS = YES;
@@ -611,7 +643,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.0;
+				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic;
 				PRODUCT_NAME = Polyphonic;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -625,7 +657,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MusicShare/Info.plist;
@@ -636,7 +668,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.7.0;
+				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic.MusicShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -651,7 +683,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7Z6GZB5Y9X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MusicShare/Info.plist;
@@ -662,7 +694,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.7.0;
+				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic.MusicShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
