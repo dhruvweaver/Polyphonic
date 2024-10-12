@@ -7,7 +7,6 @@
 
 import UIKit
 import Social
-import SwiftUI
 
 /**
  `UIViewController` that appears when the user chooses Polyphonic from the share sheet.
@@ -102,7 +101,7 @@ class ShareVC: UIViewController {
     }
     
     /**
-     TODO: Will be used for translating links between streaming services.
+     Used for translating links between streaming services.
      */
     @objc private func translateMusic() {
         loadingIndicator.startAnimating()
@@ -227,21 +226,6 @@ class ShareVC: UIViewController {
         pasteboard.string = outLink
     }
     
-    struct SharingViewController: UIViewControllerRepresentable {
-        @Binding var isPresenting: Bool
-        var content: () -> UIViewController
-        
-        func makeUIViewController(context: Context) -> UIViewController {
-            UIViewController()
-        }
-        
-        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-            if isPresenting {
-                uiViewController.present(content(), animated: true, completion: nil)
-            }
-        }
-    }
-    
     /**
      TODO: Will share translated link throught the system share sheet.
      */
@@ -250,12 +234,6 @@ class ShareVC: UIViewController {
         
         if let urlShare = URL(string: outLink) {
             let shareActivity = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
-            
-            //            self.view.window?.windowScene
-            //            let scenes = UIApplication.shared.connectedScenes
-            //            let windowScene = scenes.first as? UIWindowScene
-            //
-            //            windowScene?.keyWindow?.rootViewController?.present(shareActivity, animated: true, completion: nil)
             self.present(shareActivity, animated: true)
         }
     }
@@ -515,7 +493,6 @@ class CustomShareNavigationController: UINavigationController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
-        // 2: set the ViewControllers
         self.setViewControllers([ShareVC()], animated: false)
     }
     

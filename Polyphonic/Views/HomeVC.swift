@@ -124,7 +124,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
      Informs user of the ability to always allow pasting by default.
      */
     func showAlert() {
-        let message = "iOS requires that the user gives permission to access the clipboard. If you would like to allow permament access, please visit the Settings app."
+        let message = "iOS requires that the user gives permission to access the clipboard. If you would like to allow permament access, please visit the Settings app. "
         + "You can change this any time"
         let alert = UIAlertController(title: "Clipboard Access", message: message, preferredStyle: .alert)
         
