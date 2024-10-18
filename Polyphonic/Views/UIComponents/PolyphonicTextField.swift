@@ -44,7 +44,7 @@ class PolyphonicTextField: UITextField {
         autocapitalizationType = .none
         returnKeyType = UIReturnKeyType.done
         // clearButtonMode = UITextField.ViewMode.whileEditing
-        layer.borderWidth = 1.5
+        layer.borderWidth = 2.5
         layer.cornerRadius = 19
         font = UIFont(name: "SpaceMono-Regular", size: 16)
         

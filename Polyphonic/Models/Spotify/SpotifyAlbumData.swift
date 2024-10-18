@@ -65,68 +65,26 @@ class SpotifyAlbumData {
         let id: String
     }
     
-    private var spotifyAccessJSON: SpotifyAccessData? = nil
-    struct SpotifyAccessData: Decodable {
-        let access_token: String
-    }
-    /* End of JSON decoding structs */
-    
-    /**
-     Gets an authorization key from Spotify's API.
-     - Returns: Authorization key.
-     */
-    private func getSpotifyAuthKey() async -> String? {
-        let url = URL(string: "https://accounts.spotify.com/api/token")!
-        let urlSession = URLSession.shared
-        let spotifyClientString = (spotifyClientID + ":" + spotifyClientSecret).toBase64()
-        
-        var request = URLRequest(url: url)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("Basic \(spotifyClientString)", forHTTPHeaderField: "Authorization")
-        request.httpMethod = "POST"
-        let postString = "grant_type=client_credentials"
-        request.httpBody = postString.data(using: String.Encoding.utf8)
-        
-        do {
-            let (data, _) = try await urlSession.data(for: request)
-            spotifyAccessJSON = try JSONDecoder().decode(SpotifyAccessData.self, from: data)
-        } catch {
-            debugPrint("Error loading \(url): \(String(describing: error))")
-        }
-        
-        var accessKey: String? = nil
-        
-        if let processed = spotifyAccessJSON {
-            accessKey = processed.access_token
-        }
-        
-        return accessKey
-    }
-    
     /**
      Assings local variable `spotifyAlbumJSON` to decoded JSON after querying API for album data using an album ID.
      */
     func getSpotifyAlbumDataByID() async {
-        let url = URL(string: "https://api.spotify.com/v1/albums/\(albumID!)")!
-        let sessionConfig = URLSessionConfiguration.default
+        let url = URL(string: "\(serverAddress)/spotify/album/id/\(albumID!)")!
         // get authorization key from Spotify
         debugPrint("Querying: \(url.absoluteString)")
-        if let authKey = await getSpotifyAuthKey() {
-            let authValue: String = "Bearer \(authKey)"
-            sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
-            let urlSession = URLSession(configuration: sessionConfig)
-            do {
-                let (data, response) = try await urlSession.data(from: url)
-                if let httpResponse = response as? HTTPURLResponse {
-                    print(httpResponse.statusCode)
-                }
-                self.spotifyAlbumJSON = try JSONDecoder().decode(SpotifyAlbumDataRoot.self, from: data)
-                if let parsedData = spotifyAlbumJSON {
-                    spotifyURL = "https://open.spotify.com/album/\(parsedData.id)"
-                }
-            } catch {
-                debugPrint("Error loading \(url): \(String(describing: error))")
+        let urlSession = URLSession(configuration: sessionConfig)
+        do {
+            let (data, response) = try await urlSession.data(from: url)
+            urlSession.finishTasksAndInvalidate()
+            if let httpResponse = response as? HTTPURLResponse {
+                print(httpResponse.statusCode)
             }
+            self.spotifyAlbumJSON = try JSONDecoder().decode(SpotifyAlbumDataRoot.self, from: data)
+            if let parsedData = spotifyAlbumJSON {
+                spotifyURL = "https://open.spotify.com/album/\(parsedData.id)"
+            }
+        } catch {
+            debugPrint("Error loading \(url): \(String(describing: error))")
         }
     }
     

@@ -96,15 +96,15 @@ class AppleMusicSongData {
      Assings local variable `appleMusicSongJSON` to decoded JSON after querying API for song data using a song ID.
      */
     func getAppleMusicSongDataByID() async {
-        let url = URL(string: "https://api.music.apple.com/v1/catalog/us/songs/\(songID!)")!
+        let url = URL(string: "\(serverAddress)/apple/song/id/\(songID!)")!
         debugPrint("Querying: \(url.absoluteString)")
-        let sessionConfig = URLSessionConfiguration.default
-        let authValue: String = "Bearer \(appleMusicAuthKey)"
-        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
+//        let authValue: String = "Bearer \(appleMusicAuthKey)"
+//        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
         let urlSession = URLSession(configuration: sessionConfig)
         
         do {
             let (data, response) = try await urlSession.data(from: url)
+            urlSession.finishTasksAndInvalidate()
             if let httpResponse = response as? HTTPURLResponse {
                 print(httpResponse.statusCode)
             }
@@ -140,23 +140,23 @@ class AppleMusicSongData {
             searchParams = "\(songStr)+\(artistStr)"
         } else {
             songStr = simplifyMusicText(title: songRef.getTitle(), broadSearch: true).replacingOccurrences(of: " ", with: "+")
-            artistStr  = simplifyMusicText(title: songRef.getArtists()[0], broadSearch: true)
+            artistStr  = simplifyMusicText(title: songRef.getArtists()[0], broadSearch: true).replacingOccurrences(of: " ", with: "+")
             
             debugPrint("Song: \(songStr)")
             debugPrint("Artist: \(artistStr)")
             
             searchParams = "\(songStr)+\(artistStr)"
         }
-        let urlString = "https://api.music.apple.com/v1/catalog/us/search?types=songs&term=\(searchParams)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let urlString = "\(serverAddress)/apple/song/search/\(searchParams.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)"
         let url = URL(string: urlString)!
         debugPrint("Querying: \(url.absoluteString)")
-        let sessionConfig = URLSessionConfiguration.default
-        let authValue: String = "Bearer \(appleMusicAuthKey)"
-        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
+//        let authValue: String = "Bearer \(appleMusicAuthKey)"
+//        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
         let urlSession = URLSession(configuration: sessionConfig)
         
         do {
             let (data, response) = try await urlSession.data(from: url)
+            urlSession.finishTasksAndInvalidate()
             if let httpResponse = response as? HTTPURLResponse {
                 print(httpResponse.statusCode)
             }

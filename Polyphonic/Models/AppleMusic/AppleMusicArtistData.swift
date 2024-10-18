@@ -76,15 +76,15 @@ class AppleMusicArtistData {
      Assings local variable `appleMusicSongJSON` to decoded JSON after querying API for song data using a song ID.
      */
     func getAppleMusicArtistDataByID() async {
-        let url = URL(string: "https://api.music.apple.com/v1/catalog/us/artists/\(artistID!)")!
+        let url = URL(string: "\(serverAddress)/apple/artist/id/\(artistID!)")!
         debugPrint("Querying: \(url.absoluteString)")
-        let sessionConfig = URLSessionConfiguration.default
-        let authValue: String = "Bearer \(appleMusicAuthKey)"
-        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
+//        let authValue: String = "Bearer \(appleMusicAuthKey)"
+//        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
         let urlSession = URLSession(configuration: sessionConfig)
         
         do {
             let (data, response) = try await urlSession.data(from: url)
+            urlSession.finishTasksAndInvalidate()
             if let httpResponse = response as? HTTPURLResponse {
                 print(httpResponse.statusCode)
             }
@@ -122,16 +122,16 @@ class AppleMusicArtistData {
             
             searchParams = "\(artistStr)"
         }
-        let urlString = "https://api.music.apple.com/v1/catalog/us/search?types=artists&term=\(searchParams)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let urlString = "\(serverAddress)/apple/artist/search/\(searchParams.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)"
         let url = URL(string: urlString)!
         debugPrint("Querying: \(url.absoluteString)")
-        let sessionConfig = URLSessionConfiguration.default
-        let authValue: String = "Bearer \(appleMusicAuthKey)"
-        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
+//        let authValue: String = "Bearer \(appleMusicAuthKey)"
+//        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
         let urlSession = URLSession(configuration: sessionConfig)
         
         do {
             let (data, response) = try await urlSession.data(from: url)
+            urlSession.finishTasksAndInvalidate()
             if let httpResponse = response as? HTTPURLResponse {
                 print(httpResponse.statusCode)
             }

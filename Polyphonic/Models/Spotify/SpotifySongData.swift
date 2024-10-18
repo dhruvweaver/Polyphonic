@@ -74,65 +74,22 @@ class SpotifySongData {
         let items: [SpotifySongDataRoot]
     }
     
-    private var spotifyAccessJSON: SpotifyAccessData? = nil
-    struct SpotifyAccessData: Decodable {
-        let access_token: String
-    }
-    /* End of JSON decoding structs */
-    
-    /**
-     Gets an authorization key from Spotify's API.
-     - Returns: Authorization key.
-     */
-    private func getSpotifyAuthKey() async -> String? {
-        let url = URL(string: "https://accounts.spotify.com/api/token")!
-        let urlSession = URLSession.shared
-        let spotifyClientString = (spotifyClientID + ":" + spotifyClientSecret).toBase64()
-        
-        var request = URLRequest(url: url)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("Basic \(spotifyClientString)", forHTTPHeaderField: "Authorization")
-        request.httpMethod = "POST"
-        let postString = "grant_type=client_credentials"
-        request.httpBody = postString.data(using: String.Encoding.utf8)
-        
-        do {
-            let (data, _) = try await urlSession.data(for: request)
-            spotifyAccessJSON = try JSONDecoder().decode(SpotifyAccessData.self, from: data)
-        } catch {
-            debugPrint("Error loading \(url): \(String(describing: error))")
-        }
-        
-        var accessKey: String? = nil
-        
-        if let processed = spotifyAccessJSON {
-            accessKey = processed.access_token
-        }
-        
-        return accessKey
-    }
-    
     /**
      Assings local variable `spotifySongJSON` to decoded JSON after querying API for song data using a song ID.
      */
-    func getSpotifySongDataByID() async {
-        let url = URL(string: "https://api.spotify.com/v1/tracks/\(songID!)")!
-        let sessionConfig = URLSessionConfiguration.default
-        // get authorization key from Spotify
-        if let authKey = await getSpotifyAuthKey() {
-            let authValue: String = "Bearer \(authKey)"
-            sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
-            debugPrint("Querying: \(url.absoluteString)")
-            let urlSession = URLSession(configuration: sessionConfig)
-            do {
-                let (data, response) = try await urlSession.data(from: url)
-                if let httpResponse = response as? HTTPURLResponse {
-                    print(httpResponse.statusCode)
-                }
-                self.spotifySongJSON = try JSONDecoder().decode(SpotifySongDataRoot.self, from: data)
-            } catch {
-                debugPrint("Error loading \(url): \(String(describing: error))")
+    func getSpotifySongDataByID() async {let url = URL(string: "\(serverAddress)/spotify/song/id/\(songID!)")!
+        let urlSession = URLSession(configuration: sessionConfig) // optional so memory can be cleared
+//        sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
+        debugPrint("Querying: \(url.absoluteString)")
+        do {
+            let (data, response) = try await urlSession.data(from: url)
+            urlSession.finishTasksAndInvalidate()
+            if let httpResponse = response as? HTTPURLResponse {
+                print(httpResponse.statusCode)
             }
+            self.spotifySongJSON = try JSONDecoder().decode(SpotifySongDataRoot.self, from: data)
+        } catch {
+            debugPrint("Error loading \(url): \(String(describing: error))")
         }
     }
     
@@ -153,32 +110,29 @@ class SpotifySongData {
         
         var searchParams: String
         if (narrowSearch) {
-            searchParams = "track:\(songStr) artist:\(artistStr)&type=track"
+//            searchParams = "track:\(songStr) artist:\(artistStr)&type=track"
+            searchParams = "track:\(songStr) artist:\(artistStr)"
         } else {
             debugPrint("Performing broader search")
             songStr = simplifyMusicText(title: songRef.getTitle(), broadSearch: true)
             artistStr  = simplifyMusicText(title: songRef.getArtists()[0], broadSearch: true)
             
-            searchParams = "track:\(songStr) artist:\(artistStr)&type=track"
+//            searchParams = "track:\(songStr) artist:\(artistStr)&type=track"
+            searchParams = "track:\(songStr) artist:\(artistStr)"
         }
         
-        let url = URL(string: "https://api.spotify.com/v1/search?q=\(searchParams.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)")!
+        let url = URL(string: "\(serverAddress)/spotify/song/search/\(searchParams.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)")!
         debugPrint("Querying: \(url.absoluteString)")
-        let sessionConfig = URLSessionConfiguration.default
-        // get authorization key from Spotify
-        if let authKey = await getSpotifyAuthKey() {
-            let authValue: String = "Bearer \(authKey)"
-            sessionConfig.httpAdditionalHeaders = ["Authorization": authValue]
-            let urlSession = URLSession(configuration: sessionConfig)
-            do {
-                let (data, response) = try await urlSession.data(from: url)
-                if let httpResponse = response as? HTTPURLResponse {
-                    print(httpResponse.statusCode)
-                }
-                self.spotifySearchJSON = try JSONDecoder().decode(SpotifySongSearchRoot.self, from: data)
-            } catch {
-                debugPrint("Error loading \(url): \(String(describing: error))")
+        let urlSession = URLSession(configuration: sessionConfig)
+        do {
+            let (data, response) = try await urlSession.data(from: url)
+            urlSession.finishTasksAndInvalidate()
+            if let httpResponse = response as? HTTPURLResponse {
+                print(httpResponse.statusCode)
             }
+            self.spotifySearchJSON = try JSONDecoder().decode(SpotifySongSearchRoot.self, from: data)
+        } catch {
+            debugPrint("Error loading \(url): \(String(describing: error))")
         }
     }
     

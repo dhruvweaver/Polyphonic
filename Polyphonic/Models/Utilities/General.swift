@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import UIKit
+
+let sessionConfig = URLSessionConfiguration.default
 
 /**
  Calculate Levenshtein distance between two strings. Distance is determined by number of edits needed to make one string match the other.
@@ -135,6 +138,13 @@ func simplifyMusicText(title: String, broadSearch: Bool) -> String {
     return finalText
 }
 
+func containsOnlyLettersAndNumbers(_ input: String) -> Bool {
+    let pattern = "^[a-zA-Z0-9]+$"
+    let regex = try! NSRegularExpression(pattern: pattern)
+    let range = NSRange(location: 0, length: input.utf16.count)
+    return regex.firstMatch(in: input, options: [], range: range) != nil
+}
+
 /**
  Converts all characters in a string to latin characters.
  - Parameter input: String to be converted.
@@ -238,24 +248,68 @@ func removeSpecialCharsFromString(text: String) -> String {
  Gets image data from a URL, must verify that `artURLasString` is not `nil`.
  - Returns: `Data` containing image data that was found from URL. Can return `nil` if there is a problem.
  */
-func getImageData(imageURL: URL) async -> Data? {
-    var imageData: Data? = nil
+func getImageData(imageURL: URL?) async -> Data {
+    var imageData: Data
+    let noDataImage = UIImage(named: "NoMusic")!
+    imageData = noDataImage.pngData()!
     
-    print("Getting image from \(imageURL.absoluteString)")
-    
-    // Creating a session object with the default configuration
-    let urlSession = URLSession(configuration: .default)
-    
-    do {
-        let (data, _) = try await urlSession.data(from: imageURL)
-        debugPrint("Decoded image!")
+    if let imageURL = imageURL {
+        print("Getting image from \(imageURL.absoluteString)")
         
-        imageData = data
-    } catch {
-        debugPrint("Error loading \(imageURL): \(String(describing: error))")
+        // Creating a session object with the default configuration
+        let urlSession = URLSession(configuration: .default)
         
-        imageData = nil
+        do {
+            let (data, _) = try await urlSession.data(from: imageURL)
+            debugPrint("Decoded image!")
+            
+            imageData = data
+        } catch {
+            debugPrint("Error loading \(imageURL): \(String(describing: error))")
+        }
     }
     
     return imageData
 }
+
+/* Spotify Authorization Key */
+
+private var spotifyAccessJSON: SpotifyAccessData? = nil
+private struct SpotifyAccessData: Decodable {
+    let access_token: String
+}
+
+/**
+ Gets an authorization key from Spotify's API.
+ - Returns: Authorization key.
+ */
+func getSpotifyAuthKey() async -> String? {
+    let url = URL(string: "https://accounts.spotify.com/api/token")!
+    let urlSession = URLSession.shared
+    let spotifyClientString = (spotifyClientID + ":" + spotifyClientSecret).toBase64()
+    
+    var request = URLRequest(url: url)
+    request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+    request.setValue("Basic \(spotifyClientString)", forHTTPHeaderField: "Authorization")
+    request.httpMethod = "POST"
+    let postString = "grant_type=client_credentials"
+    request.httpBody = postString.data(using: String.Encoding.utf8)
+    
+    do {
+        let (data, _) = try await urlSession.data(for: request)
+        spotifyAccessJSON = try JSONDecoder().decode(SpotifyAccessData.self, from: data)
+    } catch {
+        debugPrint("Error loading \(url): \(String(describing: error))")
+    }
+    
+    var accessKey: String? = nil
+    
+    if let processed = spotifyAccessJSON {
+        accessKey = processed.access_token
+    }
+    debugPrint(accessKey!)
+    
+    return accessKey
+}
+
+/* Spotify Authorization Key */

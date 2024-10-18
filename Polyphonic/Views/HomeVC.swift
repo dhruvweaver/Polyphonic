@@ -46,6 +46,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
     
     // pasteboard for reading and writing clipboard data
     private let pasteboard = UIPasteboard.general
+    private let shownPasteAlertKey = "shownPasteAlert"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,10 +121,42 @@ class HomeVC: UIViewController, UITextFieldDelegate {
     }
     
     /**
+     Informs user of the ability to always allow pasting by default.
+     */
+    func showAlert() {
+        let message = "iOS requires that the user gives permission to access the clipboard. If you would like to allow permament access, please visit the Settings app. "
+        + "You can change this any time"
+        let alert = UIAlertController(title: "Clipboard Access", message: message, preferredStyle: .alert)
+        
+        let settingsAction = UIAlertAction(title: "Settings", style: .default) {
+            UIAlertAction in
+            
+            guard let url = URL(string: UIApplication.openSettingsURLString) else {
+                return
+            }
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:])
+            }
+        }
+        
+        alert.addAction(settingsAction)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true, completion: nil)
+        
+        // Set the UserDefaults to indicate the popup has been shown
+        UserDefaults.standard.set(true, forKey: shownPasteAlertKey)
+    }
+    
+    /**
      Gets text from `pasteboard` and places it in `inputField.text` and the corresponding `String`, `inLink`.
      */
     @objc private func pasteButtonHandler() {
         buttonClick()
+        
+        let hasShownAlert = UserDefaults.standard.bool(forKey: shownPasteAlertKey)
+        if (!hasShownAlert) {
+            showAlert()
+        }
         
         if let inLink = pasteboard.string {
             inputField.text = inLink

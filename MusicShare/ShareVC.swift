@@ -7,12 +7,11 @@
 
 import UIKit
 import Social
-import SwiftUI
 
 /**
  `UIViewController` that appears when the user chooses Polyphonic from the share sheet.
  */
-class ShareVC: UIViewController {
+class ShareVC: UIViewController, EditVCDelegate {
     /* UI elements: */
     private let mainTitleBar = PolyphonicTitle(title: "Polyphonic")
     
@@ -67,6 +66,17 @@ class ShareVC: UIViewController {
             // immediately translate links without user input (once share extension is launched)
             translateMusic()
         }
+        
+        // Ensure the ShareVC is embedded in a UINavigationController if not already
+        if navigationController == nil {
+            let navController = UINavigationController(rootViewController: self)
+            navController.modalPresentationStyle = .fullScreen
+//            // Add the cancel button
+//            let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAction))
+//            navigationItem.leftBarButtonItem = cancelButton
+            
+            self.present(navController, animated: false)
+        }
     }
     
     func getURL() async -> String? {
@@ -102,7 +112,7 @@ class ShareVC: UIViewController {
     }
     
     /**
-     TODO: Will be used for translating links between streaming services.
+     Used for translating links between streaming services.
      */
     @objc private func translateMusic() {
         loadingIndicator.startAnimating()
@@ -227,21 +237,6 @@ class ShareVC: UIViewController {
         pasteboard.string = outLink
     }
     
-    struct SharingViewController: UIViewControllerRepresentable {
-        @Binding var isPresenting: Bool
-        var content: () -> UIViewController
-        
-        func makeUIViewController(context: Context) -> UIViewController {
-            UIViewController()
-        }
-        
-        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-            if isPresenting {
-                uiViewController.present(content(), animated: true, completion: nil)
-            }
-        }
-    }
-    
     /**
      TODO: Will share translated link throught the system share sheet.
      */
@@ -250,19 +245,13 @@ class ShareVC: UIViewController {
         
         if let urlShare = URL(string: outLink) {
             let shareActivity = UIActivityViewController(activityItems: [urlShare], applicationActivities: nil)
-            
-            //            self.view.window?.windowScene
-            //            let scenes = UIApplication.shared.connectedScenes
-            //            let windowScene = scenes.first as? UIWindowScene
-            //
-            //            windowScene?.keyWindow?.rootViewController?.present(shareActivity, animated: true, completion: nil)
             self.present(shareActivity, animated: true)
         }
     }
     
     @objc private func editButtonHandler() {
         buttonClick()
-
+        
         Task {
             /* turn edit button into loading indicator */
             editButton.removeFromSuperview()
@@ -274,21 +263,45 @@ class ShareVC: UIViewController {
                     await i.setTranslatedImgData()
                 }
                 
-                
-                let editView = EditVC(altSongs: altSongs, alts: alts, currentSong: keySong, type: type)
+                let editView = EditVCShare(altSongs: altSongs, alts: alts, currentSong: keySong, type: type)
                 editView.delegate = self
                 
-                present(editView, animated: true)
+                // Use navigationController to push EditVC if it exists
+                if let navigationController = self.navigationController {
+                    // Set the back button title before pushing EditVC
+                    let backItem = UIBarButtonItem()
+                    backItem.title = "Cancel"
+                    navigationItem.backBarButtonItem = backItem
+                    
+                    navigationController.pushViewController(editView, animated: true)
+                } else {
+                    // Fallback: Present the EditVC modally if navigationController is nil
+                    let navController = UINavigationController(rootViewController: editView)
+                    navController.modalPresentationStyle = .fullScreen
+                    self.present(navController, animated: true, completion: nil)
+                }
             } else {
                 for i in altArtists {
                     await i.setTranslatedImgData()
                 }
-
-
-                let editView = EditVC(altArtists: altArtists, currentArtist: keyArtist, type: .artist)
+                
+                let editView = EditVCShare(altArtists: altArtists, currentArtist: keyArtist, type: .artist)
                 editView.delegate = self
-
-                present(editView, animated: true)
+                
+                // Use navigationController to push EditVC if it exists
+                if let navigationController = self.navigationController {
+                    // Set the back button title before pushing EditVC
+                    let backItem = UIBarButtonItem()
+                    backItem.title = "Cancel"
+                    navigationItem.backBarButtonItem = backItem
+                    
+                    navigationController.pushViewController(editView, animated: true)
+                } else {
+                    // Fallback: Present the EditVC modally if navigationController is nil
+                    let navController = UINavigationController(rootViewController: editView)
+                    navController.modalPresentationStyle = .fullScreen
+                    self.present(navController, animated: true, completion: nil)
+                }
             }
             
             /* turn loading indicator back into edit button */
@@ -515,7 +528,6 @@ class CustomShareNavigationController: UINavigationController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
-        // 2: set the ViewControllers
         self.setViewControllers([ShareVC()], animated: false)
     }
     
@@ -528,7 +540,7 @@ class CustomShareNavigationController: UINavigationController {
 /**
  Allows edit sheet to pass data back to this main view.
  */
-extension ShareVC: EditVCDelegate {
+extension ShareVC: EditVCShareDelegate {
     func updateSelection(withSong song: Song) {
         keySong = song
         
