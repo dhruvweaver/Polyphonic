@@ -263,18 +263,10 @@
 				00301A442A456F38008D0744 /* EditVC.swift */,
 				004423B42A39318800172787 /* PlaylistVC.swift */,
 				004423B82A39318800172787 /* SettingsVC.swift */,
-				00E59BA72A780D7400E39AB8 /* PlaylistVCHelpers */,
 				004423CE2A3934AD00172787 /* UIComponents */,
 			);
 			name = Views;
 			path = Polyphonic/Views;
-			sourceTree = "<group>";
-		};
-		00E59BA72A780D7400E39AB8 /* PlaylistVCHelpers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = PlaylistVCHelpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -324,7 +316,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					00918A3B2854E99900C0B74E = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -456,6 +448,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -517,6 +510,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
