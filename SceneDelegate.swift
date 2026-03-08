@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = UINavigationController(rootViewController: TabVC())
+        window?.rootViewController = UINavigationController(rootViewController: HomeVC())
 //        window?.rootViewController = UINavigationController(rootViewController: PlaylistVC())
         window?.makeKeyAndVisible()
     }
