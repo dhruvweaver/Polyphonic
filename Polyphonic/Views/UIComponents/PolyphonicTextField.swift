@@ -43,7 +43,7 @@ class PolyphonicTextField: UITextField {
         self.keyboardType = keyboardType
         autocapitalizationType = .none
         returnKeyType = UIReturnKeyType.done
-        layer.borderWidth = 2.5
+        layer.borderWidth = 2
         layer.cornerRadius = 19
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 38) // cornerRadius * 2
