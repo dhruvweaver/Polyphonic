@@ -373,7 +373,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         
         NSLayoutConstraint.activate([
             inputField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            inputField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -65),
+            inputField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -67),
             inputField.centerYAnchor.constraint(equalTo: translateButton.topAnchor, constant: -30)
         ])
     }
@@ -393,7 +393,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         
         NSLayoutConstraint.activate([
             translateButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            translateButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -65),
+            translateButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             translateButton.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -400)
         ])
     }
@@ -409,7 +409,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         loadingIndicator.color = .label
         
         NSLayoutConstraint.activate([
-            loadingIndicator.centerXAnchor.constraint(equalTo: view.trailingAnchor, constant: -37),
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.trailingAnchor),
             loadingIndicator.centerYAnchor.constraint(equalTo: translateButton.centerYAnchor)
         ])
     }
@@ -438,7 +438,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         
         NSLayoutConstraint.activate([
             clearButton.centerYAnchor.constraint(equalTo: inputField.centerYAnchor),
-            clearButton.centerXAnchor.constraint(equalTo: view.trailingAnchor, constant: -85)
+            clearButton.centerXAnchor.constraint(equalTo: view.trailingAnchor, constant: -87)
         ])
     }
     
@@ -453,7 +453,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         
         NSLayoutConstraint.activate([
             pasteButton.centerYAnchor.constraint(equalTo: inputField.centerYAnchor),
-            pasteButton.centerXAnchor.constraint(equalTo: view.trailingAnchor, constant: -37)
+            pasteButton.centerXAnchor.constraint(equalTo: view.trailingAnchor, constant: -39)
         ])
     }
     
