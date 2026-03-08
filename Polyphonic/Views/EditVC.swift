@@ -75,20 +75,8 @@ class EditVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
         // Do any additional setup after loading the view.
         
-        /*--------------------- Add navigation bar with cancel button ---------------------*/
-        let navbar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
-        let navAppearance = UINavigationBarAppearance()
-        navAppearance.configureWithTransparentBackground()
-        navbar.standardAppearance = navAppearance
-
-        let navItem = UINavigationItem()
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancel))
-        cancelButton.tintColor = .label
-        navItem.leftBarButtonItem = cancelButton
-
-        navbar.items = [navItem]
-        view.addSubview(navbar)
-        /*---------------------------------------------------------------------------------*/
+        // Add navigation bar with cancel button
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
         
         view.backgroundColor = .systemBackground
         
@@ -96,7 +84,7 @@ class EditVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         previewTableView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            previewTableView.topAnchor.constraint(equalTo: navbar.bottomAnchor),
+            previewTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             previewTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             previewTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             previewTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)

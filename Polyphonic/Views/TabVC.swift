@@ -44,7 +44,7 @@ class TabVC: UITabBarController, UITabBarControllerDelegate {
         settingsTab.tabBarItem = settingsViewBarItem
         
         
-//        self.viewControllers = [homeTab, playlistTab, settingsTab]
-        self.viewControllers = [homeTab, settingsTab]
+        self.viewControllers = [homeTab, playlistTab, settingsTab]
+//        self.viewControllers = [playlistTab, settingsTab]
     }
 }
