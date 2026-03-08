@@ -193,6 +193,12 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         outputField.text = outLink
     }
     
+    private func translateCompletionActions() {
+        translateButton.isHidden = false
+        loadingIndicator.stopAnimating()
+        outputField.placeholder = "New link..."
+    }
+    
     /**
      TODO: Will be used for translating links between streaming services.
      */
@@ -202,6 +208,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         // close keyboard
         endEditing()
         
+        translateButton.isHidden = true
         loadingIndicator.startAnimating()
         if let inLink = inputField.text {
             print("Translating: \(inLink)")
@@ -227,8 +234,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
                     // setup preview UI elements
                     await setupPreview(fromSong: song)
                     
-                    loadingIndicator.stopAnimating()
-                    outputField.placeholder = "New link..."
+                    translateCompletionActions()
                 } else if let artist = results.2 {
                     type = results.3
                     altSongs = results.4
@@ -240,8 +246,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
                     // setup preview UI elements
                     await setupPreview(fromArtist: artist)
                     
-                    loadingIndicator.stopAnimating()
-                    outputField.placeholder = "New link..."
+                    translateCompletionActions()
                 } else {
                     alts = []
                     altSongs = []
@@ -249,8 +254,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
                     
                     outputField.text = outLink
                     
-                    loadingIndicator.stopAnimating()
-                    outputField.placeholder = "New link..."
+                    translateCompletionActions()
                 }
                 
                 configureEditButton()
@@ -308,7 +312,9 @@ class HomeVC: UIViewController, UITextFieldDelegate {
                 let editView = EditVC(altSongs: altSongs, alts: alts, currentSong: keySong, type: type)
                 editView.delegate = self
                 
-                present(editView, animated: true)
+                let navController = UINavigationController(rootViewController: editView)
+                navController.modalPresentationStyle = .automatic // or .pageSheet
+                present(navController, animated: true)
             } else {
                 for i in altArtists {
                     await i.setTranslatedImgData()
@@ -317,8 +323,10 @@ class HomeVC: UIViewController, UITextFieldDelegate {
 
                 let editView = EditVC(altArtists: altArtists, currentArtist: keyArtist, type: .artist)
                 editView.delegate = self
-
-                present(editView, animated: true)
+                
+                let navController = UINavigationController(rootViewController: editView)
+                navController.modalPresentationStyle = .automatic // or .pageSheet
+                present(navController, animated: true)
             }
             
             /* turn loading indicator back into edit button */
@@ -409,7 +417,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         loadingIndicator.color = .label
         
         NSLayoutConstraint.activate([
-            loadingIndicator.centerXAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingIndicator.centerYAnchor.constraint(equalTo: translateButton.centerYAnchor)
         ])
     }

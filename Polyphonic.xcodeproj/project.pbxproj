@@ -263,18 +263,10 @@
 				00301A442A456F38008D0744 /* EditVC.swift */,
 				004423B42A39318800172787 /* PlaylistVC.swift */,
 				004423B82A39318800172787 /* SettingsVC.swift */,
-				00E59BA72A780D7400E39AB8 /* PlaylistVCHelpers */,
 				004423CE2A3934AD00172787 /* UIComponents */,
 			);
 			name = Views;
 			path = Polyphonic/Views;
-			sourceTree = "<group>";
-		};
-		00E59BA72A780D7400E39AB8 /* PlaylistVCHelpers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = PlaylistVCHelpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -596,7 +588,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.4;
+				MARKETING_VERSION = 0.7.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic;
 				PRODUCT_NAME = Polyphonic;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -631,7 +623,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.4;
+				MARKETING_VERSION = 0.7.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic;
 				PRODUCT_NAME = Polyphonic;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -660,7 +652,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.7.4;
+				MARKETING_VERSION = 0.7.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic.MusicShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -690,7 +682,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.7.4;
+				MARKETING_VERSION = 0.7.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dhruvweaver.Polyphonic.MusicShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
