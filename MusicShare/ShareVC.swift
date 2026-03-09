@@ -27,7 +27,7 @@ class ShareVC: UIViewController, EditVCDelegate {
     private let convertedLabel = UILabel()
     
     let sharePreview = PolyphonicPreview(art: nil, title: "", album: "", artist: "", isExplicit: true, placeholder: true)
-    private let editButton = PolyphonicButton(title: "Edit")
+    private let editButton = PolyphonicButton(title: "Select variant")
     private let loadingIndicatorEdit = UIActivityIndicatorView(style: .medium)
     
     /* Data structures */
@@ -270,7 +270,6 @@ class ShareVC: UIViewController, EditVCDelegate {
                 if let navigationController = self.navigationController {
                     // Set the back button title before pushing EditVC
                     let backItem = UIBarButtonItem()
-                    backItem.title = "Cancel"
                     navigationItem.backBarButtonItem = backItem
                     
                     navigationController.pushViewController(editView, animated: true)
@@ -292,7 +291,6 @@ class ShareVC: UIViewController, EditVCDelegate {
                 if let navigationController = self.navigationController {
                     // Set the back button title before pushing EditVC
                     let backItem = UIBarButtonItem()
-                    backItem.title = "Cancel"
                     navigationItem.backBarButtonItem = backItem
                     
                     navigationController.pushViewController(editView, animated: true)
@@ -458,26 +456,19 @@ class ShareVC: UIViewController, EditVCDelegate {
 
         if ((alts.count > 1) || (altArtists.count > 1)) {
             editButton.isUserInteractionEnabled = true
-
-            editButton.configuration?.baseForegroundColor = .label
             
-            // color code edit button depending on whether an exact match was found
-            if (match.rawValue < TranslationMatchLevel.exact.rawValue) {
-                editButton.configuration?.baseBackgroundColor = .systemYellow
-                editButton.configuration?.baseForegroundColor = UIColor(named: "EditLabelColor")
-            } else {
-                editButton.configuration?.baseBackgroundColor = .systemBackground
-            }
+            editButton.configuration?.baseForegroundColor = .label
             
             // drop shadow
             editButton.layer.shadowColor = UIColor.label.cgColor
-
+            
             editButton.addTarget(self, action: #selector(buttonClick), for: .touchDown)
             editButton.addTarget(self, action: #selector(editButtonHandler), for: .touchUpInside)
         } else {
             editButton.isUserInteractionEnabled = false
             editButton.configuration?.baseForegroundColor = .systemGray4
-
+            editButton.configuration?.baseBackgroundColor = .systemBackground
+            
             // drop shadow
             editButton.layer.shadowColor = UIColor.clear.cgColor
         }

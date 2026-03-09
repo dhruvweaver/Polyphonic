@@ -134,8 +134,8 @@ class PolyphonicPreview: UIView {
         }
         
         imageView.layer.masksToBounds = true
-//        imageView.layer.cornerRadius = 15
-        imageView.layer.borderWidth = 2.5
+        imageView.layer.cornerRadius = 8
+        imageView.layer.borderWidth = 2
         imageView.layer.borderColor = UIColor.label.cgColor
         
         NSLayoutConstraint.activate([
