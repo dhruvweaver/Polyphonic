@@ -450,6 +450,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         
         clearButton.addTarget(self, action: #selector(buttonClick), for: .touchDown)
         clearButton.addTarget(self, action: #selector(clearButtonHandler), for: .touchUpInside)
+        clearButton.addTarget(self, action: #selector(buttonSoftClick), for: .touchDragExit)
         
         NSLayoutConstraint.activate([
             clearButton.centerYAnchor.constraint(equalTo: inputField.centerYAnchor),
@@ -465,6 +466,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         
         pasteButton.addTarget(self, action: #selector(buttonClick), for: .touchDown)
         pasteButton.addTarget(self, action: #selector(pasteButtonHandler), for: .touchUpInside)
+        pasteButton.addTarget(self, action: #selector(buttonSoftClick), for: .touchDragExit)
         
         NSLayoutConstraint.activate([
             pasteButton.centerYAnchor.constraint(equalTo: inputField.centerYAnchor),
@@ -480,6 +482,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         
         copyButton.addTarget(self, action: #selector(buttonClick), for: .touchDown)
         copyButton.addTarget(self, action: #selector(copyButtonHandler), for: .touchUpInside)
+        copyButton.addTarget(self, action: #selector(buttonSoftClick), for: .touchDragExit)
         
         NSLayoutConstraint.activate([
             copyButton.centerYAnchor.constraint(equalTo: outputField.centerYAnchor),
@@ -495,6 +498,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         
         shareButton.addTarget(self, action: #selector(buttonClick), for: .touchDown)
         shareButton.addTarget(self, action: #selector(shareButtonHandler), for: .touchUpInside)
+        shareButton.addTarget(self, action: #selector(buttonSoftClick), for: .touchDragExit)
         
         NSLayoutConstraint.activate([
             shareButton.centerYAnchor.constraint(equalTo: outputField.centerYAnchor),
