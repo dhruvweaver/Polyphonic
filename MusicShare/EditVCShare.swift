@@ -31,6 +31,7 @@ class EditVCShare: UIViewController, UITableViewDataSource, UITableViewDelegate 
     private var newAltSongs: [Song] = []
     private var newAltArtists: [Artist] = []
     
+    private let editInfoLabel = UILabel()
     private let previewTableView = UITableView()
     
     required init?(coder: NSCoder) {
@@ -77,11 +78,24 @@ class EditVCShare: UIViewController, UITableViewDataSource, UITableViewDelegate 
         
         view.backgroundColor = .systemBackground
         
+        view.addSubview(editInfoLabel)
+        editInfoLabel.translatesAutoresizingMaskIntoConstraints = false
+        editInfoLabel.text = "An exact match may not exist."
+        editInfoLabel.font = UIFont(name: "SpaceMono-Regular", size: 16)
+        editInfoLabel.numberOfLines = 0
+        editInfoLabel.textAlignment = .center
+        
+        NSLayoutConstraint.activate([
+            editInfoLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            editInfoLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        
         view.addSubview(previewTableView)
         previewTableView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            previewTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
+            previewTableView.topAnchor.constraint(equalTo: editInfoLabel.bottomAnchor, constant: 10),
             previewTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             previewTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             previewTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
