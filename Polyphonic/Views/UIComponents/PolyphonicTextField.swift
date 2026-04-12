@@ -54,7 +54,7 @@ class PolyphonicTextField: UITextField {
     }
     
     // extra padding on the right to account for buttons that sit on the right side of a text field
-    private let padding = UIEdgeInsets(top: 5.85, left: 15, bottom: 5.85, right: 42);
+    private let padding = UIEdgeInsets(top: 5, left: 15, bottom: 5, right: 42);
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: padding)

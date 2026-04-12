@@ -764,6 +764,7 @@ class MusicData {
      - Returns: response containing a `String` for the translated key song link, a `Song` for the key translated song object, a `MusicType` for determining how to interpret the results, a `List` of  alternate key song URLs as `String`s, a `List` of alternate key `Song` objects, and the match confidence as a `TranslationMatchLevel`.
      */
     func translateData(link: String) async -> (String, Song?, Artist?, MusicType, [String], [Song], [Artist], TranslationMatchLevel) {
+        // TODO: implement real error messages
         if let songLink = URL(string: link) {
             if ((songLink.host != "open.spotify.com" && songLink.host != "spotify.link") && songLink.host != "music.apple.com") {
                 return ("Link not supported", nil, nil, .song, [], [], [], .none)

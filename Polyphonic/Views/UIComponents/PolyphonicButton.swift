@@ -122,13 +122,7 @@ class PolyphonicButton: UIButton {
      */
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        if(customBorder && (traitCollection.userInterfaceStyle == .dark)){
-            layer.borderColor = UIColor.label.cgColor
-//            layer.shadowColor = UIColor.label.cgColor;
-        } else {
-            layer.borderColor = UIColor.label.cgColor
-//            layer.shadowColor = UIColor.label.cgColor;
-        }
+        layer.borderColor = UIColor.label.cgColor
     }
     
 }

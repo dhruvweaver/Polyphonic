@@ -28,7 +28,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
     private let convertedLabel = UILabel()
     
     let mainPreview = PolyphonicPreview(art: nil, title: "", album: "", artist: "", isExplicit: true, placeholder: true)
-    private let editButton = PolyphonicButton(title: "Edit")
+    private let editButton = PolyphonicButton(title: "Select variant")
     private let loadingIndicatorEdit = UIActivityIndicatorView(style: .medium)
     
     /* Data structures */
@@ -65,6 +65,13 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         swipeGesture.direction = .down
         view.addGestureRecognizer(tapGesture)
         view.addGestureRecognizer(swipeGesture)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // adjust edit button border appearance when condition changes
+        let isEnabled = editButton.isUserInteractionEnabled
+        editButton.layer.borderColor = (isEnabled ? UIColor.label : UIColor.systemGray4).cgColor
     }
     
     // MARK: - App Logic
@@ -313,7 +320,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
                 editView.delegate = self
                 
                 let navController = UINavigationController(rootViewController: editView)
-                navController.modalPresentationStyle = .automatic // or .pageSheet
+                navController.modalPresentationStyle = .automatic
                 present(navController, animated: true)
             } else {
                 for i in altArtists {
@@ -325,7 +332,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
                 editView.delegate = self
                 
                 let navController = UINavigationController(rootViewController: editView)
-                navController.modalPresentationStyle = .automatic // or .pageSheet
+                navController.modalPresentationStyle = .automatic
                 present(navController, animated: true)
             }
             
@@ -443,6 +450,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         
         clearButton.addTarget(self, action: #selector(buttonClick), for: .touchDown)
         clearButton.addTarget(self, action: #selector(clearButtonHandler), for: .touchUpInside)
+        clearButton.addTarget(self, action: #selector(buttonSoftClick), for: .touchDragExit)
         
         NSLayoutConstraint.activate([
             clearButton.centerYAnchor.constraint(equalTo: inputField.centerYAnchor),
@@ -458,6 +466,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         
         pasteButton.addTarget(self, action: #selector(buttonClick), for: .touchDown)
         pasteButton.addTarget(self, action: #selector(pasteButtonHandler), for: .touchUpInside)
+        pasteButton.addTarget(self, action: #selector(buttonSoftClick), for: .touchDragExit)
         
         NSLayoutConstraint.activate([
             pasteButton.centerYAnchor.constraint(equalTo: inputField.centerYAnchor),
@@ -473,6 +482,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         
         copyButton.addTarget(self, action: #selector(buttonClick), for: .touchDown)
         copyButton.addTarget(self, action: #selector(copyButtonHandler), for: .touchUpInside)
+        copyButton.addTarget(self, action: #selector(buttonSoftClick), for: .touchDragExit)
         
         NSLayoutConstraint.activate([
             copyButton.centerYAnchor.constraint(equalTo: outputField.centerYAnchor),
@@ -488,6 +498,7 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         
         shareButton.addTarget(self, action: #selector(buttonClick), for: .touchDown)
         shareButton.addTarget(self, action: #selector(shareButtonHandler), for: .touchUpInside)
+        shareButton.addTarget(self, action: #selector(buttonSoftClick), for: .touchDragExit)
         
         NSLayoutConstraint.activate([
             shareButton.centerYAnchor.constraint(equalTo: outputField.centerYAnchor),
@@ -534,18 +545,10 @@ class HomeVC: UIViewController, UITextFieldDelegate {
         view.addSubview(editButton)
         editButton.translatesAutoresizingMaskIntoConstraints = false
         
-        if ((alts.count > 1) || (altArtists.count > 1)) { // for later:  || (altArtists.count > 1)
+        if ((alts.count > 1) || (altArtists.count > 1)) {
             editButton.isUserInteractionEnabled = true
             
             editButton.configuration?.baseForegroundColor = .label
-            
-            // color code edit button depending on whether an exact match was found
-            if (match.rawValue < TranslationMatchLevel.exact.rawValue) {
-                editButton.configuration?.baseBackgroundColor = .systemYellow
-                editButton.configuration?.baseForegroundColor = UIColor(named: "EditLabelColor")
-            } else {
-                editButton.configuration?.baseBackgroundColor = .systemBackground
-            }
             
             // drop shadow
             editButton.layer.shadowColor = UIColor.label.cgColor
