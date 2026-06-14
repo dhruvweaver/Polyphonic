@@ -1,6 +1,6 @@
 //
 //  SettingsVC.swift
-//  polyphonic_fr
+//  Polyphonic
 //
 //  Created by Dhruv Weaver on 6/13/23.
 //

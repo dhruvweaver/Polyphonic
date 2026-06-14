@@ -311,5 +311,3 @@ func getSpotifyAuthKey() async -> String? {
     
     return accessKey
 }
-
-/* Spotify Authorization Key */

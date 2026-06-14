@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  polyphonic_fr
+//  Polyphonic
 //
 //  Created by Dhruv Weaver on 5/6/23.
 //
